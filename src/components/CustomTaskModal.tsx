@@ -2,7 +2,6 @@
  * @license
  * SPDX-License-Identifier: Apache-2.0
  */
-
 import React, { useState } from 'react';
 import { X, Calendar, Plus } from 'lucide-react';
 import { CalendarTask } from '../types';
