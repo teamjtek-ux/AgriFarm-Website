@@ -1,0 +1,65 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: #f3f6f1;
+    color: #1a2821;
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+.font-serif, .font-serif-title, .font-heading {
+  font-family: 'Merriweather', 'Playfair Display', Georgia, serif;
+}
+
+.custom-scroll::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+.custom-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.custom-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Dynamic Translation Engine Clean UI Overrides */
+.goog-te-banner-frame.skiptranslate,
+.goog-te-banner-frame,
+iframe.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}
+
+body {
+  top: 0px !important;
+  position: static !important;
+}
+
+.goog-tooltip,
+.goog-tooltip:hover,
+#goog-gt-tt,
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Prevent Google Translate element from displaying ugly select */
+#google_translate_element {
+  display: none !important;
+}
+
+.skiptranslate:not(.notranslate) {
+  /* keep layout intact */
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+}

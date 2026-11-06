@@ -1,0 +1,586 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KissanDost - Crop Calendar &amp; Season Tasks</title>
+<!-- Tailwind CSS CDN with forms and container queries plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Merriweather & Plus Jakarta Sans / Inter -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+<script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f2fbf4',
+              100: '#e1f6e7',
+              200: '#c4ebd1',
+              300: '#97d9b1',
+              400: '#62be8b',
+              500: '#3ba26b',
+              600: '#2a8254',
+              700: '#1b5e20', // Forest Green
+              800: '#176b3a', // Primary Dark Brand Green
+              900: '#134e2c',
+              950: '#0a2c19'
+            },
+            surface: {
+              cream: '#fcfdfa',
+              mint: '#f4faf3',
+              subtle: '#edf6ea',
+              card: '#ffffff',
+              border: '#e4ede1'
+            }
+          },
+          fontFamily: {
+            serif: ['Merriweather', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'Inter', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+<style data-purpose="custom-enhancements">
+    /* Global smooth look and custom scrollbar styling */
+    body {
+      background-color: #f7fbf6;
+      color: #1a2e1d;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    
+    /* Radial gradient circular completion indicator */
+    .progress-conic {
+      background: conic-gradient(#176b3a 0% 69.4%, #d9eedc 69.4% 100%);
+    }
+
+    /* Subtle custom card shadow */
+    .farm-card-shadow {
+      box-shadow: 0 4px 20px -2px rgba(23, 107, 58, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02);
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-[#f7fbf6] flex flex-col">
+<!-- BEGIN: TopHeader -->
+<header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-[#e5efe3] px-6 lg:px-10 py-3.5 flex items-center justify-between" data-purpose="application-header">
+<!-- Brand Logo & Identity -->
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-brand-800 flex items-center justify-center text-white shadow-sm ring-2 ring-brand-100">
+<!-- Sprout Leaf Logo Icon -->
+<svg class="w-5 h-5 text-[#bbf7d0]" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"></path>
+</svg>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-bold text-xl tracking-tight text-[#164e28]">Kissan<span class="text-[#2a8254]">Dost</span></span>
+</div>
+<p class="text-[10px] uppercase font-bold tracking-widest text-[#5c8a66] -mt-1">YOUR FARM COMPANION</p>
+</div>
+</div>
+<!-- Header Actions & Profile Area -->
+<div class="flex items-center gap-4">
+<!-- Language Selector Dropdown -->
+<div class="relative hidden sm:block">
+<button class="flex items-center gap-1.5 bg-[#f0f7ef] hover:bg-[#e4efe2] border border-[#d6e7d3] px-3 py-1.5 rounded-full text-xs font-semibold text-[#1d4d29] transition-colors" type="button">
+<span class="">EN</span>
+<svg class="w-3.5 h-3.5 text-[#527d5d]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</button>
+</div>
+<!-- Notification Bell with Alert Badge -->
+<button aria-label="Notifications" class="relative p-2 rounded-full hover:bg-[#f0f7ef] border border-[#e5efe3] text-[#2c5336] transition" type="button">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-red-500 ring-2 ring-white"></span>
+</button>
+<!-- User Profile Pill -->
+<div class="flex items-center gap-2.5 pl-2 border-l border-[#e2ede0]">
+<div class="w-9 h-9 rounded-full bg-[#dcfce7] border border-[#86efac] flex items-center justify-center font-bold text-[#14532d] text-sm shadow-sm">
+          KR
+        </div>
+<div class="hidden md:block text-left">
+<div class="flex items-center gap-1">
+<span class="text-xs font-bold text-[#164424]">Gopal Rao</span>
+<svg class="w-3.5 h-3.5 text-[#5e8267]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M19 9l-7 7-7-7" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<span class="text-[10px] text-[#5e8267] block">Farmer account</span>
+</div>
+</div>
+</div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainLayoutWrapper -->
+<!-- Unified layout container that scrolls naturally as a single document -->
+<div class="flex-1 flex max-w-[1720px] w-full mx-auto">
+<!-- BEGIN: LeftSidebar -->
+<aside class="w-64 shrink-0 p-5 hidden md:flex flex-col justify-between border-r border-[#e5efe3] bg-[#fafdf9]/80 min-h-full" data-purpose="sidebar-navigation">
+<div class="space-y-6">
+<!-- Navigation Section Label -->
+<div>
+<span class="text-[11px] font-bold uppercase tracking-wider text-[#698a70] px-3">Workspace</span>
+<nav class="mt-3 space-y-1.5 font-medium text-sm">
+<!-- 1. Overview -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Overview</span>
+</a>
+<!-- 2. My Crops -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">My crops</span>
+</a>
+<!-- 3. Crop Calendar (ACTIVELY SELECTED) -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-brand-800 text-white font-semibold shadow-sm transition" href="#">
+<svg class="w-4 h-4 text-[#a7f3d0]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Crop Calendar</span>
+</a>
+<!-- 4. Diseases Library -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Diseases Library</span>
+</a>
+<!-- 5. Market Prices -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Market prices</span>
+</a>
+<!-- 6. Crop Doctor -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Crop Doctor</span>
+</a>
+<!-- 7. Farm Store -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Farm store</span>
+</a>
+<!-- 8. Weather -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Weather</span>
+</a>
+<!-- 9. Community -->
+<a class="flex items-center gap-3 px-3 py-2.5 rounded-xl text-[#2b4c33] hover:bg-[#edf6ea] transition" href="#">
+<svg class="w-4 h-4 text-[#517a59]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Community</span>
+</a>
+</nav>
+</div>
+<!-- Dost AI Card in Sidebar -->
+<div class="p-4 rounded-2xl bg-[#ecf7eb] border border-[#d2ead0]" data-purpose="sidebar-ai-prompt">
+<div class="w-8 h-8 rounded-full bg-[#1b5e20] text-white flex items-center justify-center mb-2.5">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<h4 class="text-xs font-bold text-[#144720]">Need farm advice?</h4>
+<p class="text-[11px] text-[#4d7353] mt-1 leading-relaxed">Ask Dost AI about crop schedules, fertilizer doses, or weed control.</p>
+<a class="mt-2.5 inline-flex items-center text-xs font-bold text-[#1b5e20] hover:text-[#0f3d13]" href="#">
+            Start a chat <span class="ml-1">→</span>
+</a>
+</div>
+</div>
+<!-- Bottom Status & Sustainable Mission Stamp -->
+<div class="pt-6 space-y-4">
+<!-- Live System Status -->
+<div class="flex items-center gap-2 px-1">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="text-xs text-[#4d7353] font-medium">All systems operational</span>
+</div>
+<!-- Brand Mission Tag -->
+<div class="pt-3 border-t border-[#e2ede0] text-center">
+<div class="mx-auto w-6 h-6 text-brand-600 mb-1 opacity-80">
+<svg fill="currentColor" viewBox="0 0 24 24">
+<path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A9.49 9.49 0 0 0 12 21a10 10 0 0 0 10-10V8h-5zm3 3a8 8 0 0 1-7.9 8 7.51 7.51 0 0 1-4.7-1.7c2.4-4 5.3-7.3 12.6-8.3v2z"></path>
+</svg>
+</div>
+<p class="text-[10px] uppercase font-bold tracking-wider text-[#436b4a] leading-tight">Healthy Farms<br>Stronger Communities<br><span class="text-brand-700">A Sustainable Future</span></p>
+</div>
+</div>
+</aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: MainContentArea -->
+<main class="flex-1 px-5 lg:px-9 py-7 space-y-8" data-purpose="crop-calendar-dashboard">
+<!-- Top Title & Global Action Bar -->
+<section class="flex flex-col md:flex-row md:items-end justify-between gap-4" data-purpose="page-title-strip">
+<div>
+<span class="text-xs font-semibold text-[#547e5b] tracking-wide">Wednesday, 01 October 2026</span>
+<h1 class="font-serif text-3xl lg:text-4xl font-bold text-[#144720] mt-1 tracking-tight">Crop Calendar &amp; Season Tasks<span class="text-[#f59e0b]">.</span></h1>
+<p class="text-sm text-[#4d7553] mt-1">Personalized schedule, agronomic milestones, and automated task tracking for Gopal Rao's parcels</p>
+</div>
+<!-- Quick Action Buttons -->
+<div class="flex flex-wrap items-center gap-2.5">
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#d4e4d1] text-xs font-semibold text-[#25522e] hover:bg-[#f2f8f0] transition shadow-sm" type="button">
+<svg class="w-4 h-4 text-[#507d57]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Search</span>
+</button>
+<button class="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-[#d4e4d1] text-xs font-semibold text-[#25522e] hover:bg-[#f2f8f0] transition shadow-sm" type="button">
+<svg class="w-4 h-4 text-[#507d57]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Download Schedule (PDF)</span>
+</button>
+<button class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-brand-800 text-white text-xs font-bold hover:bg-[#13592f] transition shadow-sm" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+<path d="M12 4v16m8-8H4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="">Add Custom Task</span>
+</button>
+</div>
+</section>
+<!-- BEGIN: MetricStrip -->
+<!-- 4 Key Crop Calendar Stats mirroring the design from the reference snapshot -->
+
+<!-- END: MetricStrip -->
+<!-- BEGIN: WeeklyCalendarSection -->
+<!-- Interactive Weekly Timeline & Agronomic Schedule with Day Selector -->
+<section class="bg-white rounded-3xl border border-[#e0ede0] p-6 lg:p-7 farm-card-shadow space-y-6" data-purpose="weekly-agronomic-schedule">
+<!-- Calendar Header Strip -->
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[#edf5eb]">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-2xl bg-[#edf7ec] text-brand-800 flex items-center justify-center">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div>
+<h2 class="text-lg font-bold text-[#144720]">Agronomic Schedule • Week 41</h2>
+<p class="text-xs text-[#527a59]">Karnal, Haryana Hub • Active Irrigation &amp; Sowing window</p>
+</div>
+</div>
+<!-- Week Switcher Controls -->
+<div class="flex items-center gap-2 bg-[#f4faf2] p-1.5 rounded-2xl border border-[#dbead9]">
+<button aria-label="Previous week" class="w-8 h-8 rounded-xl bg-white hover:bg-[#edf6ea] border border-[#d6e7d4] flex items-center justify-center text-[#2b5333] transition" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M15 19l-7-7 7-7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+<span class="text-xs font-bold text-[#1a4b26] px-3">October 2026 • Week 41</span>
+<button aria-label="Next week" class="w-8 h-8 rounded-xl bg-white hover:bg-[#edf6ea] border border-[#d6e7d4] flex items-center justify-center text-[#2b5333] transition" type="button">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+</button>
+</div>
+</div>
+<!-- 7-Day Pill Tabs Row -->
+<div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5" data-purpose="weekdays-strip">
+<!-- Mon 28 -->
+<div class="p-3 rounded-2xl text-center bg-[#fafdf9] border border-[#e5efe3] hover:border-brand-300 transition cursor-pointer">
+<span class="text-[10px] font-bold text-[#719877] uppercase block">Mon</span>
+<span class="text-base font-extrabold text-[#234d2c] block mt-0.5">28</span>
+<span class="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<!-- Tue 29 -->
+<div class="p-3 rounded-2xl text-center bg-[#fafdf9] border border-[#e5efe3] hover:border-brand-300 transition cursor-pointer">
+<span class="text-[10px] font-bold text-[#719877] uppercase block">Tue</span>
+<span class="text-base font-extrabold text-[#234d2c] block mt-0.5">29</span>
+<span class="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<!-- Wed 30 -->
+<div class="p-3 rounded-2xl text-center bg-[#fafdf9] border border-[#e5efe3] hover:border-brand-300 transition cursor-pointer">
+<span class="text-[10px] font-bold text-[#719877] uppercase block">Wed</span>
+<span class="text-base font-extrabold text-[#234d2c] block mt-0.5">30</span>
+<span class="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+</div>
+<!-- Thu 01 (TODAY - HIGHLIGHTED) -->
+<div class="p-3 rounded-2xl text-center bg-brand-800 text-white shadow-md ring-2 ring-brand-300 cursor-pointer">
+<div class="flex items-center justify-center gap-1">
+<span class="text-[10px] font-bold text-[#bbf7d0] uppercase">Thu</span>
+<span class="w-1.5 h-1.5 rounded-full bg-[#fde047]"></span>
+</div>
+<span class="text-lg font-black text-white block mt-0.5">01</span>
+<span class="text-[9px] font-extrabold uppercase bg-white/20 px-1.5 py-0.5 rounded-full text-white inline-block mt-1">Today</span>
+</div>
+<!-- Fri 02 -->
+<div class="p-3 rounded-2xl text-center bg-[#fafdf9] border border-[#e5efe3] hover:border-brand-300 transition cursor-pointer">
+<span class="text-[10px] font-bold text-[#719877] uppercase block">Fri</span>
+<span class="text-base font-extrabold text-[#234d2c] block mt-0.5">02</span>
+<span class="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-amber-500"></span>
+</div>
+<!-- Sat 03 -->
+<div class="p-3 rounded-2xl text-center bg-[#fafdf9] border border-[#e5efe3] hover:border-brand-300 transition cursor-pointer">
+<span class="text-[10px] font-bold text-[#719877] uppercase block">Sat</span>
+<span class="text-base font-extrabold text-[#234d2c] block mt-0.5">03</span>
+<span class="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-blue-500"></span>
+</div>
+<!-- Sun 04 -->
+<div class="p-3 rounded-2xl text-center bg-[#fafdf9] border border-[#e5efe3] hover:border-brand-300 transition cursor-pointer">
+<span class="text-[10px] font-bold text-[#719877] uppercase block">Sun</span>
+<span class="text-base font-extrabold text-[#234d2c] block mt-0.5">04</span>
+<span class="inline-block mt-1 w-1.5 h-1.5 rounded-full bg-gray-300"></span>
+</div>
+</div>
+<!-- Scheduled Tasks Feed for Selected Day & Upcoming -->
+<div class="space-y-4 pt-2">
+<div class="flex items-center justify-between">
+<h3 class="text-sm font-bold uppercase tracking-wider text-[#3c6b45]">Tasks due today &amp; upcoming</h3>
+<span class="text-xs font-semibold text-[#547e5b]">3 tasks pending action</span>
+</div>
+<!-- Task Card 1: Due Today / Urgent (Fertilizer Top-Dressing) -->
+<div class="p-4 sm:p-5 rounded-2xl bg-[#fafef9] border-2 border-[#c3e6be] hover:border-brand-500 transition-all shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-2xl bg-[#fef3c7] text-[#b45309] flex items-center justify-center shrink-0 shadow-sm">
+<!-- Fertilizer Sack Icon -->
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-xs font-bold text-[#92400e] bg-[#fef3c7] px-2.5 py-0.5 rounded-full">Fertilizer Application</span>
+<span class="text-xs font-semibold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-full border border-rose-200">Due Today • 10:00 AM</span>
+<span class="text-xs text-[#527d58]">Field 1 (Basmati Rice - 2.5 Acres)</span>
+</div>
+<h4 class="text-base font-bold text-[#144720]">Precision Urea &amp; DAP Top-Dressing (Second Split)</h4>
+<p class="text-xs text-[#4b7251] max-w-2xl">Optimal window detected based on recent 12 mm rainfall forecast. Apply 45 kg/acre evenly along tillering channels before scheduled furrow flow.</p>
+</div>
+</div>
+<!-- Action CTA -->
+<div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+<button class="px-3 py-2 rounded-xl text-xs font-semibold text-[#25522e] bg-[#eef7ec] hover:bg-[#e1f1de] transition" type="button">
+                View SOP Guide
+              </button>
+<button class="px-4 py-2 rounded-xl text-xs font-bold text-white bg-brand-800 hover:bg-brand-900 shadow-sm transition" type="button">
+                Mark as Completed ✓
+              </button>
+</div>
+</div>
+<!-- Task Card 2: Upcoming Tomorrow (Pest / Foliar Spray) -->
+<div class="p-4 sm:p-5 rounded-2xl bg-white border border-[#e2efe0] hover:border-brand-400 transition-all shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-2xl bg-[#fee2e2] text-[#b91c1c] flex items-center justify-center shrink-0 shadow-sm">
+<!-- Spray / Pest Icon -->
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-xs font-bold text-[#b91c1c] bg-[#fee2e2] px-2.5 py-0.5 rounded-full">Crop Protection</span>
+<span class="text-xs font-semibold text-[#547e5b] bg-[#f0f8ee] px-2 py-0.5 rounded-full">Upcoming • Fri 02 Oct, 07:30 AM</span>
+<span class="text-xs text-[#527d58]">Field 2 (Chilli - 1.8 Acres)</span>
+</div>
+<h4 class="text-base font-bold text-[#144720]">Neem Biopesticide Foliar Spray (Aphids Control)</h4>
+<p class="text-xs text-[#4b7251] max-w-2xl">Recent Crop Doctor diagnosis detected mild aphid infestation on lower leaves. Spray 5ml/liter neem formulation during early cool morning hours.</p>
+</div>
+</div>
+<!-- Action CTA -->
+<div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+<button class="px-3.5 py-2 rounded-xl text-xs font-semibold text-[#25522e] bg-[#f3f9f1] hover:bg-[#e5f1e2] transition" type="button">
+                Reschedule
+              </button>
+<button class="px-4 py-2 rounded-xl text-xs font-bold text-[#1b5e20] border border-[#a7d9b1] hover:bg-[#eaf5e8] transition" type="button">
+                Details &amp; Recipe
+              </button>
+</div>
+</div>
+<!-- Task Card 3: Upcoming Weekend (Drip Irrigation) -->
+<div class="p-4 sm:p-5 rounded-2xl bg-white border border-[#e2efe0] hover:border-brand-400 transition-all shadow-sm flex flex-col md:flex-row md:items-center justify-between gap-4">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-2xl bg-[#e0f2fe] text-[#0369a1] flex items-center justify-center shrink-0 shadow-sm">
+<!-- Water Droplet / Irrigation Icon -->
+<svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<div class="space-y-1">
+<div class="flex flex-wrap items-center gap-2">
+<span class="text-xs font-bold text-[#0369a1] bg-[#e0f2fe] px-2.5 py-0.5 rounded-full">Irrigation Cycle</span>
+<span class="text-xs font-semibold text-[#547e5b] bg-[#f0f8ee] px-2 py-0.5 rounded-full">Saturday • 03 Oct, 06:00 AM</span>
+<span class="text-xs text-[#527d58]">Field 3 (Maize - 3.2 Acres)</span>
+</div>
+<h4 class="text-base font-bold text-[#144720]">Scheduled Drip Fertigation &amp; Soil Moisture Review</h4>
+<p class="text-xs text-[#4b7251] max-w-2xl">Automated drip pulse check. Soil moisture threshold currently at 64%; pump relay timer scheduled for 1 hour 45 minutes.</p>
+</div>
+</div>
+<!-- Action CTA -->
+<div class="flex items-center gap-2 shrink-0 self-end md:self-center">
+<button class="px-4 py-2 rounded-xl text-xs font-bold text-[#1b5e20] border border-[#a7d9b1] hover:bg-[#eaf5e8] transition" type="button">
+                Valve Controls
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: WeeklyCalendarSection -->
+<!-- BEGIN: TaskPerformanceBreakdown -->
+<!-- Agronomic Stage Breakdown directly inspired by the Crop Calendar module in Image 2 -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-6" data-purpose="performance-and-stage-breakdown">
+<!-- Table: Task Performance Across Categories (Spans 2 columns) -->
+<div class="lg:col-span-2 bg-white rounded-3xl border border-[#e0ede0] p-6 farm-card-shadow space-y-4">
+<div class="flex items-center justify-between pb-3 border-b border-[#edf5eb]">
+<div>
+<h3 class="text-base font-bold text-[#144720]">Task Performance by Agronomic Category</h3>
+<p class="text-xs text-[#547e5b]">Generated, completed, and verification rate across the current 2026 Kharif cycle</p>
+</div>
+<button class="text-xs font-bold text-brand-800 hover:text-brand-900 inline-flex items-center gap-1" type="button">
+              View full report <span class="">→</span>
+</button>
+</div>
+<!-- Performance Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left text-xs" data-purpose="task-performance-table">
+<thead>
+<tr class="text-[#598460] uppercase tracking-wider text-[10px] border-b border-[#eef5ed]">
+<th class="py-3 font-bold">Agronomic Task Type</th>
+<th class="py-3 font-bold text-center">Generated</th>
+<th class="py-3 font-bold text-center">Completed</th>
+<th class="py-3 font-bold text-right">Completion Rate</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#f2f7f1] text-[#224528] font-medium">
+<!-- 1. Irrigation -->
+<tr class="hover:bg-[#f8fbf7] transition">
+<td class="py-3.5 flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-500 shrink-0"></span>
+<span class="font-bold text-[#144720]">Irrigation &amp; Moisture Control</span>
+</td>
+<td class="py-3.5 text-center text-[#4d7353]">24,500</td>
+<td class="py-3.5 text-center font-semibold text-[#1a4a26]">18,920</td>
+<td class="py-3.5 text-right">
+<span class="inline-block bg-[#e1f6e7] text-[#166534] font-bold px-2.5 py-0.5 rounded-full text-[11px]">77%</span>
+</td>
+</tr>
+<!-- 2. Fertilizer -->
+<tr class="hover:bg-[#f8fbf7] transition">
+<td class="py-3.5 flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-emerald-600 shrink-0"></span>
+<span class="font-bold text-[#144720]">Fertilizer &amp; Soil Amendments</span>
+</td>
+<td class="py-3.5 text-center text-[#4d7353]">18,200</td>
+<td class="py-3.5 text-center font-semibold text-[#1a4a26]">12,400</td>
+<td class="py-3.5 text-right">
+<span class="inline-block bg-[#e1f6e7] text-[#166534] font-bold px-2.5 py-0.5 rounded-full text-[11px]">68%</span>
+</td>
+</tr>
+<!-- 3. Pest Inspection -->
+<tr class="hover:bg-[#f8fbf7] transition">
+<td class="py-3.5 flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-teal-600 shrink-0"></span>
+<span class="font-bold text-[#144720]">Pest &amp; Weed Inspection</span>
+</td>
+<td class="py-3.5 text-center text-[#4d7353]">15,800</td>
+<td class="py-3.5 text-center font-semibold text-[#1a4a26]">10,200</td>
+<td class="py-3.5 text-right">
+<span class="inline-block bg-[#e1f6e7] text-[#166534] font-bold px-2.5 py-0.5 rounded-full text-[11px]">65%</span>
+</td>
+</tr>
+<!-- 4. Spraying -->
+<tr class="hover:bg-[#f8fbf7] transition">
+<td class="py-3.5 flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0"></span>
+<span class="font-bold text-[#144720]">Foliar Spraying &amp; Micronutrients</span>
+</td>
+<td class="py-3.5 text-center text-[#4d7353]">12,400</td>
+<td class="py-3.5 text-center font-semibold text-[#1a4a26]">8,950</td>
+<td class="py-3.5 text-right">
+<span class="inline-block bg-[#e1f6e7] text-[#166534] font-bold px-2.5 py-0.5 rounded-full text-[11px]">72%</span>
+</td>
+</tr>
+<!-- 5. Harvest Preparation -->
+<tr class="hover:bg-[#f8fbf7] transition">
+<td class="py-3.5 flex items-center gap-2.5">
+<span class="w-2.5 h-2.5 rounded-full bg-amber-600 shrink-0"></span>
+<span class="font-bold text-[#144720]">Harvest Preparation &amp; Storage</span>
+</td>
+<td class="py-3.5 text-center text-[#4d7353]">8,200</td>
+<td class="py-3.5 text-center font-semibold text-[#1a4a26]">6,820</td>
+<td class="py-3.5 text-right">
+<span class="inline-block bg-[#e1f6e7] text-[#166534] font-bold px-2.5 py-0.5 rounded-full text-[11px]">83%</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Dost AI Agronomic Advisory Card (Matches the Green AI banner in Image 2) -->
+<div class="bg-brand-800 rounded-3xl p-6 text-white farm-card-shadow flex flex-col justify-between relative overflow-hidden" data-purpose="dost-ai-recommendation-card">
+<!-- Background decorative leaf glow -->
+<div class="absolute -right-8 -top-8 w-36 h-36 bg-emerald-700/40 rounded-full blur-2xl pointer-events-none"></div>
+<div>
+<div class="flex items-center justify-between">
+<span class="text-[10px] font-bold uppercase tracking-widest text-[#a7f3d0]">DOST AI ADVISORY</span>
+<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-[#bbf7d0]">
+<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+<path d="M12 2a10 10 0 100 20 10 10 0 000-20zm1 14.5h-2v-2h2v2zm0-4.5h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"></path>
+</svg>
+</div>
+</div>
+<h3 class="text-xl font-bold mt-4 leading-snug">Upcoming Weather Window for Field 1 &amp; 4</h3>
+<p class="text-xs text-[#c6ebd1] mt-2 leading-relaxed">
+              Based on the 12 mm rainfall forecast within 48 hours, Dost AI recommends holding off foliar spraying until Saturday noon. Focus on clearing field drainage culverts first to avoid root saturation.
+            </p>
+</div>
+<div class="mt-6 pt-4 border-t border-brand-700 space-y-3">
+<div class="flex items-center justify-between text-xs">
+<span class="text-[#a7f3d0]">Estimated Crop Protection Benefit:</span>
+<span class="font-bold text-[#fef08a]">+₹18,400</span>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex-1 py-2 rounded-xl bg-[#fef08a] hover:bg-[#fde047] text-brand-950 font-bold text-xs transition shadow-sm" type="button">
+                Apply Advisory
+              </button>
+<button class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-medium text-xs transition" type="button">
+                Dismiss
+              </button>
+</div>
+</div>
+</div>
+</section>
+<!-- END: TaskPerformanceBreakdown -->
+<!-- Space buffer at bottom to maintain clean airy feel (NO FOOTER) -->
+<div class="h-10"></div>
+</main>
+<!-- END: MainContentArea -->
+</div>
+<!-- END: MainLayoutWrapper -->
+<!-- BEGIN: FloatingDostAIButton -->
+<!-- Floating circular Dost AI bot button (Bottom Right) with live pulse indicator -->
+<div class="fixed bottom-6 right-6 z-50">
+<button aria-label="Open Dost AI Assistant" class="relative group flex items-center gap-3 bg-brand-800 hover:bg-brand-900 text-white p-3.5 pr-4 rounded-full shadow-xl hover:shadow-2xl transition-all transform hover:-translate-y-0.5 active:translate-y-0 focus:outline-none focus:ring-4 focus:ring-brand-400/40" type="button">
+<!-- Pulsing active ring -->
+<span class="absolute -top-1 -right-1 flex h-3.5 w-3.5">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+<span class="relative inline-flex rounded-full h-3.5 w-3.5 bg-emerald-500 border-2 border-white"></span>
+</span>
+<!-- AI Sprout / Chat Icon -->
+<div class="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center text-[#bbf7d0]">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+<path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</div>
+<!-- Label -->
+<div class="text-left hidden sm:block">
+<span class="block text-[10px] uppercase font-bold text-[#bbf7d0] tracking-wider -mb-0.5">Online</span>
+<span class="block text-xs font-bold text-white tracking-tight">Dost AI Assistant</span>
+</div>
+</button>
+</div>
+<!-- END: FloatingDostAIButton -->
+
+
+</body></html>

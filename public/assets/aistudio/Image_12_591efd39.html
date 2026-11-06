@@ -1,0 +1,726 @@
+<!DOCTYPE html><html lang="en" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_dashboard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;1,400&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"on-error-container":"#93000a","secondary":"#7c5800","tertiary-fixed":"#abf3bb","tertiary":"#005128","on-surface":"#151e16","surface-container-high":"#e1ebde","tertiary-container":"#256a3e","primary-fixed-dim":"#90d6a0","surface-container":"#e7f1e4","surface-container-highest":"#dce5d9","surface-container-lowest":"#ffffff","on-tertiary-fixed":"#00210d","secondary-container":"#ffcd71","surface":"#f3fcef","on-tertiary-fixed-variant":"#025229","tertiary-fixed-dim":"#90d6a0","surface-tint":"#266b3f","primary-container":"#246a3e","on-tertiary-container":"#a0e7b0","error-container":"#ffdad6","inverse-on-surface":"#eaf3e7","on-secondary-container":"#785500","on-tertiary":"#ffffff","primary":"#005128","on-background":"#151e16","on-primary-fixed-variant":"#025229","on-secondary-fixed":"#271900","surface-container-low":"#edf6ea","on-secondary-fixed-variant":"#5e4200","background":"#f3fcef","outline":"#707a6f","surface-variant":"#dce5d9","error":"#ba1a1a","inverse-surface":"#2a332a","secondary-fixed":"#ffdea7","on-error":"#ffffff","secondary-fixed-dim":"#efbf65","on-surface-variant":"#404940","on-primary-fixed":"#00210d","surface-bright":"#f3fcef","surface-dim":"#d3ddd0","on-secondary":"#ffffff","on-primary":"#ffffff","on-primary-container":"#a0e7b0","inverse-primary":"#90d6a0","outline-variant":"#bfc9bd","primary-fixed":"#abf3bb"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-lg":"1.5rem","space-xl":"2.25rem","margin":"2rem","space-2xl":"3.5rem","space-md":"1rem","margin-mobile":"1rem","space-sm":"0.5rem","gutter":"1.5rem","space-xs":"0.25rem","gutter-sm":"1rem"},"fontFamily":{"display-hero":["Merriweather"],"display-hero-mobile":["Merriweather"],"body-lg":["Plus Jakarta Sans"],"headline-lg":["Merriweather"],"title-md":["Plus Jakarta Sans"],"headline-sm":["Merriweather"],"headline-lg-mobile":["Merriweather"],"title-lg":["Plus Jakarta Sans"],"body-md":["Plus Jakarta Sans"],"body-sm":["Plus Jakarta Sans"],"label-sm":["Plus Jakarta Sans"],"label-md":["Plus Jakarta Sans"],"label-lg":["Plus Jakarta Sans"],"headline-md":["Merriweather"]},"fontSize":{"display-hero":["56px",{"lineHeight":"68px","letterSpacing":"-0.02em","fontWeight":"700"}],"display-hero-mobile":["34px",{"lineHeight":"42px","letterSpacing":"-0.01em","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"26px","fontWeight":"400"}],"headline-lg":["36px",{"lineHeight":"46px","letterSpacing":"-0.015em","fontWeight":"700"}],"title-md":["16px",{"lineHeight":"24px","fontWeight":"600"}],"headline-sm":["20px",{"lineHeight":"28px","fontWeight":"700"}],"headline-lg-mobile":["26px",{"lineHeight":"34px","letterSpacing":"0em","fontWeight":"700"}],"title-lg":["18px",{"lineHeight":"26px","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"22px","fontWeight":"400"}],"body-sm":["12px",{"lineHeight":"18px","fontWeight":"400"}],"label-sm":["10px",{"lineHeight":"14px","letterSpacing":"0.04em","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","letterSpacing":"0.02em","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"20px","fontWeight":"600"}],"headline-md":["24px",{"lineHeight":"32px","fontWeight":"700"}]}}}};</script></head><body class="bg-surface font-body-md text-body-md text-on-surface antialiased flex flex-wrap"><header class="sticky top-0 left-0 right-0 z-50 h-16 bg-surface/90 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.04)] w-full" style="opacity: 0;"><div class="w-full h-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-primary-container flex items-center justify-center text-on-primary-container shadow-[0_2px_8px_rgba(0,81,40,0.15)]"><span class="material-symbols-outlined text-[22px]">potted_plant</span></div><div class="flex flex-col"><span class="font-headline-sm text-headline-sm text-primary leading-none tracking-tight">KissanDost</span><span class="font-label-sm text-label-sm text-primary tracking-wider uppercase mt-0.5">YOUR FARM COMPANION</span></div></div><div class="flex items-center gap-space-md"><button class="h-9 px-3 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center gap-1.5 font-label-md text-label-md text-on-surface" type="button"><span class="material-symbols-outlined text-[16px] text-primary">language</span><span class="">EN</span><span class="material-symbols-outlined text-[14px]">arrow_drop_down</span></button><div class="relative flex items-center justify-center"><button aria-label="Notifications" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-center text-on-surface" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span></button><span class="absolute -top-1 -right-1 min-w-[18px] h-[18px] px-1 rounded-full bg-error text-on-error font-label-sm text-label-sm flex items-center justify-center font-bold ring-2 ring-surface">3</span></div><div class="flex items-center gap-space-sm pl-space-sm py-1 pr-3 rounded-full bg-surface-container-low shadow-[0_1px_6px_rgba(0,0,0,0.03)]"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><div class="hidden sm:flex flex-col text-left"><span class="font-label-lg text-label-lg text-on-surface leading-tight font-semibold">Gopal Rao</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-tight">Farmer Partner</span></div></div></div></div></header><aside class="w-64 flex-shrink-0 bg-surface-container-lowest shadow-[0_1px_12px_rgba(0,0,0,0.03)] flex flex-col justify-between p-space-md"><div class="flex flex-col gap-space-xs"><div class="px-space-sm pt-space-xs pb-space-sm"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider font-bold">WORKSPACE</span></div><nav class="flex flex-col gap-1" data-active-classes="bg-primary-container text-on-primary font-bold rounded-lg shadow-[0_2px_8px_rgba(0,81,40,0.12)]"><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="overview" href="#"><span class="material-symbols-outlined text-[20px]">grid_view</span><span class="font-body-md text-body-md">Overview</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="my-crops" href="#"><span class="material-symbols-outlined text-[20px]">psychiatry</span><span class="font-body-md text-body-md">My crops</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="crop-calendar" href="#"><span class="material-symbols-outlined text-[20px]">calendar_month</span><span class="font-body-md text-body-md">Crop Calendar</span></a><a aria-current="page" class="flex items-center gap-space-sm px-space-sm py-2 transition-all bg-primary-container text-on-primary font-bold rounded-lg shadow-[0_2px_8px_rgba(0,81,40,0.12)]" data-path="diseases-library" href="#"><span class="material-symbols-outlined text-[20px]">menu_book</span><span class="font-body-md text-body-md">Diseases Library</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="market-prices" href="#"><span class="material-symbols-outlined text-[20px]">trending_up</span><span class="font-body-md text-body-md">Market prices</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="crop-doctor" href="#"><span class="material-symbols-outlined text-[20px]">health_and_safety</span><span class="font-body-md text-body-md">Crop Doctor</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="farm-store" href="#"><span class="material-symbols-outlined text-[20px]">storefront</span><span class="font-body-md text-body-md">Farm store</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="weather" href="#"><span class="material-symbols-outlined text-[20px]">partly_cloudy_day</span><span class="font-body-md text-body-md">Weather</span></a><a class="flex items-center gap-space-sm px-space-sm py-2 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="community" href="#"><span class="material-symbols-outlined text-[20px]">groups</span><span class="font-body-md text-body-md">Community</span></a></nav></div><div class="mt-space-lg flex flex-col gap-space-sm pt-space-md"><div class="p-space-sm rounded-xl bg-tertiary text-on-tertiary flex flex-col gap-2 shadow-[0_8px_20px_-4px_rgba(0,81,40,0.2)]"><div class="flex items-center justify-between"><span class="font-label-md text-label-md font-bold text-secondary-container flex items-center gap-1"><span class="material-symbols-outlined text-[16px]">smart_toy</span>Ask Dost AI</span><span class="material-symbols-outlined text-[14px] text-tertiary-fixed">auto_awesome</span></div><p class="font-body-sm text-body-sm text-surface-container-high leading-snug">Get precision agronomy advisory for your field conditions.</p><button class="w-full py-1.5 px-3 rounded-lg bg-secondary-container text-on-secondary-container font-label-md text-label-md font-bold hover:bg-secondary-fixed transition-colors flex items-center justify-center gap-1" type="button"><span class="">Consult AI</span><span class="material-symbols-outlined text-[14px]">arrow_forward</span></button></div><div class="p-space-xs px-space-sm rounded-lg bg-surface-container-low flex items-center justify-between"><span class="font-label-sm text-label-sm text-on-surface-variant">Satellite &amp; IoT Feed</span><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span><span class="font-label-sm text-label-sm text-primary font-bold">Online</span></div></div><div class="p-space-sm rounded-xl bg-surface-container-high flex flex-col gap-1"><div class="flex items-center gap-1.5 text-primary"><span class="material-symbols-outlined text-[16px]">agriculture</span><span class="font-label-md text-label-md font-bold uppercase tracking-wider">KRISHI SEVA</span></div><p class="font-body-sm text-body-sm text-on-surface-variant leading-tight">Empowering sustainable yield &amp; direct market linkages.</p></div></div></aside><div class="flex flex-col min-h-screen bg-surface flex-1"><main class="flex-1 w-full bg-surface"><div class="flex flex-col w-full">
+<div class="w-full max-w-[1360px] mx-auto px-space-md sm:px-space-lg lg:px-space-xl py-space-md sm:py-space-lg flex flex-col gap-space-lg">
+<!-- Breadcrumb Navigation -->
+<nav aria-label="Breadcrumb" class="flex items-center gap-2">
+<a class="flex items-center gap-1.5 font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" data-path="overview" href="#">
+<span class="material-symbols-outlined text-[16px]">grid_view</span>
+<span class="">Dashboard</span>
+</a>
+<span class="material-symbols-outlined text-[14px] text-outline-variant">chevron_right</span>
+<span class="font-label-md text-label-md text-primary font-bold">Diseases Library</span>
+</nav>
+<!-- Page Header & Global Actions -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-2 max-w-2xl">
+<div class="flex flex-wrap items-center gap-2.5">
+<h1 class="font-headline-md sm:font-headline-lg text-headline-md sm:text-headline-lg text-on-surface tracking-tight">
+            Crop Diseases Library &amp; Solutions
+          </h1>
+<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            Guntur Region • Kharif 2026
+          </span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+          Early detection guide, symptoms analysis, and verified agronomic remedies for your cultivated crops.
+        </p>
+</div>
+<div class="flex items-center flex-wrap gap-space-sm">
+<button class="h-11 px-4 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-lg text-label-lg transition-colors flex items-center gap-2 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">description</span>
+<span class="">Search Disease SOP</span>
+</button>
+<button class="h-11 px-5 rounded-xl bg-primary text-on-primary hover:bg-primary-container transition-all duration-200 font-label-lg text-label-lg font-bold flex items-center gap-2 shadow-md shadow-primary/20" type="button">
+<span class="material-symbols-outlined text-[20px]">add_circle</span>
+<span class="">+ Report New Outbreak</span>
+</button>
+</div>
+</div>
+<!-- Top Summary Metrics Bar (4 Compact Cards) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- Metric 1 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-3.5 transition-all hover:shadow-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container/20 text-primary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">coronavirus</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Cataloged Diseases</span>
+<span class="font-title-lg text-title-lg text-on-surface font-bold truncate">128 Common Threats</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Rice, Chilli, Maize, Groundnut</span>
+</div>
+</div>
+<!-- Metric 2 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-3.5 transition-all hover:shadow-md">
+<div class="w-12 h-12 rounded-xl bg-error-container text-error flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">crisis_alert</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Active Regional Alerts</span>
+<span class="font-title-lg text-title-lg text-error font-bold truncate">2 High Alert</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Guntur &amp; Gopal district</span>
+</div>
+</div>
+<!-- Metric 3 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-3.5 transition-all hover:shadow-md">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">eco</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Verified Remedies</span>
+<span class="font-title-lg text-title-lg text-on-surface font-bold truncate">94% Biological / Bio</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Eco-safe agronomy tested</span>
+</div>
+</div>
+<!-- Metric 4 -->
+<div class="p-space-md rounded-xl bg-surface-container-lowest shadow-sm flex items-center gap-3.5 transition-all hover:shadow-md">
+<div class="w-12 h-12 rounded-xl bg-secondary-fixed text-secondary flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-[24px]">support_agent</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Advisory Hotline</span>
+<span class="font-title-lg text-title-lg text-on-surface font-bold truncate">24/7 KVK Desk</span>
+<span class="font-body-sm text-body-sm text-primary font-semibold truncate">Agronomist on duty</span>
+</div>
+</div>
+</div>
+<!-- Featured Outbreak Alert Container -->
+<div class="p-space-md sm:p-space-lg rounded-2xl bg-secondary-container/30 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-space-md">
+<div class="flex items-start gap-3.5">
+<div class="w-11 h-11 rounded-xl bg-secondary-container text-on-secondary-container flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[24px]">warning</span>
+</div>
+<div class="flex flex-col gap-1 max-w-3xl">
+<div class="flex flex-wrap items-center gap-2">
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container">High Priority Field Alert</span>
+<span class="font-title-md text-title-md text-on-surface font-bold">Yellow Stem Borer Detected in Adjacent Tenali Mandal</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant">
+            Pest intensity index exceeds critical economic threshold (12% dead hearts recorded). Immediate preventive foliar bio-pesticide application advised across all 15–30 day transplanted paddy within 72 hours.
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap w-full md:w-auto flex-shrink-0">
+<button class="flex-1 md:flex-none h-10 px-4 rounded-xl bg-surface-container-lowest hover:bg-surface-container text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">assignment</span>
+<span class="">View Treatment Protocol</span>
+</button>
+<button class="flex-1 md:flex-none h-10 px-4 rounded-xl bg-secondary text-on-secondary hover:bg-secondary/90 font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_cart</span>
+<span class="">Order Chlorantraniliprole</span>
+</button>
+</div>
+</div>
+<!-- Filter & Search Controls Bar -->
+<div class="p-space-md rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col gap-space-md">
+<!-- Search Input -->
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-3.5 top-1/2 -translate-y-1/2 text-[20px] text-outline">search</span>
+<input class="w-full h-12 pl-11 pr-10 rounded-xl bg-surface-container-low text-on-surface placeholder:text-on-surface-variant/70 font-body-md text-body-md outline-none focus:bg-surface-container-lowest transition-all" id="disease-search-input" placeholder="Search by crop, disease name, or symptom (e.g. Yellow leaf, stem rot)..." type="text">
+<button class="hidden absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant hover:text-on-surface" id="clear-search-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- Filters Row: Crop Tabs + Severity Toggle -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-md">
+<!-- Crop Tabs -->
+<div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" id="crop-filters">
+<button class="crop-filter-btn px-3.5 py-1.5 rounded-lg bg-primary text-on-primary font-label-md text-label-md font-bold shadow-sm whitespace-nowrap transition-all" data-crop="all" type="button">
+            All (128)
+          </button>
+<button class="crop-filter-btn px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md whitespace-nowrap transition-all" data-crop="paddy" type="button">
+            Rice / Paddy (34)
+          </button>
+<button class="crop-filter-btn px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md whitespace-nowrap transition-all" data-crop="chilli" type="button">
+            Teja Chilli (28)
+          </button>
+<button class="crop-filter-btn px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md whitespace-nowrap transition-all" data-crop="maize" type="button">
+            Hybrid Maize (22)
+          </button>
+<button class="crop-filter-btn px-3.5 py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant font-label-md text-label-md whitespace-nowrap transition-all" data-crop="groundnut" type="button">
+            Groundnut (18)
+          </button>
+</div>
+<!-- Severity Toggle -->
+<div class="flex items-center gap-2 self-start lg:self-auto">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider">Severity:</span>
+<div class="flex items-center bg-surface-container p-1 rounded-xl" id="severity-filters">
+<button class="sev-filter-btn px-2.5 py-1 rounded-lg bg-surface-container-lowest text-on-surface font-label-sm text-label-sm font-bold shadow-sm transition-all" data-severity="all" type="button">All</button>
+<button class="sev-filter-btn px-2.5 py-1 rounded-lg text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm font-medium transition-all" data-severity="high" type="button">High Priority</button>
+<button class="sev-filter-btn px-2.5 py-1 rounded-lg text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm font-medium transition-all" data-severity="moderate" type="button">Moderate</button>
+<button class="sev-filter-btn px-2.5 py-1 rounded-lg text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm font-medium transition-all" data-severity="preventative" type="button">Preventative</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Disease Cards Grid (3x2 Balanced Layout) -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md" id="disease-cards-container">
+<!-- Card 1: Bacterial Leaf Blight -->
+<article class="disease-card flex flex-col justify-between rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all overflow-hidden" data-crop="paddy" data-severity="high">
+<div>
+<!-- Card Image Container -->
+<div class="relative w-full h-44 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="Agronomic photograph of mature paddy rice leaves infected with bacterial leaf blight showing yellowish-white wavy marginal stripes under bright Andhra Pradesh agricultural daylight, highly detailed botanical macro view." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDa0xR_hIGbMRhD7V8ShaaPpQmCpnoYf4TWvJ1OZjonaF-87yXHPB0HuNznne-KFwj62HOyqzsW-2T0jrg7TIaillZEJvzT1wCv-1yQ5jpVeFRK55cP2tsjy4hGvblfVP_MKylHB4jHFWIy6dn7RKlXSeOesYK42ZlBi_OrjXEhdEMd1dF254_pbZgNpLgwkqNktRcKGxX9QauptLC1ogrX4xfkZs4-rk7Ht5OUeqvRw6e9rUTmmiGp">
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">psychiatry</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Paddy (Field 1)</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-error text-on-error font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">warning</span>
+<span class="">High Alert</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Bacterial Leaf Blight</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-0.5">Xanthomonas oryzae pv. oryzae</p>
+</div>
+<!-- Key Symptoms -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">visibility</span>
+                Key Symptoms
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+                Water-soaked to yellowish stripes along leaf margins, wilting, grayish-white blighted leaves under humid conditions.
+              </p>
+</div>
+<!-- Agronomic Solution & Preventive -->
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">medication</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Recommended Solution</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
+                    Streptocycline (1 g/10 L) + Copper Oxychloride 50% WP (25 g/10 L)
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">shield</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Preventive Care</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                    Avoid excess nitrogen top-dressing; maintain 5cm water level during tillering.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md pt-0 flex items-center gap-2">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1" type="button">
+<span class="">View Full Guide</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span class="">Order (₹380)</span>
+</button>
+</div>
+</article>
+<!-- Card 2: Chilli Anthracnose -->
+<article class="disease-card flex flex-col justify-between rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all overflow-hidden" data-crop="chilli" data-severity="high">
+<div>
+<!-- Card Image Container -->
+<div class="relative w-full h-44 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="Agronomic close-up photograph of ripe red Guntur chillies affected by anthracnose fruit rot showing circular sunken brown spots with concentric rings on field crop, natural midday light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1DbK4dBrsmCFKO7-Y051XErqafufFWv2y5FVnxZpx7znqQyPvCFpbEpVeNf3WUJRAnYCqhA160RYiLR-YlLrUAKFEJyDKCFKmi1Ur_ShM83imQd_A-98WGanZWYYGFEFQyUDCvYJih68K2vB0kaMjxMAtyBkQywUfNA2uEnbyfSZ-S0IpgXiuAS6Nl9zba8Bd2AeDpgiCkEeB4LPmMmidJtRfMXtZyzDtITUyKCjb6wrHVyK-1W2-">
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">psychiatry</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Chilli (Field 2)</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-error text-on-error font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">warning</span>
+<span class="">High Alert</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Chilli Anthracnose / Die Back</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-0.5">Colletotrichum capsici</p>
+</div>
+<!-- Key Symptoms -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">visibility</span>
+                Key Symptoms
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+                Circular sunken dark spots on ripening chillies, twig drying from tip downwards, black acervuli rings.
+              </p>
+</div>
+<!-- Agronomic Solution & Preventive -->
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">medication</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Recommended Solution</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
+                    Propiconazole 25% EC @ 1 ml/L or Azoxystrobin 23% SC @ 1 ml/L
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">shield</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Preventive Care</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                    Ensure proper field drainage after unseasonal rain; prune infected dry twigs.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md pt-0 flex items-center gap-2">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1" type="button">
+<span class="">View Full Guide</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span class="">Order (₹540)</span>
+</button>
+</div>
+</article>
+<!-- Card 3: Fall Armyworm -->
+<article class="disease-card flex flex-col justify-between rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all overflow-hidden" data-crop="maize" data-severity="moderate">
+<div>
+<!-- Card Image Container -->
+<div class="relative w-full h-44 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="Field macro photograph of young green maize plant whorl leaves displaying characteristic shot hole damage and sawdust-like frass caused by fall armyworm, organic crop context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEeizOkrb2bQhG429heg7sS808jlebObTw3TeuHhizNWfzdtQ_25r9uMHXw8-7q6_ZBMZUWFtWOlRjr3UmEUH-I_easlZwZyZO_LSVsv0irW4dFYjNbmal5OHDCe01uvPP-aILq_gPNm60URIwta_NLcCAA_KfxGzTUwvuM6rNnmRn-U9vlEO0BsRRyZvs5EaS89xO7rJ_frVVSVLDZf6eLGyurxbbjHgket-0l2k3BLZGnbF3eyMn">
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">psychiatry</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Maize (Field 3)</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">info</span>
+<span class="">Moderate</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Fall Armyworm</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-0.5">Spodoptera frugiperda</p>
+</div>
+<!-- Key Symptoms -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">visibility</span>
+                Key Symptoms
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+                Pin-hole feeding damage in whorl leaves, extensive ragged leaf edges, abundant sawdust-like frass.
+              </p>
+</div>
+<!-- Agronomic Solution & Preventive -->
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">medication</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Recommended Solution</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
+                    Emamectin benzoate 5% SG @ 0.4 g/L or Bacillus thuringiensis spray
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">shield</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Preventive Care</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                    Install pheromone traps (5 traps/acre) for early adult moth surveillance.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md pt-0 flex items-center gap-2">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1" type="button">
+<span class="">View Full Guide</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span class="">Order (₹420)</span>
+</button>
+</div>
+</article>
+<!-- Card 4: Groundnut Tikka Leaf Spot -->
+<article class="disease-card flex flex-col justify-between rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all overflow-hidden" data-crop="groundnut" data-severity="moderate">
+<div>
+<!-- Card Image Container -->
+<div class="relative w-full h-44 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="Agronomic detailed photograph of peanut groundnut plant leaflets with small dark brown necrotic lesions surrounded by vibrant yellow chlorotic halos, bright clear agricultural field lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0XU9ZNE21BP9a5islCEE9JoUrRxEN-iOudbXES-qHEvUGWL95Oz-9ggRIWxCGMMz2MmT0rJvwsCh0oI8XqPSwGs9KWH9DrrRAuo1qc2oqAa2AkJjgIPIMHmyhaueZApBt2o3_n-MASpq2y8L4KlePLHuvjjMpApg9CBvHHdguFYio1jQjkkfRbB5SaCy2BbzW2Z7BFUs0XuQjevOxxvtz0xTad05gENv3QvL2wOjD42xO6G76BcGL">
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">psychiatry</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Groundnut (Field 4)</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">info</span>
+<span class="">Moderate</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Tikka Leaf Spot</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-0.5">Cercospora arachidicola</p>
+</div>
+<!-- Key Symptoms -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">visibility</span>
+                Key Symptoms
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+                Dark necrotic circular spots with bright chlorotic yellow halos on older leaves leading to premature defoliation.
+              </p>
+</div>
+<!-- Agronomic Solution & Preventive -->
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">medication</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Recommended Solution</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
+                    Mancozeb 75% WP @ 2.5 g/L or Carbendazim 50% WP @ 1 g/L
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">shield</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Preventive Care</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                    Crop rotation with millets &amp; deep summer ploughing to destroy resting fungal mycelium.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md pt-0 flex items-center gap-2">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1" type="button">
+<span class="">View Full Guide</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span class="">Order (₹310)</span>
+</button>
+</div>
+</article>
+<!-- Card 5: Paddy Blast / Neck Blast -->
+<article class="disease-card flex flex-col justify-between rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all overflow-hidden" data-crop="paddy" data-severity="preventative">
+<div>
+<!-- Card Image Container -->
+<div class="relative w-full h-44 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="Scientific agronomic field view of paddy rice neck and leaves showing spindle shaped elliptical blast lesions with ash grey center and reddish brown margins, sharp clarity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMT7xPbflXpJA6ZN6TKRJIpTjwoLwXEXtb5VuwVT6yGhjwbZSEGPj597AI8RrPU_mhUzPguGcyANCK_bGi9_saHzy92DjggwPxHEeibaMuWxLbxTw5NJAZWQXlam4xllqXZ3bI5lW7fXzUmsIPSAn0rZ8wXJEeH7bicil12wyVtCrIG_xN1LMwIctvCVv0luIr8HnSUG9QzAqn8y2QarvREufiLo14JkLQFp72kYcI83RJdZVpJb63">
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">psychiatry</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Paddy (Field 1)</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+<span class="">Monitored</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Paddy Blast / Neck Blast</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-0.5">Magnaporthe oryzae</p>
+</div>
+<!-- Key Symptoms -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">visibility</span>
+                Key Symptoms
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+                Spindle-shaped lesions with grey/whitish centres and brown margins; darkening at neck node.
+              </p>
+</div>
+<!-- Agronomic Solution & Preventive -->
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">medication</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Recommended Solution</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
+                    Tricyclazole 75% WP @ 0.6 g/L water or Isoprothiolane 40% EC
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">shield</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Preventive Care</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                    Balanced fertilizer application; avoid late evening overhead flood irrigation.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md pt-0 flex items-center gap-2">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1" type="button">
+<span class="">View Full Guide</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span class="">Order (₹490)</span>
+</button>
+</div>
+</article>
+<!-- Card 6: Powdery Mildew in Chilli -->
+<article class="disease-card flex flex-col justify-between rounded-2xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all overflow-hidden" data-crop="chilli" data-severity="preventative">
+<div>
+<!-- Card Image Container -->
+<div class="relative w-full h-44 bg-surface-container overflow-hidden">
+<img class="w-full h-full object-cover transition-transform duration-300 hover:scale-105" data-alt="Agronomic photograph of green chilli pepper plant foliage exhibiting fine white talcum powdery fungal patches on the lower leaf surface with slight leaf cupping, bright natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTNl0yll_wwJCpWcONh20OWkpyb_P1_u_XaTjXqZVMaufp_tia-rgNj3XZ7poJUqcsh1z8YpbLYQUvnTP-AKITHlvJNzXSvJ1nmklpxp_xZiQ1uOoEobNMLiJGTdUye8xjaBXE2uwTon08l7Fz4FoPlPoPK5r4adofRyJ8qoqeZa7BiOIE7yrPXz9wkt6F-QDJJ7_ebGMn3WOpEc0w68ypAFYou-r1vQlgjVH4ll77yaJQjDF3L6XN">
+<div class="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest/90 backdrop-blur-md shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">psychiatry</span>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Chilli (Field 2)</span>
+</div>
+<div class="absolute top-3 right-3 flex items-center gap-1 px-2.5 py-1 rounded-full bg-tertiary-fixed text-on-tertiary-fixed font-label-sm text-label-sm font-bold shadow-sm">
+<span class="material-symbols-outlined text-[13px]">check_circle</span>
+<span class="">Monitored</span>
+</div>
+</div>
+<!-- Card Content Body -->
+<div class="p-space-md flex flex-col gap-space-sm">
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold leading-tight">Powdery Mildew in Chilli</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant italic mt-0.5">Leveillula taurica</p>
+</div>
+<!-- Key Symptoms -->
+<div class="p-space-sm rounded-xl bg-surface-container-low flex flex-col gap-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-bold uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px] text-secondary">visibility</span>
+                Key Symptoms
+              </span>
+<p class="font-body-sm text-body-sm text-on-surface leading-snug">
+                White powdery growth on lower leaf surfaces, corresponding chlorotic patches, upward curling of foliage.
+              </p>
+</div>
+<!-- Agronomic Solution & Preventive -->
+<div class="flex flex-col gap-2">
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-primary flex-shrink-0 mt-0.5">medication</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Recommended Solution</span>
+<p class="font-body-sm text-body-sm text-on-surface font-medium leading-snug">
+                    Wettable Sulphur 80% WP @ 3 g/L or Dinocap @ 1 ml/L
+                  </p>
+</div>
+</div>
+<div class="flex items-start gap-2">
+<span class="material-symbols-outlined text-[18px] text-outline flex-shrink-0 mt-0.5">shield</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant font-semibold">Preventive Care</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-snug">
+                    Dusting with sulphur during early morning hours with low wind speeds.
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Card Footer Actions -->
+<div class="p-space-md pt-0 flex items-center gap-2">
+<button class="flex-1 h-10 px-3 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md font-semibold transition-colors flex items-center justify-center gap-1" type="button">
+<span class="">View Full Guide</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+</button>
+<button class="flex-1 h-10 px-3 rounded-xl bg-primary text-on-primary hover:bg-primary-container font-label-md text-label-md font-bold transition-all flex items-center justify-center gap-1.5 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[16px]">shopping_bag</span>
+<span class="">Order (₹260)</span>
+</button>
+</div>
+</article>
+</div>
+<!-- Empty State for Filters (Hidden by Default) -->
+<div class="hidden p-space-2xl rounded-2xl bg-surface-container-lowest text-center flex-col items-center justify-center gap-3" id="no-results-state">
+<div class="w-14 h-14 rounded-full bg-surface-container flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-[28px]">search_off</span>
+</div>
+<h3 class="font-title-lg text-title-lg text-on-surface font-bold">No Matching Diseases Found</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+        Try adjusting your filter selection or search query, or upload a photo directly to Crop Doctor AI.
+      </p>
+<button class="mt-2 px-4 py-2 rounded-xl bg-primary text-on-primary font-label-md text-label-md font-bold" id="reset-filters-btn" type="button">
+        Reset All Filters
+      </button>
+</div>
+<!-- Bottom Section: 2-Column Agronomic Support Banner -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md mt-space-sm mb-space-lg">
+<!-- Left Banner: AI Crop Doctor Diagnosis -->
+<div class="p-space-lg rounded-2xl bg-tertiary text-on-tertiary flex flex-col justify-between gap-space-md shadow-md">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-tertiary-fixed text-on-tertiary-fixed flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[26px]">camera_enhance</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center gap-2">
+<span class="font-title-lg text-title-lg text-on-tertiary font-bold">Need Immediate Diagnosis?</span>
+<span class="material-symbols-outlined text-secondary-container text-[18px]">auto_awesome</span>
+</div>
+<p class="font-body-md text-body-md text-surface-container-high leading-relaxed">
+              Take or upload a leaf photo to get instant 98.4% accurate AI symptom verification, fungal strain detection, and localized spray SOP.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<a class="px-5 py-2.5 rounded-xl bg-secondary-container text-on-secondary-container hover:bg-secondary-fixed transition-colors font-label-lg text-label-lg font-bold flex items-center gap-2 shadow-sm" data-path="crop-doctor" href="#">
+<span class="material-symbols-outlined text-[20px]">add_a_photo</span>
+<span class="">Upload Plant Photo</span>
+</a>
+<span class="font-label-sm text-label-sm text-surface-container-high hidden sm:inline">Takes ~15 seconds</span>
+</div>
+</div>
+<!-- Right Banner: Toll-Free Helpline Support -->
+<div class="p-space-lg rounded-2xl bg-surface-container-lowest shadow-sm flex flex-col justify-between gap-space-md">
+<div class="flex items-start gap-4">
+<div class="w-12 h-12 rounded-xl bg-secondary-container/50 text-secondary flex items-center justify-center flex-shrink-0 shadow-sm">
+<span class="material-symbols-outlined text-[26px]">headset_mic</span>
+</div>
+<div class="flex flex-col gap-1.5">
+<span class="font-label-sm text-label-sm text-secondary font-bold uppercase tracking-wider">Krishi Vigyan Kendra Helpline</span>
+<span class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">1800-180-1551</span>
+<p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">
+              Instant Telugu, Hindi &amp; English agronomy consultation with field extension officers. Free call service available all days 6 AM – 9 PM.
+            </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<a class="px-5 py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-lg text-label-lg font-bold flex items-center gap-2 transition-colors" href="tel:18001801551">
+<span class="material-symbols-outlined text-[20px] text-primary">call</span>
+<span class="">Call Agronomist Desk</span>
+</a>
+<div class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-surface-container-low text-primary font-label-sm text-label-sm font-semibold">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="">4 Officers Free</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+    (function initDiseaseLibrary() {
+      const searchInput = document.getElementById('disease-search-input');
+      const clearSearchBtn = document.getElementById('clear-search-btn');
+      const cropBtns = document.querySelectorAll('.crop-filter-btn');
+      const sevBtns = document.querySelectorAll('.sev-filter-btn');
+      const cards = document.querySelectorAll('.disease-card');
+      const noResults = document.getElementById('no-results-state');
+      const resetBtn = document.getElementById('reset-filters-btn');
+
+      let currentCrop = 'all';
+      let currentSev = 'all';
+      let searchQuery = '';
+
+      function filterCards() {
+        let visibleCount = 0;
+        cards.forEach(card => {
+          const crop = card.getAttribute('data-crop');
+          const sev = card.getAttribute('data-severity');
+          const text = card.textContent.toLowerCase();
+
+          const cropMatch = (currentCrop === 'all' || crop === currentCrop);
+          const sevMatch = (currentSev === 'all' || sev === currentSev);
+          const searchMatch = !searchQuery || text.includes(searchQuery.toLowerCase());
+
+          if (cropMatch && sevMatch && searchMatch) {
+            card.style.display = 'flex';
+            visibleCount++;
+          } else {
+            card.style.display = 'none';
+          }
+        });
+
+        if (visibleCount === 0) {
+          noResults.classList.remove('hidden');
+          noResults.classList.add('flex');
+        } else {
+          noResults.classList.add('hidden');
+          noResults.classList.remove('flex');
+        }
+      }
+
+      // Crop Filter Click Handlers
+      cropBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          cropBtns.forEach(b => {
+            b.classList.remove('bg-primary', 'text-on-primary', 'font-bold', 'shadow-sm');
+            b.classList.add('bg-surface-container', 'text-on-surface-variant');
+          });
+          btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+          btn.classList.add('bg-primary', 'text-on-primary', 'font-bold', 'shadow-sm');
+          currentCrop = btn.getAttribute('data-crop');
+          filterCards();
+        });
+      });
+
+      // Severity Filter Click Handlers
+      sevBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          sevBtns.forEach(b => {
+            b.classList.remove('bg-surface-container-lowest', 'text-on-surface', 'font-bold', 'shadow-sm');
+            b.classList.add('text-on-surface-variant', 'font-medium');
+          });
+          btn.classList.remove('text-on-surface-variant', 'font-medium');
+          btn.classList.add('bg-surface-container-lowest', 'text-on-surface', 'font-bold', 'shadow-sm');
+          currentSev = btn.getAttribute('data-severity');
+          filterCards();
+        });
+      });
+
+      // Search Handler
+      searchInput.addEventListener('input', (e) => {
+        searchQuery = e.target.value.trim();
+        if (searchQuery.length > 0) {
+          clearSearchBtn.classList.remove('hidden');
+        } else {
+          clearSearchBtn.classList.add('hidden');
+        }
+        filterCards();
+      });
+
+      // Clear Search
+      clearSearchBtn.addEventListener('click', () => {
+        searchInput.value = '';
+        searchQuery = '';
+        clearSearchBtn.classList.add('hidden');
+        filterCards();
+        searchInput.focus();
+      });
+
+      // Reset All Filters
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          searchInput.value = '';
+          searchQuery = '';
+          clearSearchBtn.classList.add('hidden');
+
+          cropBtns[0].click();
+          sevBtns[0].click();
+        });
+      }
+    })();
+  </script>
+</div></main><footer class="w-full bg-[#0e3e22] text-on-primary mt-auto"><div class="w-full px-space-lg py-space-xl grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-space-xl"><div class="flex flex-col gap-space-sm"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-secondary-container text-on-secondary-container flex items-center justify-center"><span class="material-symbols-outlined text-[20px]">potted_plant</span></div><span class="font-headline-sm text-headline-sm text-white">KissanDost</span></div><p class="font-body-sm text-body-sm text-surface-container-highest/80 leading-relaxed">An AI-native agricultural intelligence platform bridging modern agronomic precision with grassroots accessibility across rural India.</p></div><div class="flex flex-col gap-space-sm"><span class="font-title-md text-title-md text-secondary-container font-semibold">Quick Links</span><ul class="flex flex-col gap-2 font-body-sm text-body-sm text-surface-container-highest/80"><li class=""><a class="hover:text-white transition-colors" data-path="overview" href="#">Agri Dashboard</a></li><li class=""><a class="hover:text-white transition-colors" data-path="market-prices" href="#">Mandi Rate Tracker</a></li><li class=""><a class="hover:text-white transition-colors" data-path="crop-doctor" href="#">AI Crop Diagnostic</a></li><li class=""><a class="hover:text-white transition-colors" data-path="weather" href="#">Micro-Climate Forecast</a></li></ul></div><div class="flex flex-col gap-space-sm"><span class="font-title-md text-title-md text-secondary-container font-semibold">Support &amp; Welfare</span><div class="flex flex-col gap-2"><span class="font-label-sm text-label-sm text-surface-container-highest/60 uppercase tracking-wide">Toll-Free Kisan Helpline</span><span class="font-title-lg text-title-lg text-white font-bold tracking-tight">1800-180-1551</span><span class="font-body-sm text-body-sm text-surface-container-highest/80">24x7 Agronomist Support (Toll-Free)</span><span class="font-body-sm text-body-sm text-surface-container-highest/80">help@kissandost.gov.in</span></div></div><div class="flex flex-col gap-space-sm"><span class="font-title-md text-title-md text-secondary-container font-semibold">Connect with Us</span><p class="font-body-sm text-body-sm text-surface-container-highest/80 leading-relaxed">Join 120,000+ progressive kisan mitra receiving daily actionable field bulletins.</p><div class="flex items-center gap-space-sm"><a aria-label="Agri Portal" class="w-9 h-9 rounded-lg bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 flex items-center justify-center text-white transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">public</span></a><a aria-label="Agronomist Chat" class="w-9 h-9 rounded-lg bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 flex items-center justify-center text-white transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">forum</span></a><a aria-label="Kisan Broadcast" class="w-9 h-9 rounded-lg bg-surface-container-lowest/10 hover:bg-surface-container-lowest/20 flex items-center justify-center text-white transition-colors" href="#"><span class="material-symbols-outlined text-[18px]">cell_tower</span></a></div></div></div><div class="w-full py-space-md px-space-lg bg-[#082816] text-surface-container-highest/70 flex flex-col sm:flex-row items-center justify-between gap-space-sm font-label-md text-label-md"><span class="">Made with ❤️ for Farmers across India</span><span class="">© 2024 KissanDost AgTech. All rights reserved.</span></div></footer></div>
+
+</body></html>

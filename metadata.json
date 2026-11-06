@@ -1,0 +1,6 @@
+{
+  "name": "KissanDost - Your Farm Companion",
+  "description": "AI-powered agricultural companion for Indian farmers with real-time mandi prices, hyper-local weather intelligence, crop diagnostics, and seasonal planning.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

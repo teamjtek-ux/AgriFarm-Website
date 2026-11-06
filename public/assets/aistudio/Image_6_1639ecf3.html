@@ -1,0 +1,732 @@
+<!DOCTYPE html><html class="scroll-smooth" lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KissanDost - Your Farm Companion | Smarter Farming for a Brighter Tomorrow</title>
+<!-- Tailwind CSS CDN with plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Configuration -->
+<script data-purpose="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#f0fdf4',
+              100: '#dcfce7',
+              200: '#bbf7d0',
+              500: '#22c55e',
+              600: '#16a34a',
+              700: '#15803d',
+              800: '#166534',
+              900: '#14532d',
+              950: '#052e16',
+            },
+            agriGreen: '#1b4d3e',
+            forestDark: '#0e382c',
+            mintLight: '#eef8f3',
+            sandBg: '#fbfcf9',
+          },
+          fontFamily: {
+            serif: ['Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
+            sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+<!-- Google Fonts for crisp typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&amp;display=swap" rel="stylesheet">
+<style data-purpose="typography">
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background-color: #fbfcf9;
+      color: #1f2937;
+    }
+    .font-heading {
+      font-family: 'Playfair Display', Georgia, serif;
+    }
+  </style>
+<style data-purpose="custom-elements">
+    /* Subtle custom wave/leaf background styling */
+    .bg-leaf-pattern {
+      background-color: #0e382c;
+      background-image: radial-gradient(#1b5e43 1px, transparent 1px), radial-gradient(#1b5e43 1px, #0e382c 1px);
+      background-size: 40px 40px;
+      background-position: 0 0, 20px 20px;
+    }
+    .soft-shadow {
+      box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.05), 0 4px 6px -2px rgba(0, 0, 0, 0.02);
+    }
+    .float-badge {
+      animation: softFloat 4s ease-in-out infinite alternate;
+    }
+    @keyframes softFloat {
+      0% { transform: translateY(0px); }
+      100% { transform: translateY(-8px); }
+    }
+  </style>
+</head>
+<body class="antialiased text-gray-800 selection:bg-brand-500 selection:text-white">
+<!-- BEGIN: MainHeader -->
+<header class="sticky top-0 z-50 bg-[#fbfcf9]/95 backdrop-blur-md border-b border-gray-100 transition-all">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+<!-- Brand Logo -->
+<a class="flex items-center gap-3 group" data-purpose="logo" href="#">
+<div class="w-10 h-10 rounded-xl bg-agriGreen flex items-center justify-center text-white shadow-sm transition-transform group-hover:scale-105">
+<!-- Leaf / Sprout Icon -->
+<svg class="w-6 h-6 text-brand-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M12 19V6m0 0l-4 4m4-4l4 4M5 19c0-4.5 3.5-8 7-8s7 3.5 7 8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path>
+</svg>
+</div>
+<div class="flex flex-col">
+<span class="text-2xl font-extrabold tracking-tight text-agriGreen leading-none font-heading">Kissan<span class="text-brand-600">Dost</span></span>
+<span class="text-[9px] tracking-[0.2em] font-bold text-gray-500 uppercase mt-0.5">Your Farm Companion</span>
+</div>
+</a>
+<!-- Desktop Navigation Links -->
+<nav class="hidden md:flex items-center space-x-8 text-sm font-semibold text-gray-600">
+<a class="text-agriGreen relative py-2 after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-full after:h-0.5 after:bg-brand-600" href="#home">Home</a>
+<a class="hover:text-agriGreen transition-colors py-2" href="#features">Features</a>
+<a class="hover:text-agriGreen transition-colors py-2" href="#how-it-works">How It Works</a>
+<a class="hover:text-agriGreen transition-colors py-2" href="#impact">Impact</a>
+<a class="hover:text-agriGreen transition-colors py-2" href="#stories">Stories</a>
+</nav>
+<!-- Header Action CTA Buttons -->
+<div class="flex items-center space-x-4">
+<button class="hidden sm:inline-flex text-sm font-bold text-gray-700 hover:text-agriGreen px-4 py-2 rounded-lg border border-gray-200 hover:border-gray-300 transition-all bg-white shadow-sm" type="button">
+          Login
+        </button>
+<a class="inline-flex items-center justify-center text-sm font-bold text-white bg-agriGreen hover:bg-forestDark px-5 py-2.5 rounded-lg shadow-sm hover:shadow transition-all" href="#cta">
+          Get Started
+        </a>
+</div>
+</div>
+</header>
+<!-- END: MainHeader -->
+<!-- BEGIN: HeroSection -->
+<section class="relative pt-8 pb-16 lg:pt-16 lg:pb-24 overflow-hidden" data-purpose="hero-section" id="home">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
+<!-- Hero Text Content -->
+<div class="lg:col-span-6 space-y-6 text-left">
+<!-- Badge -->
+<div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/60 text-agriGreen text-xs font-semibold tracking-wide">
+<span class="inline-block w-2 h-2 rounded-full bg-brand-500 animate-pulse"></span>
+<span class="">AI-Powered • Farmer Focused • Sustainable</span>
+</div>
+<!-- Main Heading -->
+<h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold font-heading text-agriGreen tracking-tight leading-[1.15]">
+            Smarter Farming for a Brighter Tomorrow
+          </h1>
+<!-- Subtitle -->
+<p class="text-base sm:text-lg text-gray-600 leading-relaxed max-w-xl">
+            KissanDost is your all-in-one AI farming companion, helping you grow better, reduce risks and increase profits — with personalized guidance, real-time insights and trusted market information.
+          </p>
+<!-- Primary Hero Actions -->
+<div class="flex flex-wrap items-center gap-4 pt-2">
+<a class="inline-flex items-center gap-2 bg-agriGreen hover:bg-forestDark text-white text-base font-semibold px-7 py-3.5 rounded-lg shadow-md hover:shadow-lg transition duration-200 group" href="#cta">
+<span class="">Start for Free</span>
+<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+<path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</a>
+<button class="inline-flex items-center gap-2 bg-white hover:bg-gray-50 text-agriGreen border border-gray-300 font-semibold px-6 py-3.5 rounded-lg shadow-sm transition" onclick="document.getElementById('demo-modal').classList.remove('hidden')">
+<svg class="w-5 h-5 text-brand-600" fill="currentColor" viewBox="0 0 20 20">
+<path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" fill-rule="evenodd"></path>
+</svg>
+<span class="">Watch Demo</span>
+</button>
+</div>
+<!-- Social Proof Avatar Stack -->
+<div class="pt-4 flex flex-col sm:flex-row sm:items-center gap-3">
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded-full border-2 border-white bg-amber-100 flex items-center justify-center font-bold text-xs text-amber-800 shadow-sm">RK</div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-emerald-100 flex items-center justify-center font-bold text-xs text-emerald-800 shadow-sm">SD</div>
+<div class="w-10 h-10 rounded-full border-2 border-white bg-blue-100 flex items-center justify-center font-bold text-xs text-blue-800 shadow-sm">BN</div>
+</div>
+<div class="text-xs sm:text-sm text-gray-600">
+<div class="flex items-center gap-1 font-semibold text-gray-800">
+<div class="text-amber-400 flex">★★★★★</div>
+<span class="text-gray-900 font-bold ml-1">4.8/5</span>
+</div>
+<p class="text-gray-500 font-medium">Trusted by <span class="text-agriGreen font-bold">50,000+</span> farmers across India</p>
+</div>
+</div>
+</div>
+<!-- Hero Visual Area with Badges & Graphic -->
+<div class="lg:col-span-6 relative flex justify-center lg:justify-end" data-purpose="hero-graphics">
+<!-- Background glow circle -->
+<div class="absolute w-80 h-80 sm:w-96 sm:h-96 bg-emerald-200/40 rounded-full filter blur-3xl -z-10 top-1/2 -translate-y-1/2"></div>
+<div class="relative w-full max-w-md lg:max-w-lg">
+<!-- Farmer Illustration / Hero Portrait Card -->
+<div class="relative rounded-3xl overflow-hidden bg-gradient-to-b from-brand-100/60 to-emerald-50 border-4 border-white shadow-xl p-3">
+<div class="relative w-full h-[430px] rounded-2xl overflow-hidden bg-emerald-900 flex flex-col justify-end">
+<!-- Farmer Image representation -->
+<div class="absolute inset-0"><img src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvs_Ck9apokSW9sH-_cTAw2quhxPj_bF6BUelLIGzTC_REowwXIGHAGqt4kk-ALjCatxpMKbbkvO9mAQ3_mFg3hl1GyOQKqLz8JZRYF4dBZ8hM7qak2Gy-8WZ9m1vh9ES_LPbNhddNs81882GUzIUtRMvRaguwH6wg2ZuiNIb7EjeNE01VqXSdVidfNq2ojdF25G81GfAfxBuBpEn796hWQt4zl0sGaUr3kLI7betI_XAAOymU8BtA" alt="Indian farmer checking crop diagnostics on smartphone" class="w-full h-full object-cover"><div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div></div>
+<!-- Subtle photo caption overlay -->
+<div class="relative p-5 text-white">
+<p class="text-sm font-semibold text-brand-200">Real-Time Advisory</p>
+<p class="text-xs text-gray-200">Ramesh Kumar checking live crop diagnostic alerts</p>
+</div>
+</div>
+</div>
+<!-- Floating Pill 1: Crop Health (Top Left) -->
+<div class="absolute -top-4 -left-6 sm:-left-10 bg-white/95 backdrop-blur-md p-3.5 rounded-2xl shadow-xl border border-gray-100 flex items-start gap-3 max-w-[240px] float-badge">
+<div class="w-8 h-8 rounded-lg bg-emerald-100 flex items-center justify-center flex-shrink-0 text-brand-700">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div>
+<p class="text-xs font-bold text-gray-800 leading-tight">Crop health looks good!</p>
+<p class="text-[11px] text-gray-500 mt-0.5">Keep monitoring for pest activity.</p>
+</div>
+</div>
+<!-- Floating Pill 2: Weather Alerts (Top Right) -->
+<div class="absolute top-8 -right-4 sm:-right-6 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-gray-100 flex items-center gap-2 float-badge" style="animation-delay: 1.2s;">
+<span class="w-7 h-7 rounded-full bg-amber-100 flex items-center justify-center text-amber-600 text-xs">☀️</span>
+<span class="text-xs font-bold text-gray-800">Weather Alerts</span>
+</div>
+<!-- Floating Pill 3: Market Prices (Mid Right) -->
+<div class="absolute top-28 -right-6 sm:-right-8 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-gray-100 flex items-center gap-2 float-badge" style="animation-delay: 2.1s;">
+<span class="w-7 h-7 rounded-full bg-emerald-100 flex items-center justify-center text-brand-700 text-xs font-bold">📈</span>
+<span class="text-xs font-bold text-gray-800">Market Prices</span>
+</div>
+<!-- Floating Pill 4: Expert Advice (Lower Right) -->
+<div class="absolute top-48 -right-4 sm:-right-6 bg-white/95 backdrop-blur-md px-3.5 py-2 rounded-xl shadow-lg border border-gray-100 flex items-center gap-2 float-badge" style="animation-delay: 2.9s;">
+<span class="w-7 h-7 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 text-xs">👨‍🌾</span>
+<span class="text-xs font-bold text-gray-800">Expert Advice</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: HeroSection -->
+<!-- BEGIN: FeatureGrid -->
+<section class="py-16 lg:py-24 bg-white" data-purpose="features-section" id="features">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Header -->
+<div class="text-center max-w-3xl mx-auto mb-16">
+<h2 class="text-3xl sm:text-4xl font-bold font-heading text-agriGreen tracking-tight">
+          Everything You Need for Better Farming
+        </h2>
+<p class="mt-3 text-base text-gray-600">
+          From soil to market — KissanDost gives you the right information, at the right time, in the right way.
+        </p>
+</div>
+<!-- 8 Feature Cards Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Card 1: Crop Doctor -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Crop Doctor</h3>
+<p class="text-sm text-gray-600 leading-normal">Identify diseases, get treatment advice with AI precision in seconds.</p>
+</div>
+<!-- Card 2: Weather -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Weather</h3>
+<p class="text-sm text-gray-600 leading-normal">Real-time weather, severe alerts, and calculated crop impact forecasts.</p>
+</div>
+<!-- Card 3: Market -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Market</h3>
+<p class="text-sm text-gray-600 leading-normal">Live mandi prices, seasonal price trends, and demand predictions.</p>
+</div>
+<!-- Card 4: Store -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Store</h3>
+<p class="text-sm text-gray-600 leading-normal">Buy quality verified inputs, seeds, fertilizers and equipment at best rates.</p>
+</div>
+<!-- Card 5: Community -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Community</h3>
+<p class="text-sm text-gray-600 leading-normal">Connect with thousands of fellow farmers, local agronomists, and peers.</p>
+</div>
+<!-- Card 6: AI Assistant -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">AI Assistant</h3>
+<p class="text-sm text-gray-600 leading-normal">Ask voice or text queries in your mother tongue and get instant solutions.</p>
+</div>
+<!-- Card 7: Crop Calendar -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Crop Calendar</h3>
+<p class="text-sm text-gray-600 leading-normal">Personalized daily tasks, irrigation cycles, and fertilizer timelines.</p>
+</div>
+<!-- Card 8: Knowledge Center -->
+<div class="p-6 rounded-2xl border border-gray-100 bg-[#fcfdfa] hover:border-emerald-200 hover:shadow-lg transition-all group">
+<div class="w-12 h-12 rounded-xl bg-emerald-50 text-agriGreen flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<h3 class="text-lg font-bold text-gray-900 mb-1.5">Knowledge Center</h3>
+<p class="text-sm text-gray-600 leading-normal">Learn through verified regional articles, video tutorials, and guides.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- END: FeatureGrid -->
+<!-- BEGIN: AppShowcaseSection -->
+<section class="py-16 lg:py-24 bg-[#f8faf7] border-y border-gray-100 overflow-hidden" data-purpose="app-showcase" id="how-it-works">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Left Feature Checklist -->
+<div class="lg:col-span-5 space-y-6">
+<div class="inline-block text-xs font-extrabold uppercase tracking-widest text-brand-700 bg-brand-50 px-3 py-1 rounded-md">
+            Powered by Technology
+          </div>
+<h2 class="text-3xl sm:text-4xl font-bold font-heading text-agriGreen leading-tight">
+            AI + Data + Farmer Knowledge
+          </h2>
+<p class="text-gray-600 leading-relaxed text-sm sm:text-base">
+            KissanDost combines the power of artificial intelligence, real-time data and expert knowledge to help you make smarter decisions, every step of the way.
+          </p>
+<!-- Checkpoints list -->
+<ul class="space-y-3.5 pt-2">
+<li class="flex items-center gap-3 text-gray-700 font-medium">
+<span class="w-5 h-5 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center flex-shrink-0">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</span>
+<span class="">Crop &amp; soil analysis with AI</span>
+</li>
+<li class="flex items-center gap-3 text-gray-700 font-medium">
+<span class="w-5 h-5 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center flex-shrink-0">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</span>
+<span class="">Hyperlocal weather forecasts</span>
+</li>
+<li class="flex items-center gap-3 text-gray-700 font-medium">
+<span class="w-5 h-5 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center flex-shrink-0">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</span>
+<span class="">Market price predictions</span>
+</li>
+<li class="flex items-center gap-3 text-gray-700 font-medium">
+<span class="w-5 h-5 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center flex-shrink-0">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</span>
+<span class="">Personalized crop recommendations</span>
+</li>
+<li class="flex items-center gap-3 text-gray-700 font-medium">
+<span class="w-5 h-5 rounded-full bg-brand-100 text-brand-700 flex items-center justify-center flex-shrink-0">
+<svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5"></path></svg>
+</span>
+<span class="">Direct expert support</span>
+</li>
+</ul>
+<div class="pt-4">
+<a class="inline-flex items-center gap-2 bg-agriGreen hover:bg-forestDark text-white text-sm font-semibold px-6 py-3 rounded-lg shadow transition group" href="#features">
+<span class="">Explore All Features</span>
+<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</a>
+</div>
+</div>
+<!-- Right Realistic Mobile Phone Mockup -->
+<div class="lg:col-span-7 flex items-center justify-center relative">
+<!-- Outer Phone Frame -->
+<div class="relative w-[300px] sm:w-[320px] rounded-[42px] p-3 bg-gray-900 shadow-2xl ring-1 ring-gray-800">
+<!-- Dynamic Island / Speaker Notch -->
+<div class="absolute top-5 left-1/2 -translate-x-1/2 w-28 h-5 bg-black rounded-full z-30"></div>
+<!-- Phone Screen -->
+<div class="w-full bg-[#f8faf8] rounded-[34px] overflow-hidden p-4 pt-8 text-left border border-gray-200">
+<!-- Screen Header -->
+<div class="flex items-center justify-between border-b border-gray-100 pb-3 mb-3">
+<div class="flex items-center gap-1.5">
+<div class="w-6 h-6 rounded-md bg-agriGreen flex items-center justify-center text-white text-[10px] font-bold">K</div>
+<span class="text-xs font-bold text-gray-900">KissanDost</span>
+</div>
+<div class="text-xs text-gray-500">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+</div>
+<!-- Greeting -->
+<div class="mb-3">
+<h4 class="text-xs font-bold text-gray-900">Good morning, Ramesh</h4>
+<p class="text-[10px] text-gray-500">Here's what your farm needs today.</p>
+</div>
+<!-- Weather Widget -->
+<div class="bg-gradient-to-r from-amber-50 to-orange-50 border border-amber-100/80 rounded-xl p-2.5 mb-3 flex items-center justify-between">
+<div>
+<div class="flex items-baseline gap-1">
+<span class="text-lg font-bold text-gray-900">28°</span>
+<span class="text-[10px] font-semibold text-gray-600">Partly cloudy</span>
+</div>
+<p class="text-[9px] text-gray-500">Karnal, Haryana</p>
+</div>
+<div class="text-2xl">☀️</div>
+</div>
+<!-- Crop Health Card -->
+<div class="bg-white rounded-xl p-2.5 border border-gray-100 shadow-sm mb-3">
+<div class="flex items-center gap-2 mb-1.5">
+<div class="w-7 h-7 rounded-lg bg-emerald-100 flex items-center justify-center text-xs">🌱</div>
+<div>
+<p class="text-[11px] font-bold text-gray-800">Crop Health</p>
+<p class="text-[9px] text-gray-400">Paddy • 2 weeks</p>
+</div>
+</div>
+<div class="w-full bg-emerald-100 rounded-full h-1.5 mt-2">
+<div class="bg-brand-600 h-1.5 rounded-full" style="width: 88%"></div>
+</div>
+<div class="flex justify-between items-center mt-1">
+<span class="text-[9px] font-bold text-brand-700">Looks healthy</span>
+<span class="text-[9px] text-gray-400">88%</span>
+</div>
+</div>
+<!-- Market Price Widget -->
+<div class="bg-white rounded-xl p-2.5 border border-gray-100 shadow-sm">
+<div class="flex justify-between items-center mb-1">
+<span class="text-[10px] font-bold text-gray-700">Market Price</span>
+<span class="text-[9px] text-emerald-600 font-bold flex items-center gap-0.5">
+<svg class="w-2.5 h-2.5" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M12 7a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0V8.414l-4.293 4.293a1 1 0 01-1.414 0L8 10.414l-4.293 4.293a1 1 0 01-1.414-1.414l5-5a1 1 0 011.414 0L11 9.586 14.586 6H12z" fill-rule="evenodd"></path></svg>
+                    +3.4%
+                  </span>
+</div>
+<div class="flex items-baseline justify-between">
+<div>
+<p class="text-[9px] text-gray-500">Paddy (MSP)</p>
+<p class="text-sm font-extrabold text-agriGreen">₹ 2,350 <span class="text-[8px] font-normal text-gray-500">/quintal</span></p>
+</div>
+</div>
+</div>
+<!-- Phone Bottom Nav Bar -->
+<div class="pt-3 mt-3 border-t border-gray-100 flex justify-around text-gray-400 text-[9px] font-medium">
+<span class="text-brand-700 font-bold">Home</span>
+<span class="">Crops</span>
+<span class="">Market</span>
+<span class="">More</span>
+</div>
+</div>
+</div>
+<!-- Floating Notification 1: Disease Detected -->
+<div class="hidden sm:flex absolute -right-4 top-10 bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-gray-100 items-center gap-3 w-64">
+<div class="w-9 h-9 rounded-xl bg-red-100 text-red-600 flex items-center justify-center flex-shrink-0 text-base">⚠️</div>
+<div>
+<p class="text-xs font-bold text-gray-800">Disease Detected</p>
+<p class="text-[10px] text-gray-500">Brown spot (Paddy)</p>
+<a class="text-[10px] font-bold text-brand-600 hover:underline" href="#">Treatment suggested →</a>
+</div>
+</div>
+<!-- Floating Notification 2: Market Alert -->
+<div class="hidden sm:flex absolute -right-6 top-48 bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-gray-100 items-center gap-3 w-64">
+<div class="w-9 h-9 rounded-xl bg-emerald-100 text-brand-600 flex items-center justify-center flex-shrink-0 text-base">📈</div>
+<div>
+<p class="text-xs font-bold text-gray-800">Market Alert</p>
+<p class="text-[10px] text-gray-500">Paddy price increased by 3.4% today</p>
+</div>
+</div>
+<!-- Floating Notification 3: Weather Alert -->
+<div class="hidden sm:flex absolute -right-2 bottom-8 bg-white/95 backdrop-blur-md p-3 rounded-2xl shadow-xl border border-gray-100 items-center gap-3 w-64">
+<div class="w-9 h-9 rounded-xl bg-blue-100 text-blue-600 flex items-center justify-center flex-shrink-0 text-base">🌧️</div>
+<div>
+<p class="text-xs font-bold text-gray-800">Weather Alert</p>
+<p class="text-[10px] text-gray-500">Heavy rain expected in 2 days</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: AppShowcaseSection -->
+<!-- BEGIN: ImpactSection -->
+<section class="py-16 lg:py-24 bg-white" data-purpose="impact-metrics" id="impact">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Title -->
+<div class="text-left mb-12">
+<span class="text-xs font-bold text-brand-700 tracking-wider uppercase">Our Impact</span>
+<h2 class="text-3xl sm:text-4xl font-bold font-heading text-agriGreen mt-1">Real Farmers. Real Results.</h2>
+<p class="text-gray-600 mt-2">Thousands of farmers are already growing better with KissanDost.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- 4 Metric Cards (8 cols on desktop) -->
+<div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+<!-- Metric 1 -->
+<div class="bg-[#f9faf7] border border-gray-100 p-6 rounded-2xl">
+<div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-agriGreen mb-4">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="text-3xl font-extrabold text-agriGreen font-heading">50,000+</div>
+<p class="text-sm font-semibold text-gray-700 mt-1">Registered Farmers</p>
+</div>
+<!-- Metric 2 -->
+<div class="bg-[#f9faf7] border border-gray-100 p-6 rounded-2xl">
+<div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-agriGreen mb-4">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="text-3xl font-extrabold text-agriGreen font-heading">32,000+</div>
+<p class="text-sm font-semibold text-gray-700 mt-1">Active Farms</p>
+</div>
+<!-- Metric 3 -->
+<div class="bg-[#f9faf7] border border-gray-100 p-6 rounded-2xl">
+<div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-agriGreen mb-4">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="text-3xl font-extrabold text-agriGreen font-heading">1,20,000+</div>
+<p class="text-sm font-semibold text-gray-700 mt-1">Crops Monitored</p>
+</div>
+<!-- Metric 4 -->
+<div class="bg-[#f9faf7] border border-gray-100 p-6 rounded-2xl">
+<div class="w-10 h-10 rounded-xl bg-emerald-100 flex items-center justify-center text-agriGreen mb-4">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<div class="text-3xl font-extrabold text-agriGreen font-heading">92%</div>
+<p class="text-sm font-semibold text-gray-700 mt-1">Farmer Satisfaction</p>
+</div>
+</div>
+<!-- Farmer Harvest Visual -->
+<div class="lg:col-span-5 relative">
+<div class="rounded-3xl overflow-hidden shadow-lg border-2 border-emerald-100 relative group">
+<img alt="Smiling farmer with harvest" class="w-full h-[360px] object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGXGr9QrKRC7hz9M3v8UQ7YPBO3xVVmdqH20cWafWLuF9iqLHa24uYmrTssCxJhv0JzNk4uaetWf2boMPxVhLw5qkvEBwrgj_4IW53zzvc3tRLEVVL9mvQ0Ae5v_8XzViEm707bk6bEI5WG6lpvC4bB0vxFcvx_cRJqThHNLeV5FGIK75MZqF5Rksq7S3BGe7fRitGSMDeg6j4S955-GoYSBrenHQnwFQdEzxUmVMoqdnKX-0JunLU">
+<div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+<div class="absolute bottom-6 left-6 right-6 text-white">
+<p class="text-lg font-bold">Empowering Rural Livelihoods</p>
+<p class="text-xs text-gray-200 mt-1">Increasing farm revenue by up to 28% through timely market linkages.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: ImpactSection -->
+<!-- BEGIN: FarmerStoriesSection -->
+<section class="py-16 lg:py-24 bg-[#fbfcf9]" data-purpose="testimonials" id="stories">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<!-- Section Header -->
+<div class="text-left mb-14">
+<span class="text-xs font-bold text-brand-700 tracking-wider uppercase">Farmer Stories</span>
+<h2 class="text-3xl sm:text-4xl font-bold font-heading text-agriGreen mt-1">What Farmers Say</h2>
+<p class="text-gray-600 mt-2">Real stories. Real impact. From better yields to higher profits, KissanDost is making a difference.</p>
+</div>
+<!-- 3 Testimonial Cards -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Story 1 -->
+<div class="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="text-brand-500 text-3xl font-serif leading-none mb-3">“</div>
+<p class="text-gray-700 text-sm leading-relaxed mb-6">
+              KissanDost helped me identify a pest problem early. I saved my crop and got a better yield this season.
+            </p>
+</div>
+<div class="flex items-center gap-3 pt-4 border-t border-gray-50">
+<div class="w-11 h-11 rounded-full bg-emerald-100 flex items-center justify-center font-bold text-emerald-800 text-sm">
+              RK
+            </div>
+<div>
+<h4 class="text-sm font-bold text-gray-900">Ramesh Kumar</h4>
+<p class="text-xs text-gray-500">Paddy Farmer, Gopal</p>
+</div>
+</div>
+</div>
+<!-- Story 2 -->
+<div class="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="text-brand-500 text-3xl font-serif leading-none mb-3">“</div>
+<p class="text-gray-700 text-sm leading-relaxed mb-6">
+              The market price alerts are a game changer. I get better rates for my produce now.
+            </p>
+</div>
+<div class="flex items-center gap-3 pt-4 border-t border-gray-50">
+<div class="w-11 h-11 rounded-full bg-amber-100 flex items-center justify-center font-bold text-amber-800 text-sm">
+              SD
+            </div>
+<div>
+<h4 class="text-sm font-bold text-gray-900">Sushila Devi</h4>
+<p class="text-xs text-gray-500">Chilli Farmer, Guntur</p>
+</div>
+</div>
+</div>
+<!-- Story 3 -->
+<div class="bg-white p-7 rounded-2xl border border-gray-100 shadow-sm hover:shadow-md transition-all flex flex-col justify-between">
+<div>
+<div class="text-brand-500 text-3xl font-serif leading-none mb-3">“</div>
+<p class="text-gray-700 text-sm leading-relaxed mb-6">
+              The crop calendar keeps me on track. I never miss important tasks now.
+            </p>
+</div>
+<div class="flex items-center gap-3 pt-4 border-t border-gray-50">
+<div class="w-11 h-11 rounded-full bg-blue-100 flex items-center justify-center font-bold text-blue-800 text-sm">
+              BN
+            </div>
+<div>
+<h4 class="text-sm font-bold text-gray-900">Balu Naik</h4>
+<p class="text-xs text-gray-500">Groundnut Farmer, Anantapur</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: FarmerStoriesSection -->
+<!-- BEGIN: BottomCtaBanner -->
+<section class="py-12 lg:py-16" data-purpose="cta-banner" id="cta">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="relative bg-agriGreen rounded-3xl p-8 sm:p-12 lg:p-16 overflow-hidden shadow-2xl">
+<!-- Decorative Background Pattern -->
+<div class="absolute inset-0 opacity-10 bg-leaf-pattern pointer-events-none"></div>
+<div class="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+<!-- Banner Text Content -->
+<div class="lg:col-span-8 space-y-4 text-left">
+<span class="text-xs font-bold text-brand-300 tracking-widest uppercase">Join The KissanDost Community</span>
+<h2 class="text-3xl sm:text-4xl lg:text-5xl font-bold font-heading text-white leading-tight">
+              Ready to grow smarter?
+            </h2>
+<p class="text-emerald-100 text-sm sm:text-base max-w-xl">
+              Get personalized advice, real-time insights and expert support — all in one place.
+            </p>
+<div class="pt-3">
+<a class="inline-flex items-center gap-2 bg-white hover:bg-gray-100 text-agriGreen font-bold text-sm sm:text-base px-7 py-3.5 rounded-xl shadow-lg transition duration-200 group" href="#">
+<span class="">Get Started Free</span>
+<svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</a>
+</div>
+</div>
+<!-- Banner Highlights / Checkmarks -->
+<div class="lg:col-span-4 space-y-3 lg:border-l lg:border-emerald-700/60 lg:pl-8 text-white">
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5 text-brand-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg>
+<span class="text-sm font-medium">No credit card required</span>
+</div>
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5 text-brand-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg>
+<span class="text-sm font-medium">Free for small farmers</span>
+</div>
+<div class="flex items-center gap-3">
+<svg class="w-5 h-5 text-brand-400 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path clip-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" fill-rule="evenodd"></path></svg>
+<span class="text-sm font-medium">Easy to use</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- END: BottomCtaBanner -->
+<!-- BEGIN: MainFooter -->
+<footer class="bg-white border-t border-gray-200 pt-16 pb-8" data-purpose="footer">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 pb-12">
+<!-- Column 1: Brand Info -->
+<div class="lg:col-span-2 space-y-4">
+<div class="flex items-center gap-3">
+<div class="w-9 h-9 rounded-xl bg-agriGreen flex items-center justify-center text-brand-500 shadow-sm">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 19V6m0 0l-4 4m4-4l4 4M5 19c0-4.5 3.5-8 7-8s7 3.5 7 8" stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2"></path></svg>
+</div>
+<div>
+<span class="text-2xl font-extrabold tracking-tight text-agriGreen font-heading">Kissan<span class="text-brand-600">Dost</span></span>
+<p class="text-[9px] tracking-widest font-bold text-gray-500 uppercase">Your Farm Companion</p>
+</div>
+</div>
+<p class="text-gray-500 text-sm max-w-sm leading-relaxed">
+            Empowering millions of farmers with artificial intelligence, localized agronomy data, and sustainable agricultural practices.
+          </p>
+</div>
+<!-- Column 2: Quick Links -->
+<div>
+<h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">Quick Links</h4>
+<ul class="space-y-2.5 text-sm text-gray-600">
+<li class=""><a class="hover:text-agriGreen transition" href="#home">Home</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#features">Features</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#how-it-works">How It Works</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#stories">Pricing</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#impact">About</a></li>
+</ul>
+</div>
+<!-- Column 3: Support -->
+<div>
+<h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">Support</h4>
+<ul class="space-y-2.5 text-sm text-gray-600">
+<li class=""><a class="hover:text-agriGreen transition" href="#">Help Center</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#">Contact Us</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#">Privacy Policy</a></li>
+<li class=""><a class="hover:text-agriGreen transition" href="#">Terms of Service</a></li>
+</ul>
+</div>
+<!-- Column 4: Follow Us & Tagline -->
+<div>
+<h4 class="text-xs font-bold text-gray-900 uppercase tracking-wider mb-4">Follow Us</h4>
+<div class="flex items-center space-x-3 mb-6 text-gray-600">
+<a class="w-8 h-8 rounded-full bg-gray-100 hover:bg-emerald-100 hover:text-agriGreen flex items-center justify-center transition" href="#">
+<span class="text-xs font-bold">f</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-gray-100 hover:bg-emerald-100 hover:text-agriGreen flex items-center justify-center transition" href="#">
+<span class="text-xs font-bold">yt</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-gray-100 hover:bg-emerald-100 hover:text-agriGreen flex items-center justify-center transition" href="#">
+<span class="text-xs font-bold">x</span>
+</a>
+<a class="w-8 h-8 rounded-full bg-gray-100 hover:bg-emerald-100 hover:text-agriGreen flex items-center justify-center transition" href="#">
+<span class="text-xs font-bold">in</span>
+</a>
+</div>
+<!-- Slogan Quote -->
+<div class="border-t border-gray-100 pt-4">
+<div class="flex items-center gap-2 text-agriGreen mb-1">
+<svg class="w-4 h-4 text-brand-500" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm-1 12H7v-2h2v2zm0-4H7V6h2v4z"></path></svg>
+<span class="font-serif italic font-bold text-sm">Better Farmers.</span>
+</div>
+<p class="font-serif italic text-xs text-gray-500">A Greener Tomorrow.</p>
+</div>
+</div>
+</div>
+<!-- Copyright Bar -->
+<div class="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-400">
+<p class="">© 2026 KissanDost. All rights reserved.</p>
+<p class="mt-2 sm:mt-0 flex items-center gap-1">
+          Made with <span class="text-red-500">❤</span> for Indian Farmers
+        </p>
+</div>
+</div>
+</footer>
+<!-- END: MainFooter -->
+<!-- BEGIN: InteractiveModal -->
+<!-- Video Demo Modal toggled via Watch Demo button -->
+<div class="hidden fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-center justify-center p-4" data-purpose="demo-video-modal" id="demo-modal">
+<div class="bg-white rounded-2xl max-w-xl w-full p-6 shadow-2xl relative">
+<button class="absolute top-4 right-4 text-gray-400 hover:text-gray-700 w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center" onclick="document.getElementById('demo-modal').classList.add('hidden')">
+        ✕
+      </button>
+<h3 class="text-lg font-bold text-agriGreen mb-2">KissanDost App Overview</h3>
+<p class="text-xs text-gray-500 mb-4">Discover how Indian farmers are diagnosing diseases and securing higher prices in minutes.</p>
+<div class="aspect-video bg-gray-900 rounded-xl flex items-center justify-center text-white text-center p-6">
+<div>
+<div class="w-12 h-12 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-2 text-white text-xl">▶</div>
+<p class="text-xs font-semibold text-gray-300">Interactive walkthrough ready on mobile device</p>
+</div>
+</div>
+<div class="mt-4 flex justify-end">
+<button class="px-4 py-2 bg-agriGreen text-white text-xs font-semibold rounded-lg" onclick="document.getElementById('demo-modal').classList.add('hidden')">
+          Close Demo
+        </button>
+</div>
+</div>
+</div>
+<!-- END: InteractiveModal -->
+<script data-purpose="interactivity">
+    // Optional smooth closing on escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        const modal = document.getElementById('demo-modal');
+        if (modal && !modal.classList.contains('hidden')) {
+          modal.classList.add('hidden');
+        }
+      }
+    });
+  </script>
+</body></html>

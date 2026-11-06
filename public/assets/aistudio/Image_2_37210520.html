@@ -1,0 +1,633 @@
+<!DOCTYPE html><html lang="en" style=""><head></head><body class="min-h-screen flex flex-col font-sans selection:bg-brand-500 selection:text-white"><svg class="inline-defs-container" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"></svg>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>KissanDost - Your Farm Companion</title>
+<!-- Tailwind CSS v3 with Plugins -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Google Fonts: Inter & Newsreader / Playfair for serif typography -->
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Playfair+Display:ital,wght@0,600;0,700;1,600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<!-- Tailwind Configuration -->
+<script id="tailwind-config">
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'Georgia', 'serif'],
+          },
+          colors: {
+            brand: {
+              50: '#F4F9F4',
+              100: '#E7F2E8',
+              200: '#CEE5D1',
+              500: '#2F855A',
+              700: '#1B4D3E',
+              800: '#144134',
+              900: '#0D3328',
+              forest: '#113E2E',
+            },
+            sand: {
+              50: '#FAF8F2',
+              100: '#F5F2EA',
+              200: '#EBE5D8',
+            },
+            harvest: {
+              amber: '#F6C343',
+              darkamber: '#DF9B12'
+            }
+          }
+        }
+      }
+    }
+  </script>
+<!-- Custom Styles for refined visuals -->
+<style data-purpose="base-styling">
+    body {
+      background-color: #F3F6F1;
+      color: #1A2821;
+      -webkit-font-smoothing: antialiased;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 4px;
+      height: 4px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background: #D2DBCF;
+      border-radius: 9999px;
+    }
+  </style>
+<meta content="web_dashboard" name="shell-type">
+
+<!-- BEGIN: TopHeader -->
+<header class="w-full bg-[#F3F6F1] border-b border-[#E1E8DE] sticky top-0 z-30 px-6 lg:px-12 py-3.5 transition-all">
+<div class="max-w-[1720px] mx-auto flex items-center justify-between gap-4"><div class="flex items-center gap-3"><div class="w-10 h-10 rounded-xl bg-[#113E2E] flex items-center justify-center text-white shadow-sm"><span class="material-symbols-outlined text-[24px] text-[#E5B54F]">agriculture</span></div><div><span class="text-xl font-bold font-serif text-[#113E2E] tracking-tight block leading-tight">KissanDost</span><span class="text-[11px] font-sans font-medium text-[#467A59] tracking-wider uppercase block">Your Farm Companion</span></div></div><div class="flex items-center gap-4"><div class="flex items-center gap-1.5 px-3 py-1.5 bg-[#f0f7f2] border border-[#d5e7db] rounded-full text-xs font-medium text-[#1b3d2b] cursor-pointer" id="lang-btn"><span class="">EN</span><span class="material-symbols-outlined text-sm">expand_more</span></div><button class="relative p-2 text-[#467A59] hover:text-[#113E2E] hover:bg-[#eaf4ed] rounded-full transition-colors"><span class="material-symbols-outlined text-xl">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 bg-[#d9383a] rounded-full"></span></button><div class="flex items-center gap-2.5 pl-2 border-l border-[#d5e7db]"><img src="https://lh3.googleusercontent.com/aida/AEtjO1VdVEXnjNX-bM_Pdw5ixy7WUi5m5NKSnaReSf0GEYSyJ_9VwctlPQ6RE_DC2WkEXZ_gbQ_Z84ZLpkwJ4d6f01z7s9lSbu8WKZMr_kuKt-Qbcu8A9BE8zDQaDAVpsvY_t_l8gk_lRz7Q_Dxwu51DDj78Yl38SU_dHO5ZmuViPmPAWTP4lxRN1PnDj4Q6HW5TyLp4QAp2yhlUCiy3oeQoQxWuu4E7lZdSQMdUN4qfDuY2T_KNQ7u9IfhLLYA" alt="Gopal Rao" class="w-9 h-9 rounded-full object-cover ring-2 ring-[#228B22]/30"><div class="text-left hidden sm:block"><div class="text-sm font-semibold text-[#113E2E] leading-tight">Gopal Rao</div><div class="text-[11px] text-[#557b64]">Farmer account</div></div><span class="material-symbols-outlined text-sm text-[#557b64]">expand_more</span></div></div></div>
+</header>
+<!-- END: TopHeader -->
+<!-- BEGIN: MainDashboardLayout -->
+<div class="flex-1 max-w-[1720px] w-full mx-auto px-6 lg:px-12 py-8 flex flex-col md:flex-row gap-8 lg:gap-12">
+<!-- BEGIN: LeftSidebar -->
+<aside aria-label="Sidebar navigation" class="w-full md:w-56 lg:w-64 shrink-0 flex flex-col justify-between"><div class="sticky top-24 space-y-6"><div><span class="text-[10px] font-bold tracking-wider text-slate-400 uppercase px-3 block mb-2">Workspace</span><nav class="space-y-1"><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all" href="{{DATA:SCREEN:SCREEN_27}}"><span class="material-symbols-outlined text-[18px] text-slate-400">grid_view</span><span class="">Overview</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all" href="{{DATA:SCREEN:SCREEN_12}}"><span class="material-symbols-outlined text-[18px] text-slate-400">spa</span><span class="">My crops</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all cursor-pointer" href="{{DATA:SCREEN:SCREEN_4}}"><span class="material-symbols-outlined text-[18px] text-slate-400">calendar_today</span><span class="">Crop Calendar</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all cursor-pointer" href="{{DATA:SCREEN:SCREEN_2}}"><span class="material-symbols-outlined text-[18px] text-slate-400">menu_book</span><span class="">Diseases Library</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl bg-[#175638] text-white text-xs font-semibold shadow-sm transition-all" href="#"><span class="material-symbols-outlined text-[18px] text-emerald-300">trending_up</span><span class="">Market prices</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all" href="#"><span class="material-symbols-outlined text-[18px] text-slate-400">health_and_safety</span><span class="">Crop Doctor</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all" href="#"><span class="material-symbols-outlined text-[18px] text-slate-400">storefront</span><span class="">Farm store</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all" href="#"><span class="material-symbols-outlined text-[18px] text-slate-400">wb_sunny</span><span class="">Weather</span></a><a class="flex items-center gap-2.5 px-3 py-2 rounded-xl text-slate-600 hover:text-[#113E2E] hover:bg-white text-xs font-medium transition-all" href="#"><span class="material-symbols-outlined text-[18px] text-slate-400">groups</span><span class="">Community</span></a></nav></div><!-- AI Assistant Promo Box --><div class="bg-gradient-to-br from-emerald-50 to-emerald-100/70 border border-[#BCD3C3] rounded-2xl p-4 text-xs text-slate-700 shadow-sm relative overflow-hidden"><div class="flex items-center gap-2 mb-1.5 text-[#113E2E] font-semibold"><svg class="w-4 h-4 text-[#1F6E4D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg><span class="font-bold">Need farm advice?</span></div><p class="text-[11px] text-slate-600 leading-relaxed mb-2.5">Ask Dost AI about your crop or field.</p><button onclick="document.getElementById('ai-modal').classList.remove('hidden')" class="inline-flex items-center gap-1 text-[11px] font-bold text-[#144232] hover:text-[#0b241b] hover:underline">Start a chat <span class="">→</span></button></div><!-- System Status --><div class="flex items-center gap-2 px-3 text-[11px] text-slate-500"><span class="w-2 h-2 rounded-full bg-[#3FB968] animate-pulse"></span><span class="">All systems operational</span></div><!-- Sidebar Decorative Card --><div class="pt-4 border-t border-slate-200/60 text-center"><div class="w-8 h-8 mx-auto mb-2 text-[#1B6F49] opacity-80"><svg class="w-full h-full fill-current" viewBox="0 0 24 24"><path d="M17 8C8 10 5.9 16.17 3.82 21.34l1.89.66l.95-2.3c.48.17.98.3 1.34.3C19 20 22 3 22 3c-1 2-8 2.25-13 3.25S2 11.5 2 13.5s1.75 3.75 1.75 3.75C7 8 17 8 17 8z"></path></svg></div><p class="text-[10px] font-semibold text-[#113E2E] leading-snug">Healthy Farms<br>Stronger Communities<br>A Sustainable Future</p><div class="mt-4 rounded-xl overflow-hidden shadow-inner h-24 border border-[#BCD3C3]"><img alt="Scenic green terraced landscape" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXe9quLXesoO5rBf1SsNMKMLIOyiXFs0R-6Vj3y7jBdiUu5uePSdMbX9ssXoG48tGAdJU1n1NYu4hcFymnI8QCH-VtOtJVuvo78XtDMzHRVBaLNHRE73-hWBZg3Ji4fBFn3u0aG30vDVygduM8yNwN3mS4MejIvQiKTNTu7UK9NyK59hYhEiTXd0ClEJmxnHx4QLNS43sEml7f5Qab3Jb7cSKp2ByWmXlMJMs5WgAnymgutuUphfYS"></div></div></div></aside>
+<!-- END: LeftSidebar -->
+<!-- BEGIN: MainContent -->
+<main class="flex-1 flex flex-col gap-6"><div class="flex flex-col w-full">
+<!-- Breadcrumbs & Live Pulse Ribbon -->
+<div class="flex flex-wrap items-center justify-between gap-4 mb-6">
+<nav aria-label="Breadcrumb" class="flex items-center gap-2">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Workspace</span>
+<span class="font-body-sm text-body-sm text-outline-variant">/</span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Market Prices</span>
+<span class="font-body-sm text-body-sm text-outline-variant">/</span>
+<span class="font-label-md text-label-md text-primary font-bold">Live Mandi Rates &amp; Price Intelligence</span>
+</nav>
+<div class="inline-flex items-center gap-2.5 px-3 py-1.5 rounded-full bg-surface-container-high shadow-xs">
+<span class="w-2 h-2 rounded-full bg-primary animate-ping"></span>
+<span class="font-label-sm text-label-sm text-primary font-bold">AGMARKNET &amp; e-NAM SYNCED: 08:42 AM IST</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-secondary font-bold">4,120 Mandis Monitored</span>
+</div>
+</div>
+<!-- Header & Intelligence Controls Section -->
+<div class="bg-surface-container-lowest rounded-3xl p-6 lg:p-8 shadow-sm flex flex-col gap-6">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-6">
+<div class="max-w-2xl">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight">Market Prices &amp; Mandi Intelligence</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-1.5">
+          Real-time APMC arrivals, AI price forecasting, and direct buyer market linkages for high-yield marketing.
+        </p>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-wrap items-center gap-3 shrink-0">
+<button class="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface hover:bg-surface-container-highest transition-colors shadow-xs" type="button">
+<span class="material-symbols-outlined text-lg">download</span>
+<span class="font-label-lg text-label-lg">Download Bulletin (PDF)</span>
+</button>
+<button class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-primary-container text-on-primary hover:bg-primary transition-all shadow-md" onclick="document.getElementById('alert-subscribe-card').scrollIntoView({behavior: 'smooth'})" type="button">
+<span class="material-symbols-outlined text-lg">notification_add</span>
+<span class="font-label-lg text-label-lg font-bold">Set Price Alert</span>
+</button>
+</div>
+</div>
+<!-- Filter Bar Component -->
+<div class="bg-surface-container-low rounded-2xl p-3 border border-[#d6e5d8] flex flex-wrap lg:flex-nowrap items-center justify-between gap-3 shadow-xs"><div class="flex flex-wrap items-center gap-2.5 flex-1"><div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-[#d6e5d8] shadow-xs"><span class="material-symbols-outlined text-[#113E2E] text-sm shrink-0">location_on</span><div class="flex flex-col"><span class="text-[9px] uppercase tracking-wider font-bold text-slate-400 leading-tight">Mandi</span><select class="bg-transparent text-xs font-semibold text-[#113E2E] outline-none cursor-pointer pr-1"><option selected="">Guntur Mandi Yard</option><option>Duggirala Turmeric Yard</option><option>Tenali Market Yard</option><option>Vijayawada Wholesale Hub</option><option>Khammam Grain Mandi</option></select></div></div><div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-[#d6e5d8] shadow-xs"><span class="material-symbols-outlined text-[#113E2E] text-sm shrink-0">psychiatry</span><div class="flex flex-col"><span class="text-[9px] uppercase tracking-wider font-bold text-slate-400 leading-tight">Crop</span><select class="bg-transparent text-xs font-semibold text-[#113E2E] outline-none cursor-pointer pr-1"><option selected="">Paddy Basmati 1509</option><option>Chilli Teja (Guntur Grade)</option><option>Hybrid Yellow Maize</option><option>Groundnut (Bold Pods)</option><option>Cotton (Long Staple)</option><option>All Crops (District)</option></select></div></div><div class="flex items-center gap-2 bg-white px-3 py-1.5 rounded-xl border border-[#d6e5d8] shadow-xs"><span class="material-symbols-outlined text-[#113E2E] text-sm shrink-0">calendar_today</span><div class="flex flex-col"><span class="text-[9px] uppercase tracking-wider font-bold text-slate-400 leading-tight">Window</span><select class="bg-transparent text-xs font-semibold text-[#113E2E] outline-none cursor-pointer pr-1"><option selected="">Live Today</option><option>Past 7 Days</option><option>Past 30 Days</option><option>Seasonal Trend</option></select></div></div></div><div class="flex items-center gap-3 bg-white px-3.5 py-1.5 rounded-xl border border-[#d6e5d8] shadow-xs shrink-0"><div class="text-left"><span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider leading-tight">Arrivals</span><span class="text-xs font-bold text-[#113E2E]">38,450 Qtl</span></div><div class="w-px h-6 bg-[#dce7de]"></div><div class="text-left"><span class="block text-[9px] font-bold text-slate-400 uppercase tracking-wider leading-tight">Sentiment</span><span class="inline-flex items-center gap-1 text-xs font-bold text-emerald-700"><span class="material-symbols-outlined text-xs">trending_up</span> Bullish (+3.4%)</span></div></div></div>
+</div>
+<!-- Live Commodity Price Tickers Grid -->
+<div class="mt-8 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5"><!-- Card 1: Guntur Chilli --><div class="bg-white rounded-2xl p-5 border border-[#d6e5d8] shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between"><div><div class="flex items-start justify-between gap-3"><div><span class="font-semibold text-[11px] uppercase tracking-wider text-rose-700 block">Grade A Export Quality</span><h3 class="font-serif font-bold text-base text-[#113E2E] mt-0.5">Guntur Sannam Chilli</h3></div><span class="p-2.5 rounded-xl bg-rose-50 text-rose-600 border border-rose-100 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-lg">local_fire_department</span></span></div><div class="mt-4 flex items-baseline gap-2"><span class="text-2xl font-bold font-serif text-[#113E2E]">₹19,850</span><span class="text-xs text-slate-500">/ quintal</span></div><div class="mt-2.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 text-xs"><span class="material-symbols-outlined text-xs">arrow_upward</span> +₹420 (2.1% today)</span></div></div><div class="mt-5 pt-3 bg-[#f9fbf9] rounded-xl p-3 border border-[#e4ede5] flex justify-between items-center text-slate-600 text-xs"><div><span class="block text-[11px] text-slate-500 font-medium">Daily Arrival</span><span class="font-bold text-slate-800 text-sm">14,200 bags</span></div><div class="text-right"><span class="block text-[11px] text-slate-500 font-medium">Modal Price</span><span class="font-bold text-[#113E2E] text-sm">₹18,900</span></div></div></div><!-- Card 2: Basmati Paddy (Target Crop) --><div class="bg-white rounded-2xl p-5 border-2 border-emerald-500/70 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between"><div class="absolute top-0 left-0 right-0 h-1 bg-emerald-600"></div><div><div class="flex items-start justify-between gap-3"><div><span class="font-semibold text-[11px] uppercase tracking-wider text-emerald-700 block">High Demand Kharif</span><h3 class="font-serif font-bold text-base text-[#113E2E] mt-0.5">Paddy Basmati 1509</h3></div><span class="p-2.5 rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-100 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-lg">eco</span></span></div><div class="mt-4 flex items-baseline gap-2"><span class="text-2xl font-bold font-serif text-[#113E2E]">₹3,680</span><span class="text-xs text-slate-500">/ quintal</span></div><div class="mt-2.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 text-xs"><span class="material-symbols-outlined text-xs">arrow_upward</span> +₹65 (1.8% today)</span></div></div><div class="mt-5 pt-3 bg-[#f9fbf9] rounded-xl p-3 border border-[#e4ede5] flex justify-between items-center text-slate-600 text-xs"><div><span class="block text-[11px] text-slate-500 font-medium">Govt. MSP Rate</span><span class="font-bold text-slate-800 text-sm">₹2,320</span></div><div class="text-right"><span class="block text-[11px] text-slate-500 font-medium">Over MSP</span><span class="font-bold text-emerald-700 text-sm">+58.6%</span></div></div></div><!-- Card 3: Hybrid Yellow Maize --><div class="bg-white rounded-2xl p-5 border border-[#d6e5d8] shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between"><div><div class="flex items-start justify-between gap-3"><div><span class="font-semibold text-[11px] uppercase tracking-wider text-amber-700 block">Heavy Inflow Pressure</span><h3 class="font-serif font-bold text-base text-[#113E2E] mt-0.5">Hybrid Yellow Maize</h3></div><span class="p-2.5 rounded-xl bg-amber-50 text-amber-700 border border-amber-100 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-lg">grain</span></span></div><div class="mt-4 flex items-baseline gap-2"><span class="text-2xl font-bold font-serif text-[#113E2E]">₹2,180</span><span class="text-xs text-slate-500">/ quintal</span></div><div class="mt-2.5"><span class="bg-rose-50 text-rose-800 border border-rose-200 font-semibold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 text-xs"><span class="material-symbols-outlined text-xs">arrow_downward</span> -₹30 (-1.3% today)</span></div></div><div class="mt-5 pt-3 bg-[#f9fbf9] rounded-xl p-3 border border-[#e4ede5] flex justify-between items-center text-slate-600 text-xs"><div><span class="block text-[11px] text-slate-500 font-medium">Arrival Pressure</span><span class="font-bold text-rose-600 text-sm">High (31,000 Qtl)</span></div><div class="text-right"><span class="block text-[11px] text-slate-500 font-medium">Storage Advice</span><span class="font-bold text-slate-800 text-sm">Hold in Silo</span></div></div></div><!-- Card 4: Groundnut Bold Pods --><div class="bg-white rounded-2xl p-5 border border-[#d6e5d8] shadow-sm hover:shadow-md transition-shadow relative overflow-hidden flex flex-col justify-between"><div><div class="flex items-start justify-between gap-3"><div><span class="font-semibold text-[11px] uppercase tracking-wider text-orange-700 block">Oil Mills Procuring</span><h3 class="font-serif font-bold text-base text-[#113E2E] mt-0.5">Groundnut (Bold Pods)</h3></div><span class="p-2.5 rounded-xl bg-orange-50 text-orange-700 border border-orange-100 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-lg">nutrition</span></span></div><div class="mt-4 flex items-baseline gap-2"><span class="text-2xl font-bold font-serif text-[#113E2E]">₹6,750</span><span class="text-xs text-slate-500">/ quintal</span></div><div class="mt-2.5"><span class="bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold px-2.5 py-0.5 rounded-full inline-flex items-center gap-1 text-xs"><span class="material-symbols-outlined text-xs">arrow_upward</span> +₹110 (1.6% today)</span></div></div><div class="mt-5 pt-3 bg-[#f9fbf9] rounded-xl p-3 border border-[#e4ede5] flex justify-between items-center text-slate-600 text-xs"><div><span class="block text-[11px] text-slate-500 font-medium">Procurement Demand</span><span class="font-bold text-emerald-700 text-sm">Very Strong</span></div><div class="text-right"><span class="block text-[11px] text-slate-500 font-medium">Moisture Avg</span><span class="font-bold text-slate-800 text-sm">7.4% (Optimal)</span></div></div></div></div>
+<!-- Interactive AI Forecasting & Historical Trend Bento -->
+<div class="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start"><!-- Main Chart Panel -->
+<div class="lg:col-span-8 bg-white rounded-2xl p-6 border border-[#d6e5d8] shadow-sm flex flex-col justify-between">
+  <div class="flex flex-wrap items-center justify-between gap-4 pb-4 border-b border-[#eef4ee]">
+    <div>
+      <div class="flex items-center gap-2.5">
+        <h2 class="font-serif font-bold text-lg text-[#113E2E]">Paddy Basmati 1509: 30D Trend vs 15D AI Forecast</h2>
+        <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold text-xs">94.2% Accuracy</span>
+      </div>
+      <p class="text-xs text-slate-600 mt-1">Multi-market aggregated modal prices across Gopal-Godavari Basin Mandis</p>
+    </div>
+    <!-- Mode Toggle -->
+    <div class="inline-flex p-1 rounded-xl bg-[#F0F5F1] border border-[#dce7de]" role="group">
+      <button class="px-3.5 py-1.5 rounded-lg text-xs font-bold bg-white text-[#113E2E] shadow-xs transition-all" id="toggle-past" type="button">Past 30 Days</button>
+      <button class="px-3.5 py-1.5 rounded-lg text-xs font-semibold text-slate-600 hover:text-[#113E2E] transition-all" id="toggle-forecast" type="button">AI 15-Day Prediction</button>
+    </div>
+  </div>
+  <!-- Chart Graphic Area (SVG) -->
+  <div class="relative w-full h-72 sm:h-80 my-3">
+    <svg class="w-full h-full overflow-visible" fill="none" preserveAspectRatio="none" viewBox="0 0 760 260">
+      <defs>
+        <linearGradient id="primaryAreaGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#113E2E" stop-opacity="0.2"></stop>
+          <stop offset="100%" stop-color="#113E2E" stop-opacity="0.0"></stop>
+        </linearGradient>
+        <linearGradient id="forecastAreaGrad" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stop-color="#DF9B12" stop-opacity="0.25"></stop>
+          <stop offset="100%" stop-color="#DF9B12" stop-opacity="0.0"></stop>
+        </linearGradient>
+      </defs>
+      <!-- Grid Lines -->
+      <line stroke="#e2ece3" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="740" y1="30" y2="30"></line>
+      <line stroke="#e2ece3" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="740" y1="85" y2="85"></line>
+      <line stroke="#e2ece3" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="740" y1="140" y2="140"></line>
+      <line stroke="#e2ece3" stroke-dasharray="4 4" stroke-width="1" x1="40" x2="740" y1="195" y2="195"></line>
+      <!-- Y-Axis Labels -->
+      <text class="fill-[#404942] font-sans text-[11px] font-semibold" x="5" y="34">₹3,900</text>
+      <text class="fill-[#404942] font-sans text-[11px] font-semibold" x="5" y="89">₹3,750</text>
+      <text class="fill-[#404942] font-sans text-[11px] font-semibold" x="5" y="144">₹3,600</text>
+      <text class="fill-[#404942] font-sans text-[11px] font-semibold" x="5" y="199">₹3,450</text>
+      <!-- Historical Area (Days 1 to 20) -->
+      <path d="M 40 180 L 90 170 L 150 160 L 220 168 L 290 145 L 360 135 L 430 115 L 470 100 L 470 230 L 40 230 Z" fill="url(#primaryAreaGrad)"></path>
+      <!-- Historical Solid Line -->
+      <path d="M 40 180 L 90 170 L 150 160 L 220 168 L 290 145 L 360 135 L 430 115 L 470 100" stroke="#113E2E" stroke-linecap="round" stroke-linejoin="round" stroke-width="3.5"></path>
+      <!-- Forecast Gradient Area (Days 20 to 35) -->
+      <path d="M 470 100 L 530 85 L 590 62 L 650 48 L 730 70 L 730 230 L 470 230 Z" fill="url(#forecastAreaGrad)"></path>
+      <!-- AI Forecast Dashed Line -->
+      <path d="M 470 100 L 530 85 L 590 62 L 650 48 L 730 70" stroke="#DF9B12" stroke-dasharray="6 6" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+      <!-- Historical Data Points -->
+      <circle cx="290" cy="145" fill="#ffffff" r="4.5" stroke="#113E2E" stroke-width="2.5"></circle>
+      <circle cx="470" cy="100" fill="#113E2E" r="6" stroke="#ffffff" stroke-width="2.5"></circle>
+      <!-- Projected Peak High Indicator (Around Oct 18 Festive Spike) -->
+      <g>
+        <circle cx="650" cy="48" fill="#F6C343" r="6" stroke="#DF9B12" stroke-width="2"></circle>
+        <circle class="animate-pulse" cx="650" cy="48" fill="#F6C343" opacity="0.35" r="14"></circle>
+        <!-- Tooltip Flag -->
+        <rect fill="#113E2E" height="26" rx="6" width="145" x="578" y="8"></rect>
+        <text class="fill-[#ffffff] font-sans text-[10px] font-bold" text-anchor="middle" x="650" y="24">PROJECTED PEAK: ₹3,860</text>
+      </g>
+      <!-- Today Marker Divider -->
+      <line stroke="#113E2E" stroke-dasharray="2 3" stroke-width="1.5" x1="470" x2="470" y1="15" y2="230"></line>
+      <text class="fill-[#113E2E] font-sans text-[10px] font-extrabold uppercase" x="475" y="222">TODAY (₹3,680)</text>
+      <!-- X-Axis Dates -->
+      <text class="fill-[#707972] font-sans text-[10px]" x="40" y="248">Sep 15</text>
+      <text class="fill-[#707972] font-sans text-[10px]" x="180" y="248">Sep 25</text>
+      <text class="fill-[#707972] font-sans text-[10px]" x="320" y="248">Oct 05</text>
+      <text class="fill-[#113E2E] font-sans text-[10px] font-bold" x="470" y="248">Oct 12 (Live)</text>
+      <text class="fill-[#DF9B12] font-sans text-[10px] font-bold" x="610" y="248">Oct 18 (Diwali Peak)</text>
+      <text class="fill-[#707972] font-sans text-[10px]" x="710" y="248">Oct 26</text>
+    </svg>
+  </div>
+  <!-- Chart Footnote & Legend -->
+  <div class="flex flex-wrap items-center justify-between gap-4 pt-3.5 bg-[#f9fbf9] rounded-xl px-4 py-2.5 border border-[#e4ede5] mt-2">
+    <div class="flex items-center gap-6">
+      <div class="flex items-center gap-2">
+        <span class="w-3.5 h-1 rounded-full bg-[#113E2E]"></span>
+        <span class="text-xs font-medium text-slate-700">Verified Mandi Modal Rate</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="w-3.5 h-1 border-b-2 border-dashed border-[#DF9B12]"></span>
+        <span class="text-xs font-semibold text-[#DF9B12]">Dost AI ML Projection</span>
+      </div>
+    </div>
+    <span class="text-xs text-slate-500">Factors: Deepavali festival demand spike + Export quota release</span>
+  </div>
+</div>
+
+<!-- AI Intelligence Insight Card (Elevated Advisory Card) -->
+<div class="lg:col-span-4 bg-gradient-to-br from-[#f0f9f3] to-[#e4f5ea] border border-[#a8dab5] rounded-2xl p-6 shadow-sm flex flex-col justify-between relative overflow-hidden">
+  <div class="absolute -right-8 -bottom-8 w-36 h-36 rounded-full bg-emerald-300/30 blur-2xl pointer-events-none"></div>
+  <div>
+    <div class="flex items-center justify-between gap-3 pb-3 border-b border-[#c8e8d1]">
+      <div class="inline-flex items-center gap-2">
+        <div class="w-7 h-7 rounded-full bg-[#113E2E] flex items-center justify-center text-[#E5B54F] shadow-xs">
+          <span class="material-symbols-outlined text-base">agriculture</span>
+        </div>
+        <span class="font-bold text-xs uppercase tracking-wider text-[#113E2E]">DOST AI DIRECTIVE</span>
+      </div>
+      <span class="text-xs font-semibold text-emerald-800 bg-white/80 px-2.5 py-0.5 rounded-full border border-emerald-200">94% Confidence</span>
+    </div>
+    <div class="mt-4">
+      <span class="bg-[#113E2E] text-white px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider inline-block">HOLD BASMATI PADDY</span>
+      <h3 class="font-serif font-bold text-xl text-[#113E2E] mt-2">Optimum Selling Window</h3>
+      <p class="text-xs text-emerald-800 font-medium mt-0.5">Next 10 to 14 days (Prior to Deepavali surge peak)</p>
+    </div>
+    <!-- Highlighted Projected Gain Micro-card -->
+    <div class="mt-4 p-3.5 rounded-xl bg-white/90 border border-[#bfe3cc] shadow-xs space-y-2">
+      <div class="flex items-center justify-between">
+        <span class="text-xs text-slate-600 font-medium">Projected Gain</span>
+        <span class="text-base font-bold font-serif text-[#113E2E]">+₹140 - ₹180 / Qtl</span>
+      </div>
+      <div class="flex items-center justify-between text-xs pt-1.5 border-t border-[#e2f1e6]">
+        <span class="text-slate-500">On 120 Qtl stock:</span>
+        <span class="font-bold text-emerald-800">+₹16,800 - ₹21,600 net</span>
+      </div>
+    </div>
+    <!-- Rationale Bullet Points -->
+    <div class="mt-4 space-y-2.5 text-xs text-slate-700">
+      <div class="flex items-start gap-2.5">
+        <span class="material-symbols-outlined text-[#175638] text-base shrink-0 mt-0.5">check_circle</span>
+        <span class="">Local mill inventories in Guntur district are critically down by 22% this week.</span>
+      </div>
+      <div class="flex items-start gap-2.5">
+        <span class="material-symbols-outlined text-[#175638] text-base shrink-0 mt-0.5">check_circle</span>
+        <span class="">Dry atmospheric conditions reduce warehouse pest risk safely for 20+ days.</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-6 pt-3">
+    <button class="w-full py-2.5 px-4 bg-[#113E2E] hover:bg-[#175638] text-white rounded-xl font-medium text-sm flex items-center justify-center gap-2 shadow-sm transition-colors" onclick="document.getElementById('ai-modal').classList.remove('hidden')" type="button">
+      <span class="material-symbols-outlined text-base">chat_bubble</span>
+      <span class="">Ask Dost AI: "When should I sell?"</span>
+    </button>
+  </div>
+</div></div>
+<!-- Detailed Mandi Comparison Table Section -->
+<div class="mt-8 bg-surface-container-lowest rounded-3xl p-6 lg:p-8 shadow-sm"><div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-5 border-b border-[#eef4ee]">
+  <div>
+    <h2 class="font-serif font-bold text-lg text-[#113E2E]">Nearby APMC Yard Arbitrage &amp; Comparison</h2>
+    <p class="text-xs text-slate-600 mt-0.5">Calculated from your verified farm coordinates in Mangalagiri, Guntur District</p>
+  </div>
+  <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#f2f7f3] border border-[#dce7de] text-[#113E2E] text-xs font-semibold">
+    <span class="material-symbols-outlined text-sm text-emerald-700">local_shipping</span>
+    <span class="">Includes ₹1.8/km/Qtl road freight adjustment</span>
+  </div>
+</div>
+<!-- Responsive Table Container -->
+<div class="mt-5 rounded-xl border border-[#e2ece3] overflow-hidden">
+  <div class="overflow-x-auto custom-scroll">
+    <table class="w-full text-left border-collapse min-w-[840px]">
+      <thead>
+        <tr class="bg-[#f2f7f3] text-[#2b4c37] font-semibold text-xs uppercase tracking-wider">
+          <th class="py-3 px-4">APMC Mandi</th>
+          <th class="py-3 px-3">Distance</th>
+          <th class="py-3 px-4">Selected Variety</th>
+          <th class="py-3 px-3">Min Rate</th>
+          <th class="py-3 px-3">Max Rate</th>
+          <th class="py-3 px-4">Modal Price</th>
+          <th class="py-3 px-4">Daily Arrival</th>
+          <th class="py-3 px-4 text-right">Net Return (after freight)</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-[#eef4ee] text-xs text-slate-700 bg-white">
+        <!-- Row 1: Guntur (Best Net) -->
+        <tr class="hover:bg-[#f9fcf9] transition-colors bg-emerald-50/20">
+          <td class="py-3.5 px-4 font-bold text-[#113E2E] flex items-center gap-2">
+            <span class="w-2 h-2 rounded-full bg-emerald-600"></span>
+            <span class="">Guntur APMC Yard</span>
+            <span class="bg-emerald-100 text-emerald-800 font-semibold text-xs px-2.5 py-0.5 rounded-full border border-emerald-300 ml-1">Highest Demand</span>
+          </td>
+          <td class="py-3.5 px-3 font-medium text-slate-600">14 km</td>
+          <td class="py-3.5 px-4">Paddy 1509</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,520</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,740</td>
+          <td class="py-3.5 px-4 font-bold text-emerald-800">₹3,680/Qtl</td>
+          <td class="py-3.5 px-4 text-slate-600">12,400 Qtl</td>
+          <td class="py-3.5 px-4 text-right">
+            <span class="text-base font-bold font-serif text-[#113E2E]">₹3,655</span>
+            <span class="block text-[10px] font-bold text-emerald-700 uppercase tracking-wide">RECOMMENDED BEST NET</span>
+          </td>
+        </tr>
+        <!-- Row 2: Tenali -->
+        <tr class="hover:bg-[#f9fcf9] transition-colors">
+          <td class="py-3.5 px-4 font-bold text-slate-800">Tenali Market Yard</td>
+          <td class="py-3.5 px-3 font-medium text-slate-600">28 km</td>
+          <td class="py-3.5 px-4">Paddy 1509</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,480</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,690</td>
+          <td class="py-3.5 px-4 font-bold text-slate-800">₹3,640/Qtl</td>
+          <td class="py-3.5 px-4 text-slate-600">6,800 Qtl</td>
+          <td class="py-3.5 px-4 text-right">
+            <span class="text-sm font-bold text-slate-800">₹3,590</span>
+            <span class="block text-[11px] text-slate-500">-₹65 vs Guntur</span>
+          </td>
+        </tr>
+        <!-- Row 3: Vijayawada -->
+        <tr class="hover:bg-[#f9fcf9] transition-colors">
+          <td class="py-3.5 px-4 font-bold text-slate-800">Vijayawada Wholesale Hub</td>
+          <td class="py-3.5 px-3 font-medium text-slate-600">32 km</td>
+          <td class="py-3.5 px-4">Paddy 1509</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,510</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,710</td>
+          <td class="py-3.5 px-4 font-bold text-slate-800">₹3,660/Qtl</td>
+          <td class="py-3.5 px-4 text-slate-600">9,100 Qtl</td>
+          <td class="py-3.5 px-4 text-right">
+            <span class="text-sm font-bold text-slate-800">₹3,602</span>
+            <span class="block text-[11px] text-slate-500">-₹53 vs Guntur</span>
+          </td>
+        </tr>
+        <!-- Row 4: Ongole -->
+        <tr class="hover:bg-[#f9fcf9] transition-colors">
+          <td class="py-3.5 px-4 font-bold text-slate-800">Ongole Agricultural Market</td>
+          <td class="py-3.5 px-3 font-medium text-slate-600">108 km</td>
+          <td class="py-3.5 px-4">Paddy 1509</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,580</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,780</td>
+          <td class="py-3.5 px-4 font-bold text-amber-700">₹3,720/Qtl</td>
+          <td class="py-3.5 px-4 text-slate-600">4,200 Qtl</td>
+          <td class="py-3.5 px-4 text-right">
+            <span class="text-sm font-bold text-slate-800">₹3,526</span>
+            <span class="block text-[11px] text-rose-600 font-semibold">Freight erodes gain</span>
+          </td>
+        </tr>
+        <!-- Row 5: Khammam -->
+        <tr class="hover:bg-[#f9fcf9] transition-colors">
+          <td class="py-3.5 px-4 font-bold text-slate-800">Khammam Grain Mandi</td>
+          <td class="py-3.5 px-3 font-medium text-slate-600">126 km</td>
+          <td class="py-3.5 px-4">Paddy 1509</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,420</td>
+          <td class="py-3.5 px-3 text-slate-500">₹3,610</td>
+          <td class="py-3.5 px-4 font-bold text-slate-800">₹3,540/Qtl</td>
+          <td class="py-3.5 px-4 text-slate-600">7,500 Qtl</td>
+          <td class="py-3.5 px-4 text-right">
+            <span class="text-sm font-bold text-slate-800">₹3,313</span>
+            <span class="block text-[11px] text-slate-500">-₹342 vs Guntur</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div></div>
+<!-- Direct Buyer Linkage & Institutional Contracts (Pro Feature) -->
+<div class="mt-8">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
+<div>
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-secondary text-on-secondary font-label-sm text-label-sm font-bold uppercase">Pro Feature</span>
+<h2 class="font-headline-sm text-headline-sm text-on-surface">Direct Corporate Buyer Linkages &amp; Farmgate Contracts</h2>
+</div>
+<p class="font-body-md text-body-md text-on-surface-variant mt-0.5">Bypass middleman commissions. Verified buyers pickup directly from your farmyard.</p>
+</div>
+<a class="inline-flex items-center gap-1.5 font-label-lg text-label-lg font-bold text-primary hover:text-primary-container" href="#">
+<span class="">View all 28 corporate tenders</span>
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6"><!-- Buyer 1: ITC Agri -->
+<div class="bg-white rounded-2xl p-5 border border-[#d6e5d8] shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+  <div>
+    <div class="flex items-center justify-between gap-2">
+      <span class="px-2.5 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200 font-semibold text-xs inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">verified</span> Verified Corporate
+      </span>
+      <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-xs inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">check_circle</span> APMC Licensed
+      </span>
+    </div>
+    <div class="mt-3.5">
+      <h3 class="font-serif font-bold text-base text-[#113E2E]">ITC Agri Business Division</h3>
+      <p class="text-xs text-slate-500 mt-0.5">Direct Procurement for Aashirvaad / Export Pool</p>
+    </div>
+    <div class="mt-4 p-3.5 rounded-xl bg-[#f9fbf9] border border-[#e4ede5] space-y-2">
+      <div class="flex justify-between items-baseline">
+        <span class="text-xs text-slate-600 font-medium">Contract Offer:</span>
+        <span class="text-xl font-bold font-serif text-[#113E2E]">₹3,740 / Qtl</span>
+      </div>
+      <div class="flex justify-between text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs text-slate-400">inventory_2</span> Min Lot Size:</span>
+        <span class="font-bold text-slate-800">50 Quintals</span>
+      </div>
+      <div class="flex justify-between text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs text-slate-400">payments</span> Payment Terms:</span>
+        <span class="font-bold text-emerald-800">T+1 Day Direct Bank</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 pt-1">
+    <button class="w-full py-2 px-4 rounded-xl bg-[#113E2E] hover:bg-[#175638] text-white text-sm font-semibold transition-all shadow-xs" onclick="alert('Trade initiation request sent to ITC Agri Procurement Manager. You will receive an SMS confirmation.');" type="button">
+      Initiate Trade
+    </button>
+  </div>
+</div>
+
+<!-- Buyer 2: Patanjali Foods -->
+<div class="bg-white rounded-2xl p-5 border border-[#d6e5d8] shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+  <div>
+    <div class="flex items-center justify-between gap-2">
+      <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-semibold text-xs inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">verified</span> Mega Buyer
+      </span>
+      <span class="px-2.5 py-0.5 rounded-full bg-slate-50 text-slate-700 border border-slate-200 font-semibold text-xs inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">fact_check</span> ISO Certified
+      </span>
+    </div>
+    <div class="mt-3.5">
+      <h3 class="font-serif font-bold text-base text-[#113E2E]">Patanjali Foods Ltd</h3>
+      <p class="text-xs text-slate-500 mt-0.5">Solvent Extraction &amp; Edible Oil Sourcing</p>
+    </div>
+    <div class="mt-4 p-3.5 rounded-xl bg-[#f9fbf9] border border-[#e4ede5] space-y-2">
+      <div class="flex justify-between items-baseline">
+        <span class="text-xs text-slate-600 font-medium">Contract Offer:</span>
+        <span class="text-xl font-bold font-serif text-[#113E2E]">₹6,880 / Qtl</span>
+      </div>
+      <div class="flex justify-between text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs text-slate-400">eco</span> Target Crop:</span>
+        <span class="font-bold text-slate-800">Groundnut Pods</span>
+      </div>
+      <div class="flex justify-between text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs text-slate-400">local_shipping</span> Farmgate Pickup:</span>
+        <span class="font-bold text-emerald-800">Free Transport</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 pt-1">
+    <button class="w-full py-2 px-4 rounded-xl bg-[#113E2E] hover:bg-[#175638] text-white text-sm font-semibold transition-all shadow-xs" onclick="alert('Trade initiation request sent to Patanjali Regional Procurement Hub.');" type="button">
+      Initiate Trade
+    </button>
+  </div>
+</div>
+
+<!-- Buyer 3: Regional FPO Federation -->
+<div class="bg-white rounded-2xl p-5 border border-[#d6e5d8] shadow-sm flex flex-col justify-between hover:shadow-md transition-shadow">
+  <div>
+    <div class="flex items-center justify-between gap-2">
+      <span class="px-2.5 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200 font-semibold text-xs inline-flex items-center gap-1">
+        <span class="material-symbols-outlined text-xs">group</span> FPO Collective
+      </span>
+      <span class="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-semibold text-xs">
+        1,840 Members
+      </span>
+    </div>
+    <div class="mt-3.5">
+      <h3 class="font-serif font-bold text-base text-[#113E2E]">Gopal Delta Farmers Producer Co.</h3>
+      <p class="text-xs text-slate-500 mt-0.5">Aggregated Export Consolidation to UAE</p>
+    </div>
+    <div class="mt-4 p-3.5 rounded-xl bg-[#f9fbf9] border border-[#e4ede5] space-y-2">
+      <div class="flex justify-between items-baseline">
+        <span class="text-xs text-slate-600 font-medium">Contract Offer:</span>
+        <span class="text-xl font-bold font-serif text-[#113E2E]">₹20,400 / Qtl</span>
+      </div>
+      <div class="flex justify-between text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs text-slate-400">eco</span> Target Variety:</span>
+        <span class="font-bold text-slate-800">Teja Red Chilli</span>
+      </div>
+      <div class="flex justify-between text-xs text-slate-600">
+        <span class="inline-flex items-center gap-1"><span class="material-symbols-outlined text-xs text-slate-400">payments</span> Spot Advance:</span>
+        <span class="font-bold text-slate-800">30% upfront booking</span>
+      </div>
+    </div>
+  </div>
+  <div class="mt-5 pt-1">
+    <button class="w-full py-2 px-4 rounded-xl bg-[#113E2E] hover:bg-[#175638] text-white text-sm font-semibold transition-all shadow-xs" onclick="alert('Connected with FPO Executive Director. Dispatch details shared.');" type="button">
+      Join Aggregation Lot
+    </button>
+  </div>
+</div></div>
+</div>
+<!-- Price Alert Subscription Component -->
+<div class="mt-8 bg-surface-container rounded-3xl p-6 lg:p-8 relative overflow-hidden" id="alert-subscribe-card"><div class="flex flex-col lg:flex-row items-center justify-between gap-8 bg-gradient-to-r from-[#113E2E] to-[#1c5c40] text-white rounded-2xl p-6 lg:p-8 shadow-md border border-[#0d3023]">
+  <div class="max-w-xl">
+    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 text-emerald-200 border border-white/15 text-xs font-semibold mb-3">
+      <span class="material-symbols-outlined text-sm text-[#E5B54F]">notifications_active</span>
+      <span class="">Daily Mandi Advisory Service</span>
+    </div>
+    <h3 class="font-serif font-bold text-xl text-white">Get 7:00 AM Morning Bhav directly on WhatsApp &amp; SMS</h3>
+    <p class="text-xs text-emerald-100 leading-relaxed mt-1.5">
+      Receive tailored morning rate flashes before trading starts. Never undersell to village aggregators without current APMC benchmark prices.
+    </p>
+  </div>
+  <div class="w-full lg:w-auto flex-1 max-w-lg">
+    <form class="bg-white rounded-2xl p-2.5 shadow-sm flex flex-col sm:flex-row items-stretch gap-2.5" onsubmit="event.preventDefault(); alert('Subscribed! Daily 7:00 AM mandi alert configured for your phone.');">
+      <div class="relative flex-1">
+        <span class="absolute left-3.5 top-3 text-slate-400 material-symbols-outlined text-base">phone_iphone</span>
+        <input class="w-full pl-10 pr-3 py-2 bg-[#F0F5F1] rounded-xl text-xs font-semibold text-slate-800 focus:outline-none" placeholder="Enter WhatsApp Number" required="" type="tel" value="+91 98480 23145">
+      </div>
+      <button class="py-2 px-5 rounded-xl bg-[#E5B54F] text-[#113E2E] font-bold text-xs hover:bg-[#d8a742] transition-colors whitespace-nowrap shadow-xs" type="submit">
+        Subscribe Free
+      </button>
+    </form>
+    <p class="text-[11px] text-emerald-200/80 mt-2 text-center lg:text-left">
+      Available in Telugu, Hindi &amp; English. Opt-out anytime by replying STOP.
+    </p>
+  </div>
+</div></div>
+</div>
+<script>
+  // Simple view toggle micro-interaction for historical vs AI forecast
+  const togglePast = document.getElementById('toggle-past');
+  const toggleForecast = document.getElementById('toggle-forecast');
+
+  if (togglePast && toggleForecast) {
+    togglePast.addEventListener('click', () => {
+      togglePast.className = 'px-3.5 py-1.5 rounded-xl font-label-md text-label-md font-bold bg-surface-container-lowest text-primary shadow-xs transition-all';
+      toggleForecast.className = 'px-3.5 py-1.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all';
+    });
+
+    toggleForecast.addEventListener('click', () => {
+      toggleForecast.className = 'px-3.5 py-1.5 rounded-xl font-label-md text-label-md font-bold bg-surface-container-lowest text-secondary font-bold shadow-xs transition-all';
+      togglePast.className = 'px-3.5 py-1.5 rounded-xl font-label-md text-label-md text-on-surface-variant hover:text-primary transition-all';
+    });
+  }
+</script></main>
+<!-- END: MainContent -->
+</div>
+<!-- END: MainDashboardLayout -->
+<!-- BEGIN: InteractiveModals -->
+<!-- Scan Crop Modal Dialog -->
+<div aria-labelledby="modal-scan-title" aria-modal="true" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden" id="scan-modal" role="dialog">
+<div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative animate-in fade-in zoom-in duration-200">
+<div class="flex items-center justify-between pb-3 border-b border-[#E7EFE7]">
+<h3 class="font-bold text-lg text-[#113124]" id="modal-scan-title">Crop Diagnostic Scanner</h3>
+<button class="p-1 rounded-full text-gray-400 hover:text-gray-700 hover:bg-gray-100" onclick="document.getElementById('scan-modal').classList.add('hidden')">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<div class="mt-4 text-center">
+<div class="border-2 border-dashed border-[#BCD3C3] rounded-2xl p-8 bg-[#F8FAF7] hover:bg-[#F2F7F2] transition-colors cursor-pointer">
+<div class="w-12 h-12 rounded-full bg-[#E5F1EB] text-[#1F6E4D] mx-auto flex items-center justify-center mb-3">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path><path d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</div>
+<p class="font-semibold text-sm text-[#1B3E31]">Upload leaf or crop photo</p>
+<p class="text-xs text-[#6B8A7C] mt-1">Our AI detects pests, rust, and nutrient deficiencies in seconds.</p>
+</div>
+</div>
+<div class="mt-5 flex gap-3">
+<button class="flex-1 py-2.5 text-xs font-bold text-[#143D2F] bg-[#EEF4EE] hover:bg-[#E3EDE3] rounded-xl transition-colors" onclick="document.getElementById('scan-modal').classList.add('hidden')">Cancel</button>
+<button class="flex-1 py-2.5 text-xs font-bold text-white bg-[#103D2E] hover:bg-[#0a291f] rounded-xl transition-colors" onclick="alert('Diagnostic analysis simulated successfully!'); document.getElementById('scan-modal').classList.add('hidden')">Analyze Sample</button>
+</div>
+</div>
+</div>
+<!-- Analysis Report Modal -->
+<div aria-modal="true" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden" id="analysis-modal" role="dialog">
+<div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl relative">
+<div class="flex items-center justify-between pb-3 border-b border-[#E7EFE7]">
+<h3 class="font-serif font-bold text-xl text-[#113124]">Mustard Yield Projection</h3>
+<button class="p-1 rounded-full text-gray-400 hover:text-gray-700" onclick="document.getElementById('analysis-modal').classList.add('hidden')">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<div class="mt-4 space-y-3 text-sm text-[#466054]">
+<div class="bg-[#F6FAF6] p-3.5 rounded-xl border border-[#DFEBDE] flex justify-between items-center">
+<span class="font-medium">Estimated Input Savings</span>
+<span class="font-bold text-[#1B6F49]">₹4,200 / acre</span>
+</div>
+<div class="bg-[#F6FAF6] p-3.5 rounded-xl border border-[#DFEBDE] flex justify-between items-center">
+<span class="font-medium">Anticipated Market Rate</span>
+<span class="font-bold text-[#1B6F49]">₹5,650 / quintal (+12%)</span>
+</div>
+<div class="bg-[#F6FAF6] p-3.5 rounded-xl border border-[#DFEBDE] flex justify-between items-center">
+<span class="font-medium">Soil Compatibility Score</span>
+<span class="font-bold text-[#1B6F49]">96% (Karnal Loam)</span>
+</div>
+</div>
+<div class="mt-6">
+<button class="w-full py-2.5 text-xs font-bold text-white bg-[#103D2E] hover:bg-[#0a291f] rounded-xl transition-colors" onclick="document.getElementById('analysis-modal').classList.add('hidden')">Close Report</button>
+</div>
+</div>
+</div>
+<!-- Dost AI Chat Modal -->
+<div aria-modal="true" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4 hidden" id="ai-modal" role="dialog">
+<div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl relative">
+<div class="flex items-center justify-between pb-3 border-b border-[#E7EFE7]">
+<div class="flex items-center gap-2">
+<div class="w-7 h-7 rounded-full bg-[#113E2E] flex items-center justify-center text-[#E5B54F] text-xs">🌱</div>
+<h3 class="font-bold text-base text-[#113124]">Dost AI Assistant</h3>
+</div>
+<button class="p-1 rounded-full text-gray-400 hover:text-gray-700" onclick="document.getElementById('ai-modal').classList.add('hidden')">
+<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</button>
+</div>
+<div class="mt-4 space-y-3">
+<div class="bg-[#F0F5F1] p-3 rounded-2xl rounded-tl-none text-xs text-[#204435] leading-relaxed">
+          Namaste! I have analyzed your 4-acre Basmati plot and local weather forecast. Mustard cultivation this autumn requires 30% less water while yielding premium returns. How can I assist you further?
+        </div>
+<input class="w-full text-xs p-3 rounded-xl border border-[#D5E0D3] focus:ring-1 focus:ring-[#1E5742] outline-none" placeholder="Type your query (e.g. fertilizer dose)..." type="text">
+</div>
+<div class="mt-4 flex gap-2">
+<button class="w-full py-2 text-xs font-bold text-white bg-[#103D2E] rounded-xl" onclick="document.getElementById('ai-modal').classList.add('hidden')">Send Question</button>
+</div>
+</div>
+</div>
+<!-- END: InteractiveModals -->
+<!-- Simple script for interactive UI handles -->
+<script data-purpose="dashboard-interactions">
+    // Language Toggle simulation
+    const langBtn = document.getElementById('lang-btn');
+    if (langBtn) {
+      langBtn.addEventListener('click', () => {
+        const textSpan = langBtn.querySelector('span');
+        textSpan.textContent = textSpan.textContent === 'EN' ? 'HI (हिन्दी)' : 'EN';
+      });
+    }
+  </script>
+
+
+<div class="fixed bottom-6 right-6 z-50 group"><button aria-label="Chat with Dost AI" class="w-14 h-14 rounded-full bg-[#113E2E] hover:bg-[#0B2C21] text-white flex items-center justify-center shadow-2xl transition-all duration-300 group-hover:scale-105 ring-4 ring-emerald-500/20 focus:ring-emerald-500 cursor-pointer relative" onclick="document.getElementById('ai-modal').classList.remove('hidden')" type="button"><span class="absolute -top-1 -right-1 w-3.5 h-3.5 bg-emerald-500 rounded-full border-2 border-white animate-pulse"></span><svg class="w-7 h-7 text-white fill-none" stroke="currentColor" viewBox="0 0 24 24"><path d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg></button><div class="absolute right-16 top-2 hidden group-hover:block whitespace-nowrap bg-emerald-950 text-white text-xs font-semibold px-3 py-1.5 rounded-lg shadow-md transition-all">Chat with Dost AI</div></div>
+
+
+
+
+
+
+
+
+
+</body></html>
