@@ -6,19 +6,31 @@ import {
   DiseaseThreat,
   CalendarTask,
   NotificationItem,
+  UserProfile,
 } from '../types';
 
-export const USER_PROFILE = {
-  name: 'Gopal Rao',
+export const PUBLIC_PLATFORM_ASSETS = {
+  landscape:
+    'https://lh3.googleusercontent.com/aida/AEtjO1WvAbpPecAlwi8qL5im6_DIN1Re3XEl5kUrXuZkbcW9Qt40pEIoP4zIwFNLlJhn21GswQxK1J04lg_90PpB_xencHf7rLvd3riKy_teZWnOY1SAitPgyL3B9BuyL5RASnnTzJHVdwwLuzGzj_H3PHZcH97cLK8OzHvj251rULzLo710cy9wIla_ksRwFLoh-Ebp2MN8-8s3NZdUOa_DoxKQibs2o0RNCVC_80OAkXccmAmTR-h554DouA',
+};
+
+export const USER_PROFILE: UserProfile = {
+  id: 'farmer-krishna-rao',
+  name: 'Krishna Rao',
+  phone: '+91 98480 23145',
   role: 'Farmer account',
   farmerPartner: 'Farmer Partner',
   holding: '12.5 Acres',
   location: 'Guntur District, Andhra Pradesh',
   station: 'Station #4 • Guntur (16.3067° N, 80.4365° E)',
+  kisanId: 'PMFBY-AP-2026-88',
+  pmfbyPolicy: 'PMFBY-AP-2025-883921',
+  insuredSum: '₹4,80,000',
+  linkedBankMask: 'SBI *4321',
+  registeredParcelsCount: 4,
   avatar:
     'https://lh3.googleusercontent.com/aida/AEtjO1VdVEXnjNX-bM_Pdw5ixy7WUi5m5NKSnaReSf0GEYSyJ_9VwctlPQ6RE_DC2WkEXZ_gbQ_Z84ZLpkwJ4d6f01z7s9lSbu8WKZMr_kuKt-Qbcu8A9BE8zDQaDAVpsvY_t_l8gk_lRz7Q_Dxwu51DDj78Yl38SU_dHO5ZmuViPmPAWTP4lxRN1PnDj4Q6HW5TyLp4QAp2yhlUCiy3oeQoQxWuu4E7lZdSQMdUN4qfDuY2T_KNQ7u9IfhLLYA',
-  landscape:
-    'https://lh3.googleusercontent.com/aida/AEtjO1WvAbpPecAlwi8qL5im6_DIN1Re3XEl5kUrXuZkbcW9Qt40pEIoP4zIwFNLlJhn21GswQxK1J04lg_90PpB_xencHf7rLvd3riKy_teZWnOY1SAitPgyL3B9BuyL5RASnnTzJHVdwwLuzGzj_H3PHZcH97cLK8OzHvj251rULzLo710cy9wIla_ksRwFLoh-Ebp2MN8-8s3NZdUOa_DoxKQibs2o0RNCVC_80OAkXccmAmTR-h554DouA',
+  landscape: PUBLIC_PLATFORM_ASSETS.landscape,
 };
 
 export const CROPS_DATA: CropSummary[] = [
@@ -214,7 +226,7 @@ export const CORPORATE_TENDERS: CorporateTender[] = [
   },
   {
     id: 'tender-3',
-    company: 'Gopal Delta Farmers Producer Co.',
+    company: 'Krishna Delta Farmers Producer Co.',
     subtitle: 'Aggregated Export Consolidation to UAE',
     tags: ['FPO Collective', '1,840 Members'],
     contractOffer: '₹20,400 / Qtl',
@@ -418,6 +430,7 @@ export const NOTIFICATIONS_DATA: NotificationItem[] = [
     time: '08:30 AM',
     group: 'today',
     isUnread: true,
+    isPersonal: true,
     actionUrlTab: 'market-prices',
     actionLabel: 'View Mandi Ticker',
     sparkline: true,
@@ -432,6 +445,7 @@ export const NOTIFICATIONS_DATA: NotificationItem[] = [
     time: '06:15 AM',
     group: 'today',
     isUnread: true,
+    isPersonal: true,
     actionUrlTab: 'crop-calendar',
     actionLabel: 'Mark Task Done',
   },
@@ -445,6 +459,7 @@ export const NOTIFICATIONS_DATA: NotificationItem[] = [
     time: 'Yesterday, 4:20 PM',
     group: 'yesterday',
     isUnread: false,
+    isPersonal: false,
     actionUrlTab: 'diseases-library',
     actionLabel: 'Check Disease SOP',
   },
@@ -458,6 +473,7 @@ export const NOTIFICATIONS_DATA: NotificationItem[] = [
     time: 'Yesterday, 11:00 AM',
     group: 'yesterday',
     isUnread: false,
+    isPersonal: true,
     actionLabel: 'View DBT Receipt',
   },
   {
@@ -470,6 +486,7 @@ export const NOTIFICATIONS_DATA: NotificationItem[] = [
     time: '28 Sep, 02:15 PM',
     group: 'earlier',
     isUnread: false,
+    isPersonal: true,
     actionUrlTab: 'crop-doctor',
     actionLabel: 'Open Full Diagnosis',
   },
@@ -483,7 +500,22 @@ export const NOTIFICATIONS_DATA: NotificationItem[] = [
     time: '27 Sep, 05:40 PM',
     group: 'earlier',
     isUnread: false,
+    isPersonal: true,
     actionLabel: 'Track Shipment',
+  },
+  {
+    id: 'notif-8',
+    title: 'Coastal Andhra APMC Morning Market Update',
+    description:
+      'Basmati 1509 arrivals steady at 12,400 quintals across Krishna-Godavari mandis with modal rates holding near ₹3,680/qtl.',
+    category: 'mandi',
+    categoryLabel: 'Regional Mandi Bulletin',
+    time: '26 Sep, 09:00 AM',
+    group: 'earlier',
+    isUnread: false,
+    isPersonal: false,
+    actionUrlTab: 'market-prices',
+    actionLabel: 'View Live Rates',
   },
 ];
 

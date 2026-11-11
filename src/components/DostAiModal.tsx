@@ -4,9 +4,11 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import { X, Send, Sparkles, Mic, Bot, User, ArrowRight, Camera } from 'lucide-react';
+import { X, Send, Mic, Bot, User, ArrowRight, Camera } from 'lucide-react';
 import { ActiveTab, AiChatMessage, Language } from '../types';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppSelector } from '../store/hooks';
+import { selectAuthUser, selectIsAuthenticated } from '../store/slices/authSlice';
 
 interface DostAiModalProps {
   isOpen: boolean;
@@ -23,39 +25,51 @@ export const DostAiModal: React.FC<DostAiModalProps> = ({
   onOpenScan,
 }) => {
   const { t, language, currentLanguage } = useTranslation();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
+  const farmerName = isAuthenticated && user ? user.name : 'Farmer';
 
   const getLocalizedGreeting = (): string => {
     const code = language.toLowerCase();
-    if (code === 'te') {
-      return 'నమస్కారం కృష్ణారావు గారు! బంగాళాఖాతంలో ఏర్పడిన తుఫాను హెచ్చరికను మరియు మీ 4 పంట పొలాల (బాస్మతి వరి, తేజ మిర్చి, హైబ్రిడ్ మొక్కజొన్న, కదిరి వేరుశనగ) స్థితిని నేను పరిశీలించాను. ఈ రోజు మీకు ఏ వ్యవసాయ సలహా కావాలి?';
-    }
-    if (code === 'hi') {
-      return 'नमस्ते कृष्ण राव जी! मैंने बंगाल की खाड़ी के चक्रवात और आपके 4 सक्रिय खेतों (बासमती धान, तेजा मिर्च, संकर मक्का, कदिरी मूंगफली) का विश्लेषण किया है। आज मैं आपकी क्या सहायता कर सकता हूँ?';
-    }
-    if (code === 'ta') {
-      return 'வணக்கம் கிருஷ்ணா ராவ்! வங்காள விரிகுடா புயல் எச்சரிக்கை மற்றும் உங்கள் 4 பயிர் நிலங்களின் (பாசுமதி நெல், தேஜா மிளகாய், மக்காச்சோளம், நிலக்கடலை) நிலையை நான் ஆய்வு செய்துள்ளேன். இன்று உங்களுக்கு என்ன விவசாய ஆலோசனை தேவை?';
-    }
-    if (code === 'kn') {
-      return 'ನಮಸ್ಕಾರ ಕೃಷ್ಣ ರಾವ್! ಬಂಗಾಳ ಕೊಲ್ಲಿ ಚಂಡಮಾರುತ ಎಚ್ಚರಿಕೆ ಮತ್ತು ನಿಮ್ಮ 4 ಕೃಷಿ ಕ್ಷೇತ್ರಗಳ (ಬಾಸ್ಮತಿ ಭತ್ತ, ತೇಜ ಮೆಣಸಿನಕಾಯಿ, ಹೈಬ್ರಿಡ್ ಜೋಳ, ಕಡಲೆಕಾಯಿ) ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿದ್ದೇನೆ. ಇಂದು ನಿಮಗೆ ಯಾವ ಕೃಷಿ ಸಲಹೆ ಬೇಕು?';
-    }
-    if (code === 'mr') {
-      return 'नमस्कार कृष्ण राव जी! मी बंगालच्या उपसागरातील चक्रीवादळ आणि आपल्या 4 पिकांच्या (बासमती भात, तेजा मिरची, मका, भुईमूग) स्थितीचे विश्लेषण केले आहे. आज मी आपल्याला काय मदत करू शकेन?';
-    }
-    if (code === 'bn') {
-      return 'নমস্কার কৃষ্ণ রাও! বঙ্গোপসাগরের ঘূর্ণিঝড় সতর্কতা এবং আপনার ৪টি ফসলি জমির (বাসমতি ধান, তেজা লঙ্কা, ভুট্টা, চিনা বাদাম) অবস্থা বিশ্লেষণ করেছি। আজ আপনাকে কী কৃষি পরামর্শ দিতে পারি?';
-    }
-    if (code === 'es') {
-      return '¡Hola Gopal Rao! He analizado la alerta de ciclón de la Bahía de Bengala y sus 4 parcelas agrícolas activas (Arroz Basmati, Chile Teja, Maíz Híbrido, Maní Kadiri). ¿Cómo puedo ayudar a su finca hoy?';
-    }
-    if (code === 'fr') {
-      return 'Bonjour Gopal Rao ! J’ai analysé l’alerte cyclonique et l’état de vos 4 parcelles agricoles (Riz Basmati, Piment Teja, Maïs Hybride, Arachide Kadiri). Comment puis-je vous aider aujourd’hui ?';
-    }
-    if (code === 'ar') {
-      return 'مرحباً كريشنا راو! لقد قمت بتحليل تحذير الإعصار وحالة حقولك الزراعية الأربعة (أرز بسمتي، فلفل تيجا، ذرة هجينة، فول سوداني). كيف يمكنني مساعدة مزرعتك اليوم؟';
+    if (!isAuthenticated || !user) {
+      if (code === 'te') {
+        return 'నమస్కారం! బంగాళాఖాతం తుఫాను హెచ్చరికలు, పంట తెగుళ్ల నివారణ మరియు మార్కెట్ ధరల గురించి మీకు ఏ వ్యవసాయ సలహా కావాలి?';
+      }
+      if (code === 'hi') {
+        return 'नमस्ते! चक्रवात चेतावनी, फसल रोग निवारण और मंडी भाव के बारे में आज मैं आपकी क्या सहायता कर सकता हूँ?';
+      }
+      return `Namaste! Ask me about seasonal crop management, cyclone mitigation, pest symptoms, or mandi market prices in ${currentLanguage.nativeName} (${currentLanguage.name}).`;
     }
 
-    // Dynamic fallback for any other language
-    return `Namaste Gopal Rao! I have analyzed your 4 active parcels (Basmati Rice, Teja Chilli, Hybrid Maize, Kadiri Groundnut) alongside real-time agro-meteorological advisories. Speaking in ${currentLanguage.nativeName} (${currentLanguage.name}). How can I assist your farm today?`;
+    if (code === 'te') {
+      return `నమస్కారం ${farmerName} గారు! బంగాళాఖాతంలో ఏర్పడిన తుఫాను హెచ్చరికను మరియు మీ ${user.registeredParcelsCount} పంట పొలాల (బాస్మతి వరి, తేజ మిర్చి, హైబ్రిడ్ మొక్కజొన్న, కదిరి వేరుశనగ) స్థితిని నేను పరిశీలించాను. ఈ రోజు మీకు ఏ వ్యవసాయ సలహా కావాలి?`;
+    }
+    if (code === 'hi') {
+      return `नमस्ते ${farmerName} जी! मैंने बंगाल की खाड़ी के चक्रवात और आपके ${user.registeredParcelsCount} सक्रिय खेतों (बासमती धान, तेजा मिर्च, संकर मक्का, कदिरी मूंगफली) का विश्लेषण किया है। आज मैं आपकी क्या सहायता कर सकता हूँ?`;
+    }
+    if (code === 'ta') {
+      return `வணக்கம் ${farmerName}! வங்காள விரிகுடா புயல் எச்சரிக்கை மற்றும் உங்கள் ${user.registeredParcelsCount} பயிர் நிலங்களின் நிலையை நான் ஆய்வு செய்துள்ளேன். இன்று உங்களுக்கு என்ன விவசாய ஆலோசனை தேவை?`;
+    }
+    if (code === 'kn') {
+      return `ನಮಸ್ಕಾರ ${farmerName}! ಬಂಗಾಳ ಕೊಲ್ಲಿ ಚಂಡಮಾರುತ ಎಚ್ಚರಿಕೆ ಮತ್ತು ನಿಮ್ಮ ${user.registeredParcelsCount} ಕೃಷಿ ಕ್ಷೇತ್ರಗಳ ಸ್ಥಿತಿಯನ್ನು ಪರಿಶೀಲಿಸಿದ್ದೇನೆ. ಇಂದು ನಿಮಗೆ ಯಾವ ಕೃಷಿ ಸಲಹೆ ಬೇಕು?`;
+    }
+    if (code === 'mr') {
+      return `नमस्कार ${farmerName} जी! मी बंगालच्या उपसागरातील चक्रीवादळ आणि आपल्या ${user.registeredParcelsCount} पिकांच्या स्थितीचे विश्लेषण केले आहे. आज मी आपल्याला काय मदत करू शकेन?`;
+    }
+    if (code === 'bn') {
+      return `নমস্কার ${farmerName}! বঙ্গোপসাগরের ঘূর্ণিঝড় সতর্কতা এবং আপনার ${user.registeredParcelsCount}টি ফসলি জমির অবস্থা বিশ্লেষণ করেছি। আজ আপনাকে কী কৃষি পরামর্শ দিতে পারি?`;
+    }
+    if (code === 'es') {
+      return `¡Hola ${farmerName}! He analizado la alerta de ciclón de la Bahía de Bengala y sus ${user.registeredParcelsCount} parcelas agrícolas activas. ¿Cómo puedo ayudar a su finca hoy?`;
+    }
+    if (code === 'fr') {
+      return `Bonjour ${farmerName} ! J’ai analysé l’alerte cyclonique et l’état de vos ${user.registeredParcelsCount} parcelles agricoles. Comment puis-je vous aider aujourd’hui ?`;
+    }
+    if (code === 'ar') {
+      return `مرحباً ${farmerName}! لقد قمت بتحليل تحذير الإعصار وحالة حقولك الزراعية الأربعة. كيف يمكنني مساعدة مزرعتك اليوم؟`;
+    }
+
+    return `Namaste ${farmerName}! I have analyzed your ${user.registeredParcelsCount} active parcels (Basmati Rice, Teja Chilli, Hybrid Maize, Kadiri Groundnut) alongside real-time agro-meteorological advisories. Speaking in ${currentLanguage.nativeName} (${currentLanguage.name}). How can I assist your farm today?`;
   };
 
   const getLocalizedSuggestions = () => {
@@ -97,7 +111,7 @@ export const DostAiModal: React.FC<DostAiModalProps> = ({
 
   const [messages, setMessages] = useState<AiChatMessage[]>([]);
 
-  // Refresh messages when language changes
+  // Refresh greeting when language or auth state changes
   useEffect(() => {
     setMessages([
       {
@@ -108,7 +122,7 @@ export const DostAiModal: React.FC<DostAiModalProps> = ({
         actions: getLocalizedSuggestions(),
       },
     ]);
-  }, [language, currentLanguage]);
+  }, [language, currentLanguage, isAuthenticated, user]);
 
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -161,11 +175,17 @@ export const DostAiModal: React.FC<DostAiModalProps> = ({
         ];
       } else {
         if (language === 'TE') {
-          replyText = '🌾 ICAR సిఫార్సు: మీ 4 పంట పొలాల వాతావరణ మరియు తెగుళ్ల వివరాలను విశ్లేషించాను. ఆకు తెగులు లేదా పురుగు ఉంటే కెమెరా స్కాన్ లేదా క్రాప్ డాక్టర్ ద్వారా మోతాదును తనిఖీ చేయండి.';
+          replyText = isAuthenticated && user
+            ? `🌾 ICAR సిఫార్సు: మీ ${user.registeredParcelsCount} పంట పొలాల వాతావరణ మరియు తెగుళ్ల వివరాలను విశ్లేషించాను. ఆకు తెగులు లేదా పురుగు ఉంటే కెమెరా స్కాన్ లేదా క్రాప్ డాక్టర్ ద్వారా మోతాదును తనిఖీ చేయండి.`
+            : '🌾 ICAR సిఫార్సు: ప్రాంతీయ వాతావరణ మరియు తెగుళ్ల సమాచారం అందుబాటులో ఉంది. ఆకు తెగులు లేదా పురుగు లక్షణాలను తనిఖీ చేయడానికి క్రాప్ డాక్టర్ స్కానర్ లేదా పంట క్యాలెండర్‌ను ఉపయోగించండి.';
         } else if (language === 'HI') {
-          replyText = '🌾 ICAR वैज्ञानिक सलाह: आपके 4 खेतों की मिट्टी और मौसम का विश्लेषण किया गया है। पत्ती पर धब्बे या कीट दिखने पर तुरंत क्रॉप डॉक्टर स्कैनर का उपयोग करें।';
+          replyText = isAuthenticated && user
+            ? `🌾 ICAR वैज्ञानिक सलाह: आपके ${user.registeredParcelsCount} खेतों की मिट्टी और मौसम का विश्लेषण किया गया है। पत्ती पर धब्बे या कीट दिखने पर तुरंत क्रॉप डॉक्टर स्कैनर का उपयोग करें।`
+            : '🌾 ICAR वैज्ञानिक सलाह: क्षेत्रीय मौसम और रोग सलाह उपलब्ध है। पत्ती पर धब्बे या कीट की पहचान के लिए क्रॉप डॉक्टर स्कैनर या फसल कैलेंडर देखें।';
         } else {
-          replyText = '🌾 Agronomic Guidance: Your crop records are active. For leaf lesions, verify with the Crop Doctor scanner or review the seasonal operations calendar.';
+          replyText = isAuthenticated && user
+            ? `🌾 Agronomic Guidance: Your ${user.registeredParcelsCount} parcel records are synced. For leaf lesions, verify with the Crop Doctor scanner or review the seasonal operations calendar.`
+            : '🌾 Agronomic Guidance: Regional advisories are active. For leaf lesions, verify with the Crop Doctor scanner or review the seasonal operations calendar.';
         }
         actions = [
           { label: language === 'TE' ? 'క్రాప్ డాక్టర్ తెరవండి' : language === 'HI' ? 'क्रॉप डॉक्टर खोलें' : 'Open Crop Doctor', tab: 'crop-doctor' },

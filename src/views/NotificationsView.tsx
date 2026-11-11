@@ -3,10 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ActiveTab, NotificationItem } from '../types';
 import { NOTIFICATIONS } from '../data/mockData';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  openAuthModal,
+  selectAuthUser,
+  selectIsAuthenticated,
+} from '../store/slices/authSlice';
+import { maskPhoneNumber } from '../utils/jwt';
 
 interface NotificationsViewProps {
   onNavigateTab: (tab: ActiveTab) => void;
@@ -20,7 +27,11 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
   onOpenScanModal,
 }) => {
   const { t } = useTranslation();
-  const [items, setItems] = useState<NotificationItem[]>(NOTIFICATIONS);
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
+  const [readIds, setReadIds] = useState<string[]>([]);
+  const [dismissedIds, setDismissedIds] = useState<string[]>([]);
   const [activeFilter, setActiveFilter] = useState<string>('all');
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [channels, setChannels] = useState({
@@ -29,6 +40,12 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
     push: true,
     voice: true,
   });
+
+  const items = useMemo<NotificationItem[]>(() => {
+    return NOTIFICATIONS.filter(
+      (n) => (isAuthenticated || !n.isPersonal) && !dismissedIds.includes(n.id)
+    ).map((n) => (readIds.includes(n.id) ? { ...n, read: true, isUnread: false } : n));
+  }, [isAuthenticated, dismissedIds, readIds]);
 
   const isItemRead = (item: NotificationItem) => item.read !== undefined ? item.read : !item.isUnread;
   const getItemText = (item: NotificationItem) => item.message || item.description || '';
@@ -39,15 +56,15 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
   const unreadCount = items.filter(n => !isItemRead(n)).length;
 
   const markAllAsRead = () => {
-    setItems(items.map(n => ({ ...n, read: true, isUnread: false })));
+    setReadIds(items.map((n) => n.id));
   };
 
   const markAsRead = (id: string) => {
-    setItems(items.map(n => n.id === id ? { ...n, read: true, isUnread: false } : n));
+    setReadIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
   const dismissNotification = (id: string) => {
-    setItems(items.filter(n => n.id !== id));
+    setDismissedIds((prev) => (prev.includes(id) ? prev : [...prev, id]));
   };
 
   const filteredItems = items.filter(item => {
@@ -199,6 +216,23 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* Notifications Feed: 8 Columns */}
         <div className="lg:col-span-8 flex flex-col gap-6">
+          {!isAuthenticated && (
+            <div className="p-4 rounded-xl bg-white border border-[#d5e7db] flex flex-col sm:flex-row sm:items-center justify-between gap-3 shadow-xs">
+              <div>
+                <p className="text-xs font-bold text-[#113E2E]">Showing public regional advisories</p>
+                <p className="text-[11px] text-slate-600 mt-0.5">
+                  Sign in with your mobile number to receive personal mandi stock updates, DBT receipts, and field scan alerts.
+                </p>
+              </div>
+              <button
+                onClick={() => dispatch(openAuthModal())}
+                className="px-4 py-2 rounded-xl bg-[#113E2E] hover:bg-[#0a291f] text-white text-xs font-bold transition whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                {t('auth.signIn')}
+              </button>
+            </div>
+          )}
+
           {/* Section: Today */}
           {todayItems.length > 0 && (
             <div className="space-y-3">
@@ -411,12 +445,28 @@ export const NotificationsView: React.FC<NotificationsViewProps> = ({
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-xs font-bold text-slate-800">SMS Alerts</p>
-                  <p className="text-[11px] text-slate-500">+91 98480 ••••</p>
+                  {isAuthenticated && user ? (
+                    <p className="text-[11px] text-slate-500 tabular-nums">{maskPhoneNumber(user.phone)}</p>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => dispatch(openAuthModal())}
+                      className="text-[11px] font-semibold text-[#113E2E] hover:underline cursor-pointer"
+                    >
+                      {t('auth.signInToEnableSms')}
+                    </button>
+                  )}
                 </div>
                 <input
                   type="checkbox"
-                  checked={channels.sms}
-                  onChange={(e) => setChannels(c => ({ ...c, sms: e.target.checked }))}
+                  checked={isAuthenticated && channels.sms}
+                  onChange={(e) => {
+                    if (!isAuthenticated) {
+                      dispatch(openAuthModal());
+                      return;
+                    }
+                    setChannels((c) => ({ ...c, sms: e.target.checked }));
+                  }}
                   className="rounded text-[#113E2E] focus:ring-0"
                 />
               </div>

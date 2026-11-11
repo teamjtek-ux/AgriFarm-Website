@@ -3,10 +3,12 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { memo } from 'react';
 import { ActiveTab } from '../types';
-import { USER_PROFILE } from '../data/mockData';
+import { PUBLIC_PLATFORM_ASSETS } from '../data/mockData';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppSelector } from '../store/hooks';
+import { selectAuthUser, selectIsAuthenticated } from '../store/slices/authSlice';
 import {
   LayoutDashboard,
   Sprout,
@@ -28,7 +30,7 @@ interface SidebarProps {
   unreadCount?: number;
 }
 
-export const Sidebar: React.FC<SidebarProps> = ({
+export const Sidebar: React.FC<SidebarProps> = memo(({
   activeTab,
   setActiveTab,
   onOpenAiChat,
@@ -37,6 +39,8 @@ export const Sidebar: React.FC<SidebarProps> = ({
   unreadCount = 0,
 }) => {
   const { t } = useTranslation();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
 
   const navItems: {
     id: ActiveTab;
@@ -59,7 +63,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       id: 'crop-calendar',
       label: t('nav.cropCalendar'),
       icon: <Calendar className="w-[18px] h-[18px]" />,
-      badge: t('nav.tasksBadge'),
+      badge: isAuthenticated ? t('nav.tasksBadge') : undefined,
     },
     {
       id: 'diseases-library',
@@ -123,15 +127,20 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <span className="text-[10px] font-bold tracking-wider text-slate-400 uppercase px-3 block mb-2">
               {t('nav.workspace')}
             </span>
-            <nav className="space-y-1">
+            <nav key={isAuthenticated ? 'auth' : 'guest'} className="space-y-1">
               {navItems.map((item) => {
-                const isActive = 
+                const isActive =
                   activeTab === item.id ||
-                  ((item.id === 'my-crops' || item.id === 'crops') && (activeTab === 'my-crops' || activeTab === 'crops')) ||
-                  ((item.id === 'crop-calendar' || item.id === 'calendar') && (activeTab === 'crop-calendar' || activeTab === 'calendar')) ||
-                  ((item.id === 'diseases-library' || item.id === 'diseases') && (activeTab === 'diseases-library' || activeTab === 'diseases')) ||
-                  ((item.id === 'market-prices' || item.id === 'market') && (activeTab === 'market-prices' || activeTab === 'market')) ||
-                  ((item.id === 'crop-doctor' || item.id === 'doctor') && (activeTab === 'crop-doctor' || activeTab === 'doctor'));
+                  ((item.id === 'my-crops' || item.id === 'crops') &&
+                    (activeTab === 'my-crops' || activeTab === 'crops')) ||
+                  ((item.id === 'crop-calendar' || item.id === 'calendar') &&
+                    (activeTab === 'crop-calendar' || activeTab === 'calendar')) ||
+                  ((item.id === 'diseases-library' || item.id === 'diseases') &&
+                    (activeTab === 'diseases-library' || activeTab === 'diseases')) ||
+                  ((item.id === 'market-prices' || item.id === 'market') &&
+                    (activeTab === 'market-prices' || activeTab === 'market')) ||
+                  ((item.id === 'crop-doctor' || item.id === 'doctor') &&
+                    (activeTab === 'crop-doctor' || activeTab === 'doctor'));
                 return (
                   <button
                     key={item.id}
@@ -152,7 +161,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
                     {item.badge && (
                       <span
                         className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full ${
-                          item.badge.includes('Alert') || item.badge.includes('अलर्ट') || item.badge.includes('హెచ్చరిక')
+                          item.badge.includes('Alert') ||
+                          item.badge.includes('अलर्ट') ||
+                          item.badge.includes('హెచ్చరిక')
                             ? 'bg-rose-100 text-rose-700 font-extrabold'
                             : isActive
                             ? 'bg-white/20 text-white'
@@ -171,7 +182,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
           {/* AI Assistant Promo Box */}
           <div className="bg-gradient-to-br from-emerald-50 to-emerald-100/70 border border-[#bcd3c3] rounded-2xl p-4 text-xs text-slate-700 shadow-xs relative overflow-hidden">
             <div className="flex items-center gap-2 mb-1.5 text-[#113e2e] font-bold">
-              <span className="material-symbols-outlined text-[#1f6e4d] text-lg">psychology</span>
+              <span className="material-symbols-outlined notranslate text-[#1f6e4d] text-lg" translate="no">psychology</span>
               <span>{t('nav.needAdvice')}</span>
             </div>
             <p className="text-[11px] text-slate-600 leading-relaxed mb-3">
@@ -186,12 +197,6 @@ export const Sidebar: React.FC<SidebarProps> = ({
             >
               {t('nav.startChat')} <span>→</span>
             </button>
-          </div>
-
-          {/* System Status */}
-          <div className="flex items-center gap-2 px-3 text-[11px] text-slate-500 font-medium">
-            <span className="w-2 h-2 rounded-full bg-[#3fb968] animate-pulse"></span>
-            <span>{t('nav.operational')}</span>
           </div>
 
           {/* Sidebar Decorative Card */}
@@ -211,13 +216,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
             <div className="mt-3 rounded-xl overflow-hidden shadow-inner h-24 border border-[#bcd3c3] relative">
               <img
                 alt="Scenic green terraced landscape"
+                referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
-                src={USER_PROFILE.landscape}
+                src={user?.landscape || PUBLIC_PLATFORM_ASSETS.landscape}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent flex items-end p-2">
-                <span className="text-[9px] font-bold text-white tracking-wide flex items-center gap-1">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
-                  Guntur Field Basin
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent flex items-end p-2">
+                <span
+                  key={isAuthenticated ? 'auth-loc' : 'guest-loc'}
+                  className="text-[9px] font-bold text-white tracking-wide"
+                >
+                  {isAuthenticated && user ? user.location : 'Andhra & Telangana Basin'}
                 </span>
               </div>
             </div>
@@ -226,4 +234,4 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </aside>
     </>
   );
-};
+});

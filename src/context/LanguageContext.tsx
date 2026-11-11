@@ -32,6 +32,30 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 const STORAGE_KEY = 'kd_language_pref';
 
+function stripGoogleTranslateBanner() {
+  try {
+    if (document.body) {
+      document.body.style.setProperty('top', '0px', 'important');
+      document.body.style.setProperty('position', 'static', 'important');
+    }
+    if (document.documentElement) {
+      document.documentElement.style.setProperty('top', '0px', 'important');
+    }
+    const frames = document.querySelectorAll<HTMLElement>(
+      'iframe.goog-te-banner-frame, iframe.skiptranslate, iframe[class*="VIpgJd"], iframe[id*=":1."], iframe[id*=":2."]'
+    );
+    frames.forEach((f) => {
+      f.style.setProperty('display', 'none', 'important');
+      f.style.setProperty('visibility', 'hidden', 'important');
+      f.style.setProperty('height', '0px', 'important');
+      f.style.setProperty('width', '0px', 'important');
+      f.style.setProperty('opacity', '0', 'important');
+    });
+  } catch {
+    // Ignore DOM access errors
+  }
+}
+
 /**
  * Programmatically triggers Google Translate engine in the DOM
  * without page reload.
@@ -66,9 +90,16 @@ function applyDomTranslation(targetCode: string): boolean {
   if (combo) {
     combo.value = code;
     combo.dispatchEvent(new Event('change', { bubbles: true }));
+    stripGoogleTranslateBanner();
+    // Schedule cleanups for asynchronous script injections
+    setTimeout(stripGoogleTranslateBanner, 50);
+    setTimeout(stripGoogleTranslateBanner, 150);
+    setTimeout(stripGoogleTranslateBanner, 400);
+    setTimeout(stripGoogleTranslateBanner, 1000);
     return true;
   }
 
+  stripGoogleTranslateBanner();
   return false;
 }
 

@@ -116,6 +116,64 @@ export interface CalendarTask {
   guideButtonText?: string;
 }
 
+export interface UserProfile {
+  id: string;
+  name: string;
+  phone: string;
+  email?: string;
+  role: string;
+  farmerPartner: string;
+  holding: string;
+  location: string;
+  country?: string;
+  state?: string;
+  district?: string;
+  village?: string;
+  pincode?: string;
+  cropId?: number;
+  station: string;
+  kisanId: string;
+  pmfbyPolicy: string;
+  insuredSum: string;
+  linkedBankMask: string;
+  avatar: string;
+  landscape: string;
+  registeredParcelsCount: number;
+}
+
+export interface RegisterRequestPayload {
+  mobile: string; // International format e.g. +919876543210
+  email?: string;
+  full_name: string;
+  crop_id: number;
+  country: string;
+  district: string;
+  state: string;
+  pincode: string;
+  village: string;
+}
+
+export interface DetectedAddress {
+  state: string;
+  district: string;
+  village: string;
+  pincode: string;
+  country?: string;
+}
+
+export interface CropOptionItem {
+  id: number;
+  label: string;
+}
+
+export interface CountryOption {
+  iso: string;
+  name: string;
+  dialCode: string;
+  minDigits: number;
+  maxDigits: number;
+}
+
 export interface NotificationItem {
   id: string;
   title: string;
@@ -128,6 +186,7 @@ export interface NotificationItem {
   group?: 'today' | 'yesterday' | 'earlier' | string;
   isUnread?: boolean;
   read?: boolean;
+  isPersonal?: boolean;
   severity?: string;
   severityTag?: string;
   actionUrlTab?: ActiveTab;

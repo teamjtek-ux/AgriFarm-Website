@@ -2,17 +2,18 @@ import React, { useState, useMemo } from 'react';
 import { ActiveTab, DiseaseThreat } from '../types';
 import { DISEASES_CATALOG } from '../data/mockData';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import { selectIsAuthenticated } from '../store/slices/authSlice';
+import { setActiveTab as setActiveTabAction } from '../store/slices/uiSlice';
 import {
   Search,
   X,
   AlertTriangle,
   Camera,
   PhoneCall,
-  ShieldAlert,
   Sparkles,
   ShoppingBag,
   ChevronRight,
-  BookOpen,
   PlusCircle,
   CheckCircle,
 } from 'lucide-react';
@@ -35,12 +36,17 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
   onOpenDostAi,
 }) => {
   const { t } = useTranslation();
-  const setActiveTab = onNavigateTab || propSetActiveTab || (() => {});
-  const onOpenAiChat = onOpenDostAi || propOnOpenAiChat || (() => {});
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const setActiveTab =
+    onNavigateTab || propSetActiveTab || ((tab: ActiveTab) => dispatch(setActiveTabAction(tab)));
+  void propOnOpenAiChat;
+  void onOpenDostAi;
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCrop, setSelectedCrop] = useState<string>('all');
   const [selectedSeverity, setSelectedSeverity] = useState<string>('all');
   const [activeGuideDisease, setActiveGuideDisease] = useState<DiseaseThreat | null>(null);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
 
   const filteredDiseases = useMemo(() => {
     return DISEASES_CATALOG.filter((d) => {
@@ -105,6 +111,26 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
         </div>
       </div>
 
+      {actionNotice && (
+        <div
+          role="status"
+          className="px-4 py-3 rounded-2xl bg-[#edf6ef] border border-[#bcd8c4] text-xs text-[#113e2e] flex items-center justify-between gap-3"
+        >
+          <div className="flex items-center gap-2 font-medium">
+            <CheckCircle className="w-4 h-4 text-emerald-700 shrink-0" />
+            <span>{actionNotice}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActionNotice(null)}
+            className="text-slate-500 hover:text-slate-800 p-1 rounded-lg"
+            aria-label="Dismiss notice"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
+
       {/* 4 Summary Metrics Ribbon */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="p-4 rounded-2xl bg-white border border-[#e5ebe7] shadow-xs flex items-center gap-3.5">
@@ -129,7 +155,7 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
               ACTIVE REGIONAL ALERTS
             </span>
             <span className="font-serif font-bold text-base text-red-700 block">2 High Alert</span>
-            <span className="text-[11px] text-slate-500">Guntur &amp; Gopal district</span>
+            <span className="text-[11px] text-slate-500">Guntur &amp; Krishna district</span>
           </div>
         </div>
 
@@ -183,13 +209,17 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
 
         <div className="flex items-center gap-2.5 shrink-0 self-start md:self-center">
           <button
-            onClick={() => alert('Opening Chlorantraniliprole 18.5 SC foliar treatment SOP protocol.')}
+            onClick={() =>
+              setActionNotice('Loaded Chlorantraniliprole 18.5 SC foliar treatment SOP (0.4ml/L water).')
+            }
             className="px-3.5 py-2 rounded-xl bg-white hover:bg-amber-100/50 border border-amber-300 text-amber-900 text-xs font-bold shadow-xs transition"
           >
             View Treatment Protocol
           </button>
           <button
-            onClick={() => alert('Order placed for Chlorantraniliprole 18.5 SC (60ml bottle). Dispatched from Guntur Rythu Seva Kendra.')}
+            onClick={() =>
+              setActionNotice('Order queued for Chlorantraniliprole 18.5 SC (60ml bottle) via Farm Store.')
+            }
             className="px-4 py-2 rounded-xl bg-[#7e5700] hover:bg-[#684600] text-white text-xs font-bold shadow-xs transition"
           >
             Order Chlorantraniliprole
@@ -338,7 +368,11 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
                   className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                 />
                 <div className="absolute top-3 left-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/95 backdrop-blur-xs shadow-xs text-xs font-bold text-[#113e2e]">
-                  <span>{disease.fieldTag}</span>
+                  <span>
+                    {isAuthenticated
+                      ? disease.fieldTag
+                      : disease.fieldTag.replace(/\s*\(Field \d+\)/i, ' Crop')}
+                  </span>
                 </div>
                 <div
                   className={`absolute top-3 right-3 px-2.5 py-1 rounded-full text-[10px] font-bold shadow-xs uppercase tracking-wide ${
@@ -393,7 +427,7 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
               </button>
               <button
                 onClick={() =>
-                  alert(`Order initialized for ${disease.name} prescription kit (₹${disease.treatmentPrice}).`)
+                  setActionNotice(`Prescription kit for ${disease.name} (₹${disease.treatmentPrice}) added to your order queue.`)
                 }
                 className="flex-1 py-2 px-3 rounded-xl bg-[#113e2e] hover:bg-[#0a291f] text-white text-xs font-bold transition flex items-center justify-center gap-1.5 shadow-xs"
               >
@@ -477,7 +511,7 @@ export const DiseasesLibraryView: React.FC<DiseasesLibraryViewProps> = ({
               </button>
               <button
                 onClick={() => {
-                  alert(`Order added for ${activeGuideDisease.name} Rx kit.`);
+                  setActionNotice(`Prescription kit for ${activeGuideDisease.name} (₹${activeGuideDisease.treatmentPrice}) added to your order queue.`);
                   setActiveGuideDisease(null);
                 }}
                 className="flex-1 py-2 rounded-xl bg-[#113e2e] text-white font-bold text-xs"

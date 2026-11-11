@@ -152,7 +152,7 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
                     <div className="absolute inset-0 bg-gradient-to-t from-black/75 via-transparent to-transparent"></div>
                     <div className="relative p-5 text-white">
                       <p className="text-sm font-bold text-emerald-300">Real-Time Agronomic Advisory</p>
-                      <p className="text-xs text-slate-200">Gopal Rao checking live cyclone mitigation directives in Guntur</p>
+                      <p className="text-xs text-slate-200">Krishna Rao checking live cyclone mitigation directives in Guntur</p>
                     </div>
                   </div>
                 </div>
@@ -288,7 +288,7 @@ export const LandingPageView: React.FC<LandingPageViewProps> = ({
             <div className="pt-2 border-t border-slate-100 flex items-center gap-3">
               <div className="w-10 h-10 rounded-full bg-emerald-100 text-[#113E2E] font-bold flex items-center justify-center text-xs">KR</div>
               <div>
-                <p className="text-xs font-bold text-slate-900">Gopal Rao</p>
+                <p className="text-xs font-bold text-slate-900">Krishna Rao</p>
                 <p className="text-[11px] text-slate-500">Guntur, Andhra Pradesh (Paddy &amp; Chilli)</p>
               </div>
             </div>

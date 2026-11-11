@@ -6,6 +6,13 @@
 import React, { useState } from 'react';
 import { ActiveTab } from '../types';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  openAuthModal,
+  selectAuthUser,
+  selectIsAuthenticated,
+} from '../store/slices/authSlice';
+import { maskPhoneNumber } from '../utils/jwt';
 
 interface CropDoctorViewProps {
   onOpenScanModal: () => void;
@@ -143,10 +150,14 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
   onNavigateTab,
 }) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
   const [selectedCase, setSelectedCase] = useState<SampleTest>(SAMPLE_TESTS[0]);
   const [acreage, setAcreage] = useState<number>(4.5);
   const [orderedToast, setOrderedToast] = useState<boolean>(false);
   const [consultModalOpen, setConsultModalOpen] = useState<boolean>(false);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
   const [preventiveChecklist, setPreventiveChecklist] = useState({
     item1: true,
     item2: true,
@@ -205,14 +216,33 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
         <div className="flex items-center gap-2 self-start md:self-auto bg-[#E8EFE5] p-1.5 rounded-xl shadow-xs">
           <div className="px-3.5 py-1.5 rounded-lg bg-white shadow-xs text-left">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Diagnostics Today</p>
-            <p className="text-lg font-bold text-[#113E2E]">1,428 <span className="text-xs text-[#1B6F49] font-normal">healed</span></p>
+            <p className="text-lg font-bold text-[#113E2E] tabular-nums">1,428 <span className="text-xs text-[#1B6F49] font-normal">healed</span></p>
           </div>
           <div className="px-3.5 py-1.5 rounded-lg bg-white shadow-xs text-left">
             <p className="text-[10px] uppercase font-bold tracking-wider text-slate-500">Model Accuracy</p>
-            <p className="text-lg font-bold text-[#113E2E]">98.2%</p>
+            <p className="text-lg font-bold text-[#113E2E] tabular-nums">98.2%</p>
           </div>
         </div>
       </div>
+
+      {actionNotice && (
+        <div
+          role="status"
+          className="px-4 py-3 rounded-2xl bg-[#edf6ef] border border-[#bcd8c4] text-xs text-[#113E2E] flex items-center justify-between gap-3"
+        >
+          <div className="flex items-center gap-2 font-medium">
+            <span className="material-symbols-outlined text-base text-emerald-700">check_circle</span>
+            <span>{actionNotice}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActionNotice(null)}
+            className="text-slate-500 hover:text-slate-800 px-1.5 py-0.5 rounded-lg font-bold"
+          >
+            ✕
+          </button>
+        </div>
+      )}
 
       {/* Regional Alert Banner (Spodoptera Outbreak Warning) */}
       <div className="p-4 rounded-xl bg-red-50 text-red-950 border border-red-200 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-3">
@@ -222,7 +252,7 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
           </div>
           <div>
             <p className="font-bold text-sm text-red-900">High Pest Alert: Spodoptera litura (Armyworm) detected in 25km radius</p>
-            <p className="text-xs text-red-800/80">Gopal &amp; Guntur district mandals reporting early leaf perforations in Chilli &amp; Maize parcels.</p>
+            <p className="text-xs text-red-800/80">Krishna &amp; Guntur district mandals reporting early leaf perforations in Chilli &amp; Maize parcels.</p>
           </div>
         </div>
         <button
@@ -382,24 +412,44 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
         <div className="flex flex-col lg:flex-row lg:items-center justify-between pb-6 gap-4 border-b border-slate-100">
           <div>
             <div className="flex items-center gap-2 text-xs text-slate-500 pb-1">
-              <span className="font-mono font-bold text-slate-700">SCAN ID: #KD-88421</span>
-              <span>•</span>
-              <span>{selectedCase.location}</span>
-              <span>•</span>
-              <span>Captured Today, 08:42 AM</span>
+              {isAuthenticated && user ? (
+                <>
+                  <span className="font-mono font-bold text-slate-700 tabular-nums">SCAN ID: #KD-88421</span>
+                  <span>·</span>
+                  <span>{selectedCase.location}</span>
+                  <span>·</span>
+                  <span>Captured Today, 08:42 AM</span>
+                </>
+              ) : (
+                <>
+                  <span className="font-mono font-bold text-slate-700">SAMPLE DOSSIER</span>
+                  <span>·</span>
+                  <span>Andhra &amp; Telangana Regional Reference</span>
+                  <span>·</span>
+                  <span>{selectedCase.crop}</span>
+                </>
+              )}
             </div>
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-[#113E2E]">Diagnostic Evaluation &amp; Treatment Protocol</h2>
           </div>
           <div className="flex flex-wrap items-center gap-2">
             <button
-              onClick={() => alert(`Prescription for ${selectedCase.name} shared with Area Officer K. Prasad.`)}
+              onClick={() =>
+                setActionNotice(
+                  isAuthenticated
+                    ? `Prescription for ${selectedCase.name} shared with Area Officer K. Prasad.`
+                    : `Reference treatment protocol for ${selectedCase.name} prepared for sharing.`
+                )
+              }
               className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-2 transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">share</span>
               <span>Share with Field Officer</span>
             </button>
             <button
-              onClick={() => alert(`Prescription PDF generated for ${selectedCase.name}. Ready for print/download.`)}
+              onClick={() =>
+                setActionNotice(`Prescription PDF generated for ${selectedCase.name}. Ready for download.`)
+              }
               className="px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold flex items-center gap-2 transition-colors"
             >
               <span className="material-symbols-outlined text-[18px]">download</span>
@@ -594,114 +644,139 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
 
       {/* Dual Layout: Diagnostic History & Regional Pest Surveillance */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Diagnostic History & Parcel Health Timeline */}
+        {/* Diagnostic History & Parcel Health Timeline (gated to logged-in user) */}
         <div className="lg:col-span-7 bg-white rounded-2xl p-6 shadow-sm border border-[#DFEBDE] flex flex-col justify-between">
-          <div>
-            <div className="flex items-center justify-between pb-4">
+          {isAuthenticated && user ? (
+            <>
               <div>
-                <h2 className="font-bold text-base text-[#113E2E]">Recent Diagnostic History</h2>
-                <p className="text-xs text-slate-500">Tracking recovery rate across your 5 registered field parcels.</p>
+                <div className="flex items-center justify-between pb-4">
+                  <div>
+                    <h2 className="font-bold text-base text-[#113E2E]">Recent Diagnostic History</h2>
+                    <p className="text-xs text-slate-500">
+                      Tracking recovery rate across your {user.registeredParcelsCount} registered field parcels.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() =>
+                      setActionNotice('Displaying recent parcel scans synced to your farmer cloud ledger.')
+                    }
+                    className="text-xs text-[#113E2E] font-bold hover:underline"
+                  >
+                    View All Scans (24)
+                  </button>
+                </div>
+
+                {/* History Records */}
+                <div className="space-y-3">
+                  {/* Record 1 */}
+                  <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                        <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyLsD0wXCmsRezZkQaALJ4oYbkSgPHv9ZhxMB3I1nPEqSosV_NwXvxkUfjJVMDc13UxcQPMyBGwYdzQHeZCNA_qGpmLhA095JVY3AnkbEmjXqnTpyq-l2MfQPhylB7HHmLVYEr5-1eQUmdLYqA38JxaoOJsG5YWU0b_LmP6t6iknQy2qk4JH-Drc2JuTwQJQKpwd1zt4YLpyEaHOSjvvIV9dG6oN1zb9FpgqBflzVNx5iOY6v0gSGY" alt="Rice leaf" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">Basmati Plot A • BLB Xanthomonas</p>
+                        <p className="text-[11px] text-slate-500">Oct 24 • Streptocycline applied</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 self-end sm:self-auto">
+                      <div className="text-right">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Moderate</span>
+                        <p className="text-xs text-emerald-700 font-bold">85% Recovered</p>
+                      </div>
+                      <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
+                    </div>
+                  </div>
+
+                  {/* Record 2 */}
+                  <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                        <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZvuM6vZPR_luNTcMTf9xYEbDzILAxdOm-WlC0dE8urJ8A4YWkJnHp38_dZmqyYCRs5qENF-cXCRIDXlnuQy1gb3kCO6OasrMs3yWnNpauhFfG9z-aFMqHN0ss3iWtOQl5QeC-rR5By85s5eABtxAnvpWHHGtfrkYloI0gptSNm7X-rPOt9YmouiNpwmOQYy5TgfgDBB8UGdsJKK5myYIjhbaFbTOn3aE3AikSbBaLVGqp0g5PksDV" alt="Chilli plant" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">Chilli Block B • Whitefly Nymphs</p>
+                        <p className="text-[11px] text-slate-500">Oct 16 • Neem oil 10,000 ppm applied</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 self-end sm:self-auto">
+                      <div className="text-right">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Resolved</span>
+                        <p className="text-xs text-emerald-700 font-bold">100% Healthy</p>
+                      </div>
+                      <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
+                    </div>
+                  </div>
+
+                  {/* Record 3 */}
+                  <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                        <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc71mnJB-jC-tUqdxXLVa4pKWlVhgyvplKOERcfhxoZGWx6rZz87M1m-jJxGsVjSGSmfJR8kRbqZnnltZoYYKJTR4D-99QpS6sK2i8rUbnpgtup5EurRE9Zp6anNl6nLqWgLqADRWLwN-3qIkBzKQEQYLBHBiIKdxG0KYGbNKHLhP7OFE-1Xw5IgsCLV5ubngJZeWdtpFOoI69YquRobWg3mnU-KjYmE0-2EnK5obsHL6SodWJKySr" alt="Cotton leaf" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">Cotton Acre 3 • Potassium Deficiency</p>
+                        <p className="text-[11px] text-slate-500">Oct 11 • SOP 0-0-50 foliar nutrition</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 self-end sm:self-auto">
+                      <div className="text-right">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Resolved</span>
+                        <p className="text-xs text-emerald-700 font-bold">Healthy Green</p>
+                      </div>
+                      <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
+                    </div>
+                  </div>
+
+                  {/* Record 4 */}
+                  <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
+                        <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb19AAgHUJq0KEYfgp97mIaSmRCwZCOv8IKQcaAZx_ZidmkjXMNffWsrIxMCcVilJZY5IphLPek_ll9kFqr94At-KhQc48QbVybnc9XjX_ydFrEvJHOQcFgaXPv2BcOJe6gyUc84XmznQjmFFSFSIlhUY5ILDi4ceNR8v1TTKjdVp_GDP0-po8FpKIjquQ8yBdVoTlEWaoSYWSbTpkfASzHyE7TzKWRU1m-7W1OX8T2-OOnk14anUH" alt="Maize plant" />
+                      </div>
+                      <div>
+                        <p className="text-xs font-bold text-slate-800">Maize Parcel C • Turcicum Leaf Blight</p>
+                        <p className="text-[11px] text-slate-500">Sep 28 • Mancozeb 75% WP</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-4 self-end sm:self-auto">
+                      <div className="text-right">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Resolved</span>
+                        <p className="text-xs text-emerald-700 font-bold">Stable yield</p>
+                      </div>
+                      <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Historical Recovery Progress Sparkline Graphic */}
+              <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-slate-600 text-xs">
+                <div className="flex items-center gap-2">
+                  <span className="material-symbols-outlined text-[#113E2E] text-[20px]">timeline</span>
+                  <span>Average farm healing turnaround: <strong className="text-slate-900">4.2 days</strong></span>
+                </div>
+                <span className="text-emerald-700 font-bold">↑ 38% faster than regional avg</span>
+              </div>
+            </>
+          ) : (
+            <div className="h-full min-h-[300px] rounded-2xl bg-[#F8FAF7] border border-[#E7EFE7] p-8 flex flex-col items-center justify-center text-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-[#113E2E] flex items-center justify-center">
+                <span className="material-symbols-outlined text-2xl">lock</span>
+              </div>
+              <div className="space-y-1.5 max-w-sm">
+                <h2 className="font-bold text-base text-[#113E2E]">{t('auth.signInToViewHistory')}</h2>
+                <p className="text-xs text-slate-600 leading-relaxed">{t('auth.signInToViewHistorySub')}</p>
               </div>
               <button
-                onClick={() => alert('Opening all 24 historical field scans archived in your farm cloud ledger.')}
-                className="text-xs text-[#113E2E] font-bold hover:underline"
+                type="button"
+                onClick={() => dispatch(openAuthModal())}
+                className="px-5 py-2.5 rounded-xl bg-[#113E2E] hover:bg-[#0a291f] text-white text-xs font-bold transition shadow-xs whitespace-nowrap shrink-0 cursor-pointer"
               >
-                View All Scans (24)
+                {t('auth.signIn')}
               </button>
             </div>
-
-            {/* History Records */}
-            <div className="space-y-3">
-              {/* Record 1 */}
-              <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                    <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyLsD0wXCmsRezZkQaALJ4oYbkSgPHv9ZhxMB3I1nPEqSosV_NwXvxkUfjJVMDc13UxcQPMyBGwYdzQHeZCNA_qGpmLhA095JVY3AnkbEmjXqnTpyq-l2MfQPhylB7HHmLVYEr5-1eQUmdLYqA38JxaoOJsG5YWU0b_LmP6t6iknQy2qk4JH-Drc2JuTwQJQKpwd1zt4YLpyEaHOSjvvIV9dG6oN1zb9FpgqBflzVNx5iOY6v0gSGY" alt="Rice leaf" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-800">Basmati Plot A • BLB Xanthomonas</p>
-                    <p className="text-[11px] text-slate-500">Oct 24 • Streptocycline applied</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 self-end sm:self-auto">
-                  <div className="text-right">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">Moderate</span>
-                    <p className="text-xs text-emerald-700 font-bold">85% Recovered</p>
-                  </div>
-                  <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
-                </div>
-              </div>
-
-              {/* Record 2 */}
-              <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                    <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZvuM6vZPR_luNTcMTf9xYEbDzILAxdOm-WlC0dE8urJ8A4YWkJnHp38_dZmqyYCRs5qENF-cXCRIDXlnuQy1gb3kCO6OasrMs3yWnNpauhFfG9z-aFMqHN0ss3iWtOQl5QeC-rR5By85s5eABtxAnvpWHHGtfrkYloI0gptSNm7X-rPOt9YmouiNpwmOQYy5TgfgDBB8UGdsJKK5myYIjhbaFbTOn3aE3AikSbBaLVGqp0g5PksDV" alt="Chilli plant" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-800">Chilli Block B • Whitefly Nymphs</p>
-                    <p className="text-[11px] text-slate-500">Oct 16 • Neem oil 10,000 ppm applied</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 self-end sm:self-auto">
-                  <div className="text-right">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Resolved</span>
-                    <p className="text-xs text-emerald-700 font-bold">100% Healthy</p>
-                  </div>
-                  <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
-                </div>
-              </div>
-
-              {/* Record 3 */}
-              <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                    <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBc71mnJB-jC-tUqdxXLVa4pKWlVhgyvplKOERcfhxoZGWx6rZz87M1m-jJxGsVjSGSmfJR8kRbqZnnltZoYYKJTR4D-99QpS6sK2i8rUbnpgtup5EurRE9Zp6anNl6nLqWgLqADRWLwN-3qIkBzKQEQYLBHBiIKdxG0KYGbNKHLhP7OFE-1Xw5IgsCLV5ubngJZeWdtpFOoI69YquRobWg3mnU-KjYmE0-2EnK5obsHL6SodWJKySr" alt="Cotton leaf" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-800">Cotton Acre 3 • Potassium Deficiency</p>
-                    <p className="text-[11px] text-slate-500">Oct 11 • SOP 0-0-50 foliar nutrition</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 self-end sm:self-auto">
-                  <div className="text-right">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Resolved</span>
-                    <p className="text-xs text-emerald-700 font-bold">Healthy Green</p>
-                  </div>
-                  <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
-                </div>
-              </div>
-
-              {/* Record 4 */}
-              <div className="p-3.5 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-slate-200 overflow-hidden shrink-0">
-                    <img className="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBb19AAgHUJq0KEYfgp97mIaSmRCwZCOv8IKQcaAZx_ZidmkjXMNffWsrIxMCcVilJZY5IphLPek_ll9kFqr94At-KhQc48QbVybnc9XjX_ydFrEvJHOQcFgaXPv2BcOJe6gyUc84XmznQjmFFSFSIlhUY5ILDi4ceNR8v1TTKjdVp_GDP0-po8FpKIjquQ8yBdVoTlEWaoSYWSbTpkfASzHyE7TzKWRU1m-7W1OX8T2-OOnk14anUH" alt="Maize plant" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-800">Maize Parcel C • Turcicum Leaf Blight</p>
-                    <p className="text-[11px] text-slate-500">Sep 28 • Mancozeb 75% WP</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4 self-end sm:self-auto">
-                  <div className="text-right">
-                    <span className="inline-block px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">Resolved</span>
-                    <p className="text-xs text-emerald-700 font-bold">Stable yield</p>
-                  </div>
-                  <span className="material-symbols-outlined text-slate-400 text-[20px]">chevron_right</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Historical Recovery Progress Sparkline Graphic */}
-          <div className="mt-4 pt-4 border-t border-slate-100 flex items-center justify-between text-slate-600 text-xs">
-            <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-[#113E2E] text-[20px]">timeline</span>
-              <span>Average farm healing turnaround: <strong className="text-slate-900">4.2 days</strong></span>
-            </div>
-            <span className="text-emerald-700 font-bold">↑ 38% faster than regional avg</span>
-          </div>
+          )}
         </div>
 
         {/* Regional Outbreak Heatmap & Daily Prevention Routine */}
@@ -720,7 +795,7 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
             {/* Agrarian Radar Map Indicator */}
             <div className="p-4 rounded-xl bg-[#F8FAF7] border border-[#E7EFE7] mb-5">
               <div className="flex items-center justify-between pb-2">
-                <span className="text-xs font-bold text-slate-800">Gopal Delta Corridor</span>
+                <span className="text-xs font-bold text-slate-800">Krishna Delta Corridor</span>
                 <span className="text-[11px] text-slate-500 font-semibold">Radius: 35 km</span>
               </div>
               <div className="space-y-2.5 pt-1">
@@ -853,20 +928,44 @@ export const CropDoctorView: React.FC<CropDoctorViewProps> = ({
             </div>
             <div className="space-y-3 text-xs text-slate-600">
               <p>Connecting you to <strong>Dr. M. Venkat Raman</strong> (KVK Guntur Pathologist).</p>
-              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200">
+              <div className="p-3 bg-emerald-50 rounded-xl border border-emerald-200 tabular-nums">
                 <p className="font-bold text-[#113E2E]">Available Hotline Options:</p>
-                <p className="mt-1">📞 Toll-Free Kisan Call Centre: <strong>1800-180-1551</strong></p>
-                <p>💬 Direct KVK WhatsApp Desk: <strong>+91 863 223 4811</strong></p>
+                <p className="mt-1">Toll-Free Kisan Call Centre: <strong>1800-180-1551</strong></p>
+                <p>Direct KVK WhatsApp Desk: <strong>+91 863 223 4811</strong></p>
               </div>
-              <p>A video consultation request with your attached scan dossier (#KD-88421) has been queued. An SMS with the secure video room link will be sent to +91 98480 •••• shortly.</p>
+              {isAuthenticated && user ? (
+                <p className="tabular-nums">
+                  A video consultation request with your attached scan dossier (#KD-88421) has been queued. An SMS with the secure video room link will be sent to{' '}
+                  <strong>{maskPhoneNumber(user.phone)}</strong> shortly.
+                </p>
+              ) : (
+                <p>
+                  Sign in with your mobile number to attach your parcel history and receive an SMS link for a KVK pathologist video call.
+                </p>
+              )}
             </div>
             <div className="pt-2 flex justify-end gap-2">
-              <button
-                onClick={() => setConsultModalOpen(false)}
-                className="px-4 py-2 bg-[#113E2E] text-white rounded-xl font-bold text-xs hover:bg-[#0a291f]"
-              >
-                Confirm &amp; Await Call
-              </button>
+              {isAuthenticated && user ? (
+                <button
+                  onClick={() => {
+                    setConsultModalOpen(false);
+                    setActionNotice(`Video consult link queued for ${maskPhoneNumber(user.phone)}.`);
+                  }}
+                  className="px-4 py-2 bg-[#113E2E] text-white rounded-xl font-bold text-xs hover:bg-[#0a291f]"
+                >
+                  Confirm &amp; Await Call
+                </button>
+              ) : (
+                <button
+                  onClick={() => {
+                    setConsultModalOpen(false);
+                    dispatch(openAuthModal());
+                  }}
+                  className="px-4 py-2 bg-[#113E2E] text-white rounded-xl font-bold text-xs hover:bg-[#0a291f]"
+                >
+                  {t('auth.signIn')} with Mobile
+                </button>
+              )}
             </div>
           </div>
         </div>

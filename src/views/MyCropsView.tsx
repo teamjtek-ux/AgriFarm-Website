@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { ActiveTab } from '../types';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
-  AlertTriangle,
+  openAuthModal,
+  selectAuthUser,
+  selectIsAuthenticated,
+} from '../store/slices/authSlice';
+import {
   Download,
-  HelpCircle,
   PhoneCall,
   CheckCircle2,
   Droplets,
@@ -15,7 +19,8 @@ import {
   ShieldCheck,
   Check,
   Clock,
-  Sparkles,
+  Lock,
+  LogIn,
 } from 'lucide-react';
 
 interface MyCropsViewProps {
@@ -31,36 +36,37 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
   onNavigateTab,
   onOpenAiChat: propOnOpenAiChat,
   onOpenDostAi,
-  onOpenScanCrop,
 }) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
   const setActiveTab = onNavigateTab || propSetActiveTab || (() => {});
   const onOpenAiChat = onOpenDostAi || propOnOpenAiChat || (() => {});
-  const onOpenScan = onOpenScanCrop || (() => {});
   // Interactive checklist state
   const [checklist, setChecklist] = useState([
     {
       id: 1,
       text: 'Secure farm machinery, solar pumps & knapsack sprayers in covered shed',
-      note: 'Completed today at 09:30 AM by Gopal Rao',
+      note: 'Completed today at 09:30 AM',
       checked: true,
     },
     {
       id: 2,
       text: 'Elevate harvested produce and seed bags off ground with wooden pallets',
-      note: 'Transferred 45 seed sacks to main warehouse',
+      note: 'Transferred seed sacks to raised dry storage',
       checked: true,
     },
     {
       id: 3,
       text: 'Inspect field bunds and clear natural drainage outlets',
-      note: 'Due Today, 5:00 PM • Critical for Paddy Parcel A',
+      note: 'Due Today, 5:00 PM • Critical for lowland Paddy plots',
       checked: false,
     },
     {
       id: 4,
       text: 'Stake vulnerable vegetable & chilli patches with bamboo stakes',
-      note: 'Due Tomorrow, 10:00 AM • 150 stakes loaded in cart',
+      note: 'Due Tomorrow, 10:00 AM • Prepare bamboo stakes',
       checked: false,
     },
     {
@@ -72,6 +78,12 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
   ]);
 
   const [dossierCreated, setDossierCreated] = useState(false);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
+
+  const showNotice = (msg: string) => {
+    setActionNotice(msg);
+    setTimeout(() => setActionNotice(null), 4500);
+  };
 
   const toggleItem = (id: number) => {
     setChecklist((prev) =>
@@ -105,7 +117,6 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
               {t('myCrops.title')}
             </h1>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold border border-red-200">
-              <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
               {t('myCrops.cycloneEta')}
             </span>
           </div>
@@ -113,28 +124,41 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
 
         <div className="flex flex-wrap items-center gap-2.5 shrink-0">
           <button
-            onClick={() => alert('Downloading official KVK Cyclone Safeguard Protocol (PDF)...')}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-[#113e2e] text-xs font-semibold shadow-xs hover:bg-slate-50 transition"
+            onClick={() => showNotice('Official KVK Cyclone Safeguard Protocol (PDF) prepared for download.')}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-[#113e2e] text-xs font-semibold shadow-xs hover:bg-slate-50 transition whitespace-nowrap shrink-0 cursor-pointer"
           >
             <Download className="w-4 h-4 text-[#175638]" />
             <span>{t('common.download')} PDF</span>
           </button>
           <button
-            onClick={() => setDossierCreated(true)}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-slate-700 text-xs font-semibold shadow-xs hover:bg-slate-50 transition"
+            onClick={() => {
+              if (!isAuthenticated) {
+                dispatch(openAuthModal());
+                return;
+              }
+              setDossierCreated(true);
+              showNotice('Intimation Claim Dossier #PMFBY-8820 generated with your geo-coordinates.');
+            }}
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white border border-gray-200 text-slate-700 text-xs font-semibold shadow-xs hover:bg-slate-50 transition whitespace-nowrap shrink-0 cursor-pointer"
           >
             <FileText className="w-4 h-4 text-slate-600" />
-            <span>{t('myCrops.generateClaim')}</span>
+            <span>{isAuthenticated ? t('myCrops.generateClaim') : t('auth.signInToLinkPolicy')}</span>
           </button>
           <a
             href="tel:18001801551"
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#113e2e] text-white text-xs font-semibold shadow-sm hover:bg-[#0c2a1f] transition"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-[#113e2e] text-white text-xs font-semibold shadow-sm hover:bg-[#0c2a1f] transition whitespace-nowrap shrink-0"
           >
             <PhoneCall className="w-4 h-4" />
             <span>{t('myCrops.helplineTitle')}</span>
           </a>
         </div>
       </div>
+
+      {actionNotice && (
+        <div className="rounded-xl bg-[#eef7f0] border border-[#bcd3c3] px-4 py-2.5 text-xs font-semibold text-[#113e2e]">
+          {actionNotice}
+        </div>
+      )}
 
       {/* Cyclone Preparedness & Telemetry Banner */}
       <section className="rounded-3xl bg-white border border-[#d2e5d7] p-6 md:p-8 shadow-xs space-y-6">
@@ -144,10 +168,14 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
               SEVERE CYCLONIC STORM • BAY OF BENGAL
             </span>
             <h2 className="font-serif text-xl md:text-2xl font-bold text-[#113e2e] leading-snug">
-              Cyclone Alert: Preparedness &amp; Mitigation Protocol for Your 4 Active Crops
+              {isAuthenticated && user
+                ? `Cyclone Alert: Preparedness & Mitigation Protocol for Your ${user.registeredParcelsCount} Active Crops`
+                : 'Cyclone Alert: Regional Crop Preparedness & Mitigation Protocol'}
             </h2>
             <p className="text-sm text-slate-600 leading-relaxed pt-1">
-              Immediate agronomic safeguard guidelines tailored to Gopal Rao's 12.5 acre holding in Guntur district.
+              {isAuthenticated && user
+                ? `Immediate agronomic safeguard guidelines tailored to ${user.name}'s ${user.holding} holding in ${user.location}.`
+                : 'Standard agronomic safeguard guidelines for Coastal Andhra Kharif paddy, chilli, maize & groundnut crops.'}
             </p>
           </div>
 
@@ -259,14 +287,32 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
 
       {/* Active Crop Parcels & Vulnerability Matrix */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
-            <h2 className="font-serif text-lg font-bold text-[#113e2e]">Active Crop Parcels &amp; Vulnerability Matrix</h2>
-            <p className="text-xs text-slate-600">Real-time field parcel telemetry with pre-landfall action items</p>
+            <h2 className="font-serif text-lg font-bold text-[#113e2e]">
+              {isAuthenticated && user
+                ? 'Active Crop Parcels & Vulnerability Matrix'
+                : 'Regional Crop Vulnerability & Cyclone Matrix'}
+            </h2>
+            <p className="text-xs text-slate-600">
+              {isAuthenticated && user
+                ? 'Real-time field parcel telemetry with pre-landfall action items'
+                : 'Regional Kharif crop susceptibility and pre-landfall guidelines'}
+            </p>
           </div>
-          <span className="text-xs font-semibold bg-white px-3 py-1 rounded-full border border-slate-200 text-slate-700">
-            Total Monitored: 12.5 Acres
-          </span>
+          {isAuthenticated && user ? (
+            <span className="text-xs font-semibold bg-white px-3 py-1 rounded-full border border-slate-200 text-slate-700 tabular-nums">
+              Total Monitored: {user.holding}
+            </span>
+          ) : (
+            <button
+              onClick={() => dispatch(openAuthModal())}
+              className="inline-flex items-center gap-1.5 text-xs font-bold bg-white hover:bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 text-[#113e2e] transition cursor-pointer whitespace-nowrap shrink-0"
+            >
+              <LogIn className="w-3.5 h-3.5 text-[#175638]" />
+              <span>{t('auth.signInToViewParcels')}</span>
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -281,11 +327,12 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                   </div>
                   <div>
                     <h3 className="font-serif font-bold text-base text-[#113e2e]">Paddy (Basmati 1509)</h3>
-                    <span className="text-xs text-slate-500">Parcel A • 5.0 Acres • Vegetative (45 Days)</span>
+                    <span className="text-xs text-slate-500">
+                      {isAuthenticated ? 'Parcel A • 5.0 Acres • Vegetative (45 Days)' : 'Kharif Regional Stage • Vegetative (45 Days)'}
+                    </span>
                   </div>
                 </div>
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-700 text-xs font-bold border border-red-200">
-                  <span className="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
                   High Risk: Waterlogging
                 </span>
               </div>
@@ -361,7 +408,9 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                   </div>
                   <div>
                     <h3 className="font-serif font-bold text-base text-[#113e2e]">Chilli (Guntur Sannam)</h3>
-                    <span className="text-xs text-slate-500">Parcel B • 3.0 Acres • Flowering (62 Days)</span>
+                    <span className="text-xs text-slate-500">
+                      {isAuthenticated ? 'Parcel B • 3.0 Acres • Flowering (62 Days)' : 'Kharif Regional Stage • Flowering (62 Days)'}
+                    </span>
                   </div>
                 </div>
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-red-100 text-red-800 text-xs font-bold border border-red-200">
@@ -440,7 +489,9 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                   </div>
                   <div>
                     <h3 className="font-serif font-bold text-base text-[#113e2e]">Hybrid Yellow Maize</h3>
-                    <span className="text-xs text-slate-500">Parcel C • 2.5 Acres • Vegetative (38 Days)</span>
+                    <span className="text-xs text-slate-500">
+                      {isAuthenticated ? 'Parcel C • 2.5 Acres • Vegetative (38 Days)' : 'Kharif Regional Stage • Vegetative (38 Days)'}
+                    </span>
                   </div>
                 </div>
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold border border-amber-200">
@@ -519,7 +570,9 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                   </div>
                   <div>
                     <h3 className="font-serif font-bold text-base text-[#113e2e]">Groundnut (K6 Kadiri)</h3>
-                    <span className="text-xs text-slate-500">Parcel D • 2.0 Acres • Pegging &amp; Pod Fill (50 Days)</span>
+                    <span className="text-xs text-slate-500">
+                      {isAuthenticated ? 'Parcel D • 2.0 Acres • Pegging & Pod Fill (50 Days)' : 'Kharif Regional Stage • Pegging & Pod Fill (50 Days)'}
+                    </span>
                   </div>
                 </div>
                 <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold border border-amber-200">
@@ -642,7 +695,11 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                     >
                       {item.text}
                     </span>
-                    <p className="text-[11px] text-slate-500 mt-0.5">{item.note}</p>
+                    <p className="text-[11px] text-slate-500 mt-0.5">
+                      {item.id === 1 && isAuthenticated && user
+                        ? `Completed today at 09:30 AM by ${user.name}`
+                        : item.note}
+                    </p>
                   </div>
                   {item.checked && <Check className="w-5 h-5 text-emerald-700 shrink-0 mt-0.5" />}
                 </div>
@@ -690,27 +747,49 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#f5f8f6] border border-[#e5ebe7]">
-                <FileText className="w-5 h-5 text-emerald-800 shrink-0 mt-0.5" />
-                <div>
-                  <span className="font-bold block text-slate-900">Policy Number Bound</span>
-                  <span className="text-slate-500 leading-relaxed text-[11px] block mt-0.5">
-                    Gopal Rao • PMFBY-AP-2025-883921 • Insured Sum: ₹4,80,000 for 12.5 Acres.
-                  </span>
+              {isAuthenticated && user ? (
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#f5f8f6] border border-[#e5ebe7]">
+                  <FileText className="w-5 h-5 text-emerald-800 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold block text-slate-900">Policy Number Bound</span>
+                    <span className="text-slate-500 leading-relaxed text-[11px] block mt-0.5 tabular-nums">
+                      {user.name} • {user.pmfbyPolicy} • Insured Sum: {user.insuredSum} for {user.holding}.
+                    </span>
+                  </div>
                 </div>
-              </div>
+              ) : (
+                <div className="flex items-start gap-3 p-3.5 rounded-2xl bg-[#f5f8f6] border border-[#e5ebe7]">
+                  <Lock className="w-5 h-5 text-[#113e2e] shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold block text-slate-900">{t('auth.signInToLinkPolicy')}</span>
+                    <span className="text-slate-500 leading-relaxed text-[11px] block mt-0.5">
+                      Verify your mobile number to view your PMFBY policy number, insured acreage, and file intimation claims.
+                    </span>
+                  </div>
+                </div>
+              )}
             </div>
 
-            <button
-              onClick={() => {
-                setDossierCreated(true);
-                alert('Intimation Claim Dossier #PMFBY-CLAIM-8820 generated with your geo-coordinates and insurance policy.');
-              }}
-              className="w-full mt-5 py-2.5 px-4 rounded-xl bg-[#113e2e] hover:bg-[#0c2a1f] text-white text-xs font-bold shadow-xs transition flex items-center justify-center gap-2"
-            >
-              <FileText className="w-4 h-4" />
-              <span>{dossierCreated ? 'Dossier Filed ✓ (#PMFBY-8820)' : 'Prepare Intimation Claim Dossier'}</span>
-            </button>
+            {isAuthenticated && user ? (
+              <button
+                onClick={() => {
+                  setDossierCreated(true);
+                  showNotice(`Intimation Claim Dossier #PMFBY-CLAIM-8820 generated for policy ${user.pmfbyPolicy}.`);
+                }}
+                className="w-full mt-5 py-2.5 px-4 rounded-xl bg-[#113e2e] hover:bg-[#0c2a1f] text-white text-xs font-bold shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <FileText className="w-4 h-4" />
+                <span>{dossierCreated ? 'Dossier Filed ✓ (#PMFBY-8820)' : 'Prepare Intimation Claim Dossier'}</span>
+              </button>
+            ) : (
+              <button
+                onClick={() => dispatch(openAuthModal())}
+                className="w-full mt-5 py-2.5 px-4 rounded-xl bg-[#113e2e] hover:bg-[#0c2a1f] text-white text-xs font-bold shadow-xs transition flex items-center justify-center gap-2 cursor-pointer"
+              >
+                <LogIn className="w-4 h-4 text-[#e5b54f]" />
+                <span>{t('auth.signIn')}</span>
+              </button>
+            )}
           </div>
 
           {/* KVK Agronomist Helpline */}
@@ -739,8 +818,8 @@ export const MyCropsView: React.FC<MyCropsViewProps> = ({
                 <span>0863-2524000</span>
               </a>
               <button
-                onClick={() => alert('WhatsApp query forwarded to KVK Guntur Agronomist On-Duty.')}
-                className="flex-1 py-2.5 px-3 rounded-xl bg-[#175638] text-white text-xs font-bold text-center shadow-xs hover:bg-[#12452c] transition flex items-center justify-center gap-1.5"
+                onClick={() => showNotice('WhatsApp query prepared for KVK Guntur Agronomist On-Duty.')}
+                className="flex-1 py-2.5 px-3 rounded-xl bg-[#175638] text-white text-xs font-bold text-center shadow-xs hover:bg-[#12452c] transition flex items-center justify-center gap-1.5 cursor-pointer"
               >
                 <span>WhatsApp KVK</span>
               </button>

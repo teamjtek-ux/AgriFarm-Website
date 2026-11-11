@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
 import { ActiveTab, CalendarTask } from '../types';
-import { CALENDAR_TASKS, USER_PROFILE } from '../data/mockData';
+import { CALENDAR_TASKS } from '../data/mockData';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  openAuthModal,
+  selectAuthUser,
+  selectIsAuthenticated,
+} from '../store/slices/authSlice';
+import { setActiveTab as setActiveTabAction } from '../store/slices/uiSlice';
 import {
   Calendar as CalendarIcon,
-  CheckCircle2,
   Download,
-  Sliders,
   ChevronLeft,
   ChevronRight,
   Plus,
@@ -17,6 +22,9 @@ import {
   MessageCircle,
   Lightbulb,
   Check,
+  LogIn,
+  X,
+  CheckCircle2,
 } from 'lucide-react';
 
 interface CropCalendarViewProps {
@@ -27,6 +35,14 @@ interface CropCalendarViewProps {
   onOpenDostAi?: () => void;
 }
 
+function getPublicFieldLabel(fieldLabel: string): string {
+  const match = fieldLabel.match(/\(([^-]+)-/);
+  if (match && match[1]) {
+    return `${match[1].trim()} Benchmark`;
+  }
+  return 'Kharif Reference Crop';
+}
+
 export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
   setActiveTab: propSetActiveTab,
   onNavigateTab,
@@ -35,15 +51,20 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
   onOpenDostAi,
 }) => {
   const { t } = useTranslation();
-  const setActiveTab = onNavigateTab || propSetActiveTab || (() => {});
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
+  const setActiveTab =
+    onNavigateTab || propSetActiveTab || ((tab: ActiveTab) => dispatch(setActiveTabAction(tab)));
   const onOpenAiChat = onOpenDostAi || propOnOpenAiChat || (() => {});
   const [tasks, setTasks] = useState<CalendarTask[]>(CALENDAR_TASKS);
   const [selectedDay, setSelectedDay] = useState<string>('01');
   const [recommendationApplied, setRecommendationApplied] = useState(false);
+  const [actionNotice, setActionNotice] = useState<string | null>(null);
 
   const toggleTaskCompletion = (id: string) => {
     setTasks((prev) =>
-      prev.map((t) => (t.id === id ? { ...t, isCompleted: !t.isCompleted } : t))
+      prev.map((task) => (task.id === id ? { ...task, isCompleted: !task.isCompleted } : task))
     );
   };
 
@@ -68,15 +89,34 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
           <span>/</span>
           <span className="text-[#113e2e] font-bold">{t('nav.cropCalendar')}</span>
         </div>
-        <div className="flex items-center gap-2 text-xs text-slate-500">
-          <span className="flex items-center gap-1 bg-white px-2.5 py-1 rounded-full border border-slate-200">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span>IoT Sensors: 8 Online</span>
+        <div className="flex items-center gap-2 text-xs text-slate-500 tabular-nums">
+          <span className="bg-white px-2.5 py-1 rounded-full border border-slate-200 font-medium text-slate-700">
+            {isAuthenticated && user ? 'IoT Sensors: 8 Online' : 'Coastal Andhra Crop Grid'}
           </span>
-          <span className="text-slate-400">•</span>
+          <span className="text-slate-400">·</span>
           <span>Telemetry Refreshed 12m ago</span>
         </div>
       </div>
+
+      {actionNotice && (
+        <div
+          role="status"
+          className="px-4 py-3 rounded-2xl bg-[#edf6ef] border border-[#bcd8c4] text-xs text-[#113e2e] flex items-center justify-between gap-3"
+        >
+          <div className="flex items-center gap-2 font-medium">
+            <CheckCircle2 className="w-4 h-4 text-emerald-700 shrink-0" />
+            <span>{actionNotice}</span>
+          </div>
+          <button
+            type="button"
+            onClick={() => setActionNotice(null)}
+            className="text-slate-500 hover:text-slate-800 p-1 rounded-lg"
+            aria-label="Dismiss notice"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      )}
 
       {/* Hero Strip */}
       <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-5 bg-white p-6 sm:p-7 rounded-3xl border border-[#d2e5d7] shadow-xs">
@@ -86,7 +126,7 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
               {t('calendar.title')}
             </h1>
             <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold border border-amber-200">
-              Kharif 2026 • Guntur District
+              {isAuthenticated && user ? `Kharif 2026 · ${user.location}` : 'Kharif 2026 · Coastal Andhra Zone'}
             </span>
           </div>
           <p className="text-sm text-slate-600 leading-relaxed">
@@ -103,7 +143,9 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
             <span>{t('calendar.addTask')}</span>
           </button>
           <button
-            onClick={() => alert('Downloading official agronomic crop schedule (PDF)...')}
+            onClick={() =>
+              setActionNotice('Preparing official Kharif 2026 agronomic crop calendar (PDF) download.')
+            }
             className="h-10 px-4 rounded-xl bg-[#113e2e] hover:bg-[#0c2a1f] text-white text-xs font-bold flex items-center gap-2 transition shadow-xs"
           >
             <Download className="w-4 h-4" />
@@ -123,12 +165,14 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
               TELEMETRY ADVISORY:
             </span>
             <span className="text-xs text-slate-800 font-medium">
-              Sentinel-2 Satellite Telemetry Synced Today (10:15 AM) • Optimal moisture window for Field 1 fertigation.
+              {isAuthenticated && user
+                ? 'Sentinel-2 Satellite Telemetry Synced Today (10:15 AM) · Optimal moisture window for Field 1 fertigation.'
+                : 'Sentinel-2 Satellite Telemetry Synced Today (10:15 AM) · Optimal moisture window for Kharif paddy fertigation.'}
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0 self-end sm:self-center">
-          <span className="text-xs font-bold px-3 py-1 rounded-full bg-white text-[#113e2e] border border-[#bcd3c3]">
+          <span className="text-xs font-bold px-3 py-1 rounded-full bg-white text-[#113e2e] border border-[#bcd3c3] tabular-nums">
             Zone A: 78% VWC
           </span>
         </div>
@@ -136,11 +180,26 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
 
       {/* Active Kharif Parcels & Phenology Cards */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 className="font-serif text-lg font-bold text-[#113e2e]">
-            Active Kharif Parcels &amp; Phenology
+            {isAuthenticated && user
+              ? 'Active Kharif Parcels & Phenology'
+              : 'Regional Crop Phenology Benchmarks'}
           </h2>
-          <span className="text-xs font-semibold text-slate-500">3 of 4 Fields Active</span>
+          {isAuthenticated && user ? (
+            <span className="text-xs font-semibold text-slate-500">
+              3 of {user.registeredParcelsCount} Fields Active
+            </span>
+          ) : (
+            <button
+              type="button"
+              onClick={() => dispatch(openAuthModal())}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#edf6ef] hover:bg-[#e0efe3] text-[#113e2e] text-xs font-bold transition whitespace-nowrap shrink-0 cursor-pointer"
+            >
+              <LogIn className="w-3.5 h-3.5" />
+              <span>{t('auth.signIn')} to sync your parcels</span>
+            </button>
+          )}
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
@@ -149,12 +208,12 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
             <div className="space-y-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block">
-                    FIELD 1 • 5.0 ACRES
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block tabular-nums">
+                    {isAuthenticated ? 'FIELD 1 · 5.0 ACRES' : 'BENCHMARK · PADDY'}
                   </span>
                   <h3 className="font-serif font-bold text-base text-[#113e2e]">Samba Masuri Paddy</h3>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold tabular-nums">
                   9.2/10
                 </span>
               </div>
@@ -201,12 +260,12 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
             <div className="space-y-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block">
-                    FIELD 2 • 3.0 ACRES
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 block tabular-nums">
+                    {isAuthenticated ? 'FIELD 2 · 3.0 ACRES' : 'BENCHMARK · CHILLI'}
                   </span>
                   <h3 className="font-serif font-bold text-base text-[#113e2e]">Guntur Teja Chilli</h3>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-xs font-bold tabular-nums">
                   8.4/10
                 </span>
               </div>
@@ -253,12 +312,12 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
             <div className="space-y-3">
               <div className="flex items-start justify-between">
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block">
-                    FIELD 3 • 2.5 ACRES
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-700 block tabular-nums">
+                    {isAuthenticated ? 'FIELD 3 · 2.5 ACRES' : 'BENCHMARK · MAIZE'}
                   </span>
                   <h3 className="font-serif font-bold text-base text-[#113e2e]">Hybrid Maize</h3>
                 </div>
-                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold">
+                <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold tabular-nums">
                   9.0/10
                 </span>
               </div>
@@ -373,10 +432,10 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
         <div className="space-y-4 pt-2">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500">
-              Tasks Scheduled For Your Fields
+              {isAuthenticated ? 'Tasks Scheduled For Your Fields' : 'Recommended Seasonal Operations'}
             </h3>
-            <span className="text-xs font-semibold text-[#113e2e]">
-              {tasks.filter((t) => !t.isCompleted).length} tasks pending action
+            <span className="text-xs font-semibold text-[#113e2e] tabular-nums">
+              {tasks.filter((task) => !task.isCompleted).length} tasks pending action
             </span>
           </div>
 
@@ -407,7 +466,9 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
                       <span className="text-xs font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-full">
                         {task.timing}
                       </span>
-                      <span className="text-xs text-slate-500 font-medium">{task.field}</span>
+                      <span className="text-xs text-slate-500 font-medium">
+                        {isAuthenticated ? task.field : getPublicFieldLabel(task.field)}
+                      </span>
                     </div>
 
                     <h4
@@ -424,7 +485,9 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
                 <div className="flex items-center gap-2 shrink-0 self-end md:self-center">
                   {task.guideButtonText && (
                     <button
-                      onClick={() => alert(`Opening ${task.guideButtonText} agronomy standard document.`)}
+                      onClick={() =>
+                        setActionNotice(`Loaded ${task.guideButtonText}: ANGRAU Kharif dosage & application SOP.`)
+                      }
                       className="px-3.5 py-2 rounded-xl text-xs font-semibold text-slate-700 bg-white border border-slate-200 hover:bg-slate-50 transition"
                     >
                       {task.guideButtonText}
@@ -522,23 +585,43 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
             </div>
 
             <p className="text-sm text-emerald-100 leading-relaxed">
-              Based on soil tests for <strong className="text-white">Field 1</strong>, splitting DAP into two split intervals will increase nutrient efficiency by <strong className="text-[#fde047]">28%</strong>.
+              {isAuthenticated && user ? (
+                <>
+                  Based on soil tests for <strong className="text-white">Field 1</strong>, splitting DAP into two split intervals will increase nutrient efficiency by <strong className="text-[#fde047]">28%</strong>.
+                </>
+              ) : (
+                <>
+                  Based on Coastal Andhra soil profiles, splitting DAP into two intervals improves nutrient efficiency by <strong className="text-[#fde047]">28%</strong>.
+                </>
+              )}
             </p>
 
             <div className="p-3 rounded-2xl bg-white/10 backdrop-blur-xs text-xs text-emerald-100 flex items-center gap-2.5 border border-white/15">
-              <span>Would you like to automatically recalibrate tomorrow's tasks &amp; update nutrient reminders?</span>
+              <span>
+                {isAuthenticated
+                  ? "Would you like to automatically recalibrate tomorrow's tasks & update nutrient reminders?"
+                  : 'Sign in with your mobile number to apply tailored fertilizer adjustments directly to your parcels.'}
+              </span>
             </div>
           </div>
 
           <div className="flex flex-wrap items-center gap-2.5 relative z-10 pt-2 border-t border-emerald-800">
             <button
               onClick={() => {
+                if (!isAuthenticated) {
+                  dispatch(openAuthModal());
+                  return;
+                }
                 setRecommendationApplied(true);
-                alert('Recommendation applied: Tomorrow’s top-dressing schedule recalibrated for Field 1.');
+                setActionNotice('Recommendation applied: Tomorrow’s top-dressing schedule recalibrated for Field 1.');
               }}
               className="h-10 px-5 rounded-xl bg-[#e5b54f] hover:bg-[#d8a742] text-[#113e2e] font-bold text-xs transition shadow-xs"
             >
-              {recommendationApplied ? 'Applied to Schedule ✓' : 'Apply Recommendation'}
+              {!isAuthenticated
+                ? 'Sign In to Apply Schedule'
+                : recommendationApplied
+                ? 'Applied to Schedule ✓'
+                : 'Apply Recommendation'}
             </button>
             <button
               onClick={() => onOpenAiChat()}
@@ -559,7 +642,7 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
           <div>
             <h4 className="font-serif font-bold text-sm text-[#113e2e]">Need help interpreting this schedule?</h4>
             <p className="text-xs text-slate-500">
-              Speak directly to Dr. RadhaGopaln (Krishi Vigyan Kendra, Guntur) regarding dosage adjustments.
+              Speak directly to Dr. Radhakrishnan (Krishi Vigyan Kendra, Guntur) regarding dosage adjustments.
             </p>
           </div>
         </div>

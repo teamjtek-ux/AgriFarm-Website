@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import { ActiveTab } from '../types';
-import { CROPS_DATA, USER_PROFILE } from '../data/mockData';
+import { CROPS_DATA, NOTIFICATIONS_DATA } from '../data/mockData';
 import { useTranslation } from '../context/LanguageContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
+import {
+  openAuthModal,
+  selectAuthUser,
+  selectIsAuthenticated,
+} from '../store/slices/authSlice';
 import {
   Camera,
   Search,
@@ -10,12 +16,12 @@ import {
   TrendingUp,
   CalendarCheck,
   AlertTriangle,
-  ArrowRight,
   Sun,
-  Wind,
   CheckCircle2,
   ChevronRight,
   Sparkles,
+  LogIn,
+  Lock,
 } from 'lucide-react';
 
 interface OverviewViewProps {
@@ -38,11 +44,18 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
   onOpenReportOutbreak,
 }) => {
   const { t } = useTranslation();
+  const dispatch = useAppDispatch();
+  const isAuthenticated = useAppSelector(selectIsAuthenticated);
+  const user = useAppSelector(selectAuthUser);
   const setActiveTab = onNavigateTab || propSetActiveTab || (() => {});
   const onOpenScanModal = onOpenScanCrop || propOnOpenScanModal || (() => {});
   const onOpenAiChat = onOpenDostAi || propOnOpenAiChat || (() => {});
-  const onOpenReport = onOpenReportOutbreak || (() => {});
+  void onOpenReportOutbreak;
   const [searchQuery, setSearchQuery] = useState('');
+
+  const visibleNotifications = NOTIFICATIONS_DATA.filter(
+    (item) => isAuthenticated || !item.isPersonal
+  ).slice(0, 3);
 
   return (
     <div className="space-y-6 animate-in fade-in duration-300">
@@ -54,8 +67,10 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               Wednesday, 01 October 2026
             </span>
             <h1 className="text-2xl sm:text-3xl font-bold font-serif text-[#14382d] flex items-baseline gap-1.5 mt-0.5">
-              <span>{t('overview.greeting')}, {USER_PROFILE.name.split(' ')[0]}</span>
-              <span className="w-2.5 h-2.5 rounded-full bg-[#e5b044] inline-block animate-pulse"></span>
+              <span>{t('overview.greeting')},</span>
+              <span key={isAuthenticated ? 'auth-name' : 'guest-name'}>
+                {isAuthenticated && user ? user.name.split(' ')[0] : 'Farmer'}
+              </span>
             </h1>
             <p className="text-xs text-slate-500 mt-0.5">{t('nav.askDostAiSub')}</p>
           </div>
@@ -131,8 +146,10 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
           </div>
           <div className="mt-3">
             <span className="text-xs text-slate-500">Soil moisture</span>
-            <div className="text-2xl font-bold text-slate-900 mt-0.5">64%</div>
-            <span className="text-[11px] text-slate-400 mt-0.5 block">Optimal for your crops</span>
+            <div className="text-2xl font-bold text-slate-900 mt-0.5 tabular-nums">64%</div>
+            <span className="text-[11px] text-slate-400 mt-0.5 block">
+              {isAuthenticated ? 'Optimal for your crops' : 'Optimal across regional soils'}
+            </span>
           </div>
         </div>
 
@@ -215,7 +232,7 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                 Weekly Agricultural Weather Intelligence
               </h2>
               <p className="text-xs text-slate-500">
-                {USER_PROFILE.station}
+                {isAuthenticated && user ? user.station : 'Regional Ag-Weather Network · Coastal Andhra'}
               </p>
             </div>
           </div>
@@ -479,24 +496,42 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
         </div>
       </div>
 
-      {/* My Crops Overview Section */}
+      {/* My Crops Overview / Regional Benchmarks Section */}
       <section className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <div className="w-6 h-6 rounded-full bg-emerald-100 flex items-center justify-center text-[#175638]">
               <Sparkles className="w-3.5 h-3.5" />
             </div>
             <div>
-              <h2 className="text-sm font-bold text-slate-900">My Crops Overview</h2>
-              <p className="text-[11px] text-slate-500">Track the health and progress of your 4 registered parcels.</p>
+              <h2 className="text-sm font-bold text-slate-900">
+                {isAuthenticated && user ? 'My Crops Overview' : t('auth.regionalBenchmarks')}
+              </h2>
+              <p className="text-[11px] text-slate-500">
+                {isAuthenticated && user
+                  ? `Track the health and progress of your ${user.registeredParcelsCount} registered parcels.`
+                  : t('auth.regionalBenchmarksSub')}
+              </p>
             </div>
           </div>
-          <button
-            onClick={() => setActiveTab('my-crops')}
-            className="text-xs font-semibold text-[#175638] hover:underline flex items-center gap-1"
-          >
-            View all crops →
-          </button>
+
+          <div className="flex items-center gap-3">
+            {!isAuthenticated && (
+              <button
+                onClick={() => dispatch(openAuthModal())}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-[#eef4ee] hover:bg-[#dfece0] text-[#113e2e] text-xs font-bold transition whitespace-nowrap shrink-0 cursor-pointer"
+              >
+                <LogIn className="w-3.5 h-3.5" />
+                <span>{t('auth.signIn')}</span>
+              </button>
+            )}
+            <button
+              onClick={() => setActiveTab('my-crops')}
+              className="text-xs font-semibold text-[#175638] hover:underline flex items-center gap-1 whitespace-nowrap shrink-0"
+            >
+              View all crops →
+            </button>
+          </div>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
@@ -518,11 +553,6 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                         : 'bg-amber-50 text-amber-700'
                     }`}
                   >
-                    <span
-                      className={`w-1.5 h-1.5 rounded-full mr-1 ${
-                        crop.status === 'healthy' ? 'bg-emerald-500' : 'bg-amber-500'
-                      }`}
-                    />
                     {crop.status === 'healthy' ? 'Healthy' : 'Needs attention'}
                   </span>
                 </div>
@@ -530,15 +560,15 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                   <h3 className="text-xs font-bold text-slate-900">
                     {crop.name} <span className="font-normal text-slate-500">({crop.variety})</span>
                   </h3>
-                  <p className="text-[11px] text-slate-500 mt-1">
+                  <p className="text-[11px] text-slate-500 mt-1 tabular-nums">
                     {crop.stage} • {crop.days} days
                   </p>
                 </div>
               </div>
               <div className="mt-4 pt-3 border-t border-gray-100">
                 <div className="flex items-center justify-between text-[11px] font-medium text-slate-500 mb-1">
-                  <span>Progress</span>
-                  <span className="font-bold text-slate-800">{crop.progressPercent}%</span>
+                  <span>{isAuthenticated ? 'Progress' : 'Season progress'}</span>
+                  <span className="font-bold text-slate-800 tabular-nums">{crop.progressPercent}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-gray-100 rounded-full overflow-hidden">
                   <div
@@ -546,7 +576,9 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
                     style={{ width: `${crop.progressPercent}%` }}
                   />
                 </div>
-                <span className="text-[10px] text-slate-400 mt-2 block">{crop.field} • {crop.area}</span>
+                <span className="text-[10px] text-slate-400 mt-2 block">
+                  {isAuthenticated ? `${crop.field} • ${crop.area}` : 'Coastal Andhra Regional Standard'}
+                </span>
               </div>
             </div>
           ))}
@@ -564,7 +596,11 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
               </div>
               <div>
                 <h3 className="text-xs font-bold text-slate-900">Crop Calendar</h3>
-                <p className="text-[11px] text-slate-500">Upcoming tasks and schedule for your crops.</p>
+                <p className="text-[11px] text-slate-500">
+                  {isAuthenticated
+                    ? 'Upcoming tasks and schedule for your crops.'
+                    : 'Standard Kharif phenology & seasonal schedule.'}
+                </p>
               </div>
             </div>
             <button
@@ -855,73 +891,95 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             </button>
           </div>
 
-          {/* History */}
+          {/* History (only visible after sign-in) */}
           <div className="lg:col-span-6 flex flex-col justify-between">
-            <div className="flex items-center justify-between mb-2">
-              <h4 className="text-xs font-bold text-slate-800">Recent Diagnosis History</h4>
-              <button
-                onClick={() => setActiveTab('crop-doctor')}
-                className="text-[11px] font-semibold text-slate-500 hover:text-slate-800"
-              >
-                View full history →
-              </button>
-            </div>
+            {isAuthenticated && user ? (
+              <>
+                <div className="flex items-center justify-between mb-2">
+                  <h4 className="text-xs font-bold text-slate-800">Recent Diagnosis History</h4>
+                  <button
+                    onClick={() => setActiveTab('crop-doctor')}
+                    className="text-[11px] font-semibold text-slate-500 hover:text-slate-800"
+                  >
+                    View full history →
+                  </button>
+                </div>
 
-            <div className="divide-y divide-gray-100">
-              <div
-                onClick={() => setActiveTab('crop-doctor')}
-                className="py-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-100/60 overflow-hidden flex items-center justify-center text-emerald-800 font-bold">
-                    BLB
+                <div className="divide-y divide-gray-100">
+                  <div
+                    onClick={() => setActiveTab('crop-doctor')}
+                    className="py-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-emerald-100/60 overflow-hidden flex items-center justify-center text-emerald-800 font-bold">
+                        BLB
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-900 leading-tight">Bacterial Leaf Blight - Rice</h5>
+                        <span className="text-[11px] text-amber-600 font-medium leading-none block mt-0.5">
+                          Stage 2 (Moderate) • Streptocycline Rx
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-slate-400">Today, 08:42 AM</span>
                   </div>
-                  <div>
-                    <h5 className="text-xs font-bold text-slate-900 leading-tight">Bacterial Leaf Blight - Rice</h5>
-                    <span className="text-[11px] text-amber-600 font-medium leading-none block mt-0.5">
-                      Stage 2 (Moderate) • Streptocycline Rx
-                    </span>
+
+                  <div
+                    onClick={() => setActiveTab('crop-doctor')}
+                    className="py-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-amber-100/60 overflow-hidden flex items-center justify-center text-amber-800 font-bold">
+                        WF
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-900 leading-tight">Whitefly Nymphs - Chilli</h5>
+                        <span className="text-[11px] text-emerald-700 font-medium leading-none block mt-0.5">
+                          Resolved (100% Healthy)
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-slate-400">16 Oct 2026</span>
+                  </div>
+
+                  <div
+                    onClick={() => setActiveTab('crop-doctor')}
+                    className="py-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition"
+                  >
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-xl bg-blue-100/60 overflow-hidden flex items-center justify-center text-blue-800 font-bold">
+                        TLB
+                      </div>
+                      <div>
+                        <h5 className="text-xs font-bold text-slate-900 leading-tight">Turcicum Leaf Blight - Maize</h5>
+                        <span className="text-[11px] text-emerald-700 font-medium leading-none block mt-0.5">
+                          Resolved (Stable Yield)
+                        </span>
+                      </div>
+                    </div>
+                    <span className="text-[10px] text-slate-400">28 Sep 2026</span>
                   </div>
                 </div>
-                <span className="text-[10px] text-slate-400">Today, 08:42 AM</span>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('crop-doctor')}
-                className="py-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-amber-100/60 overflow-hidden flex items-center justify-center text-amber-800 font-bold">
-                    WF
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-bold text-slate-900 leading-tight">Whitefly Nymphs - Chilli</h5>
-                    <span className="text-[11px] text-emerald-700 font-medium leading-none block mt-0.5">
-                      Resolved (100% Healthy)
-                    </span>
-                  </div>
+              </>
+            ) : (
+              <div className="h-full rounded-2xl bg-[#f8faf8] border border-[#e5ebe7] p-6 flex flex-col items-center justify-center text-center gap-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-100 text-[#113e2e] flex items-center justify-center">
+                  <Lock className="w-5 h-5" />
                 </div>
-                <span className="text-[10px] text-slate-400">16 Oct 2026</span>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('crop-doctor')}
-                className="py-2.5 flex items-center justify-between cursor-pointer hover:bg-slate-50 px-2 rounded-xl transition"
-              >
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-xl bg-blue-100/60 overflow-hidden flex items-center justify-center text-blue-800 font-bold">
-                    TLB
-                  </div>
-                  <div>
-                    <h5 className="text-xs font-bold text-slate-900 leading-tight">Turcicum Leaf Blight - Maize</h5>
-                    <span className="text-[11px] text-emerald-700 font-medium leading-none block mt-0.5">
-                      Resolved (Stable Yield)
-                    </span>
-                  </div>
+                <div className="space-y-1 max-w-xs">
+                  <h4 className="text-xs font-bold text-slate-900">{t('auth.signInToViewHistory')}</h4>
+                  <p className="text-[11px] text-slate-500 leading-relaxed">{t('auth.signInToViewHistorySub')}</p>
                 </div>
-                <span className="text-[10px] text-slate-400">28 Sep 2026</span>
+                <button
+                  type="button"
+                  onClick={() => dispatch(openAuthModal())}
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#113e2e] hover:bg-[#0a291f] text-white text-xs font-bold transition whitespace-nowrap shrink-0 cursor-pointer"
+                >
+                  <LogIn className="w-3.5 h-3.5 text-[#e5b54f]" />
+                  <span>{t('auth.signIn')}</span>
+                </button>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>
@@ -1000,38 +1058,21 @@ export const OverviewView: React.FC<OverviewViewProps> = ({
             </div>
 
             <div className="divide-y divide-gray-50 text-xs">
-              <div
-                onClick={() => setActiveTab('weather')}
-                className="py-2.5 cursor-pointer hover:bg-slate-50 px-1 rounded-lg transition"
-              >
-                <div className="flex justify-between">
-                  <span className="font-bold text-slate-800">Heavy rain alert for Guntur</span>
-                  <span className="text-[10px] text-slate-400">2h ago</span>
+              {visibleNotifications.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => setActiveTab(item.actionUrlTab || 'notifications')}
+                  className="py-2.5 cursor-pointer hover:bg-slate-50 px-1 rounded-lg transition"
+                >
+                  <div className="flex justify-between gap-2">
+                    <span className="font-bold text-slate-800">{item.title}</span>
+                    <span className="text-[10px] text-slate-400 shrink-0">{item.time}</span>
+                  </div>
+                  <p className="text-[11px] text-slate-500 mt-0.5 line-clamp-1">
+                    {item.description || item.message}
+                  </p>
                 </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">Rain likely in next 6 hours. Check drainage bunds.</p>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('market-prices')}
-                className="py-2.5 cursor-pointer hover:bg-slate-50 px-1 rounded-lg transition"
-              >
-                <div className="flex justify-between">
-                  <span className="font-bold text-slate-800">Market price update</span>
-                  <span className="text-[10px] text-slate-400">4h ago</span>
-                </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">Rice prices increased by 3.1% today in Guntur APMC.</p>
-              </div>
-
-              <div
-                onClick={() => setActiveTab('crop-calendar')}
-                className="py-2.5 cursor-pointer hover:bg-slate-50 px-1 rounded-lg transition"
-              >
-                <div className="flex justify-between">
-                  <span className="font-bold text-slate-800">Crop stage update</span>
-                  <span className="text-[10px] text-slate-400">6h ago</span>
-                </div>
-                <p className="text-[11px] text-slate-500 mt-0.5">Your maize crop has reached vegetative stage (Day 38).</p>
-              </div>
+              ))}
             </div>
           </div>
 
