@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { memo } from 'react';
 import { ActiveTab, CalendarTask } from '../types';
 import { CALENDAR_TASKS } from '../data/mockData';
 import { useTranslation } from '../context/LanguageContext';
@@ -8,6 +8,8 @@ import {
   selectAuthUser,
   selectIsAuthenticated,
 } from '../store/slices/authSlice';
+import { openLocationModal, selectWeatherUi } from '../store/slices/weatherSlice';
+import { describeWmoCode, formatForecastDate } from '../services/weatherApi';
 import { setActiveTab as setActiveTabAction } from '../store/slices/uiSlice';
 import {
   Calendar as CalendarIcon,
@@ -15,8 +17,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Plus,
-  Sun,
-  CloudRain,
   Wind,
   PhoneCall,
   MessageCircle,
@@ -25,6 +25,7 @@ import {
   LogIn,
   X,
   CheckCircle2,
+  MapPin,
 } from 'lucide-react';
 
 interface CropCalendarViewProps {
@@ -43,6 +44,113 @@ function getPublicFieldLabel(fieldLabel: string): string {
   return 'Kharif Reference Crop';
 }
 
+const CalendarWeatherWidget = memo(() => {
+  const dispatch = useAppDispatch();
+  const { t } = useTranslation();
+  const { location, meta, current, forecast, loading } = useAppSelector(selectWeatherUi);
+
+  return (
+    <div className="lg:col-span-6 bg-white p-6 rounded-3xl border border-[#e5ebe7] shadow-xs flex flex-col justify-between gap-4">
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2">
+            <span className="material-symbols-outlined notranslate text-amber-500 text-xl" translate="no">
+              {current ? describeWmoCode(current.weather_code, current.is_day).icon : 'wb_sunny'}
+            </span>
+            <h3 className="font-serif font-bold text-base text-[#113e2e]">
+              {t('calendar.weatherForecast')}
+            </h3>
+          </div>
+          <div className="flex items-center gap-2 text-xs">
+            <span className="inline-flex items-center gap-1 font-semibold text-slate-600">
+              <MapPin className="w-3.5 h-3.5 text-[#175638]" />
+              <span key={location.label}>{location.label}</span>
+            </span>
+            <button
+              type="button"
+              onClick={() => dispatch(openLocationModal())}
+              className="text-[11px] font-bold text-[#175638] hover:underline cursor-pointer"
+            >
+              {t('weather.changeLocation')}
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 sm:grid-cols-5 gap-2 text-center">
+          {forecast.length > 0
+            ? forecast.slice(0, 5).map((item, idx) => {
+                const { day } = formatForecastDate(item.date, idx);
+                const wmo = describeWmoCode(item.weather_code, 1);
+                const rainy = item.precipitation_probability_max >= 50 || item.precipitation_sum >= 2;
+                return (
+                  <div
+                    key={item.date}
+                    className={`p-2.5 rounded-2xl border ${
+                      rainy
+                        ? 'bg-blue-50 border-blue-200'
+                        : 'bg-[#f8faf7] border-[#e2efe0]'
+                    }`}
+                  >
+                    <span
+                      className={`text-[10px] block truncate ${
+                        rainy ? 'text-blue-800 font-bold' : 'text-slate-500'
+                      }`}
+                    >
+                      {idx === 0 ? 'Today' : day}
+                    </span>
+                    <span
+                      className={`material-symbols-outlined notranslate text-2xl mx-auto my-1 block ${
+                        rainy ? 'text-blue-600' : 'text-amber-500'
+                      }`}
+                      translate="no"
+                    >
+                      {wmo.icon}
+                    </span>
+                    <span className="text-sm font-bold text-slate-900 block tabular-nums notranslate" translate="no">
+                      {Math.round(item.temperature_2m_max)}°C
+                    </span>
+                    <span
+                      className={`text-[10px] block truncate ${
+                        rainy ? 'text-blue-700 font-bold' : 'text-slate-400'
+                      }`}
+                    >
+                      {rainy ? `${item.precipitation_probability_max}% Rain` : wmo.label}
+                    </span>
+                  </div>
+                );
+              })
+            : Array.from({ length: 5 }).map((_, i) => (
+                <div
+                  key={i}
+                  className={`p-2.5 rounded-2xl bg-[#f8faf7] border border-[#e2efe0] h-28 ${
+                    loading ? 'animate-pulse' : ''
+                  }`}
+                />
+              ))}
+        </div>
+
+        <div className="p-3 rounded-2xl bg-[#f4faf2] border border-[#d2ead0] text-xs text-slate-700 flex items-center gap-2.5">
+          <Wind className="w-4 h-4 text-emerald-700 shrink-0" />
+          <span>
+            {current
+              ? current.wind_speed_10m <= 14 && current.precipitation === 0
+                ? `Favorable calm wind (${current.wind_speed_10m} km/h) for foliar spray at ${location.label}.`
+                : `Active surface wind ${current.wind_speed_10m} km/h (gusts ${current.wind_gusts_10m} km/h) at ${location.label}.`
+              : `Syncing spray & field wind outlook for ${location.label}...`}
+          </span>
+        </div>
+      </div>
+
+      <div className="flex items-center justify-between text-slate-500 text-[11px] pt-2 border-t border-slate-100 tabular-nums notranslate" translate="no">
+        <span>Relative Humidity: {current ? `${current.relative_humidity_2m}%` : '--'}</span>
+        <span>
+          {meta ? `Elev: ${meta.elevation}m · ${meta.timezone_abbreviation}` : 'Live Synced'}
+        </span>
+      </div>
+    </div>
+  );
+});
+
 export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
   setActiveTab: propSetActiveTab,
   onNavigateTab,
@@ -57,10 +165,10 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
   const setActiveTab =
     onNavigateTab || propSetActiveTab || ((tab: ActiveTab) => dispatch(setActiveTabAction(tab)));
   const onOpenAiChat = onOpenDostAi || propOnOpenAiChat || (() => {});
-  const [tasks, setTasks] = useState<CalendarTask[]>(CALENDAR_TASKS);
-  const [selectedDay, setSelectedDay] = useState<string>('01');
-  const [recommendationApplied, setRecommendationApplied] = useState(false);
-  const [actionNotice, setActionNotice] = useState<string | null>(null);
+  const [tasks, setTasks] = React.useState<CalendarTask[]>(CALENDAR_TASKS);
+  const [selectedDay, setSelectedDay] = React.useState<string>('01');
+  const [recommendationApplied, setRecommendationApplied] = React.useState(false);
+  const [actionNotice, setActionNotice] = React.useState<string | null>(null);
 
   const toggleTaskCompletion = (id: string) => {
     setTasks((prev) =>
@@ -513,63 +621,7 @@ export const CropCalendarView: React.FC<CropCalendarViewProps> = ({
 
       {/* 2 Side-by-Side: 5-Day Weather Forecast & Dost Agronomist Recommendation */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        {/* 5-Day Weather Forecast */}
-        <div className="lg:col-span-6 bg-white p-6 rounded-3xl border border-[#e5ebe7] shadow-xs flex flex-col justify-between gap-4">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Sun className="w-5 h-5 text-amber-500" />
-                <h3 className="font-serif font-bold text-base text-[#113e2e]">{t('calendar.weatherForecast')}</h3>
-              </div>
-              <span className="text-xs text-slate-500">Guntur Sub-station</span>
-            </div>
-
-            <div className="grid grid-cols-5 gap-2 text-center">
-              <div className="p-2.5 rounded-2xl bg-[#f8faf7] border border-[#e2efe0]">
-                <span className="text-[10px] text-slate-500 block">Today</span>
-                <Sun className="w-6 h-6 text-amber-500 mx-auto my-1" />
-                <span className="text-sm font-bold text-slate-900 block">28°C</span>
-                <span className="text-[10px] text-slate-400">Sunny</span>
-              </div>
-              <div className="p-2.5 rounded-2xl bg-[#f8faf7] border border-[#e2efe0]">
-                <span className="text-[10px] text-slate-500 block">Thu</span>
-                <Sun className="w-6 h-6 text-amber-500 mx-auto my-1" />
-                <span className="text-sm font-bold text-slate-900 block">29°C</span>
-                <span className="text-[10px] text-slate-400">Pt. Cloudy</span>
-              </div>
-              <div className="p-2.5 rounded-2xl bg-[#f8faf7] border border-[#e2efe0]">
-                <span className="text-[10px] text-slate-500 block">Fri</span>
-                <Sun className="w-6 h-6 text-amber-500 mx-auto my-1" />
-                <span className="text-sm font-bold text-slate-900 block">30°C</span>
-                <span className="text-[10px] text-slate-400">Clear</span>
-              </div>
-              <div className="p-2.5 rounded-2xl bg-blue-50 border border-blue-200">
-                <span className="text-[10px] text-blue-800 font-bold block">Sat</span>
-                <CloudRain className="w-6 h-6 text-blue-600 mx-auto my-1" />
-                <span className="text-sm font-bold text-slate-900 block">29°C</span>
-                <span className="text-[10px] text-blue-700 font-bold">60% Rain</span>
-              </div>
-              <div className="p-2.5 rounded-2xl bg-[#f8faf7] border border-[#e2efe0]">
-                <span className="text-[10px] text-slate-500 block">Sun</span>
-                <Sun className="w-6 h-6 text-slate-400 mx-auto my-1" />
-                <span className="text-sm font-bold text-slate-900 block">27°C</span>
-                <span className="text-[10px] text-slate-400">Cloudy</span>
-              </div>
-            </div>
-
-            <div className="p-3 rounded-2xl bg-[#f4faf2] border border-[#d2ead0] text-xs text-slate-700 flex items-center gap-2.5">
-              <Wind className="w-4 h-4 text-emerald-700 shrink-0" />
-              <span>
-                Favorable wind speed (&lt;12 km/h) for spraying until Friday afternoon. Ground moisture optimal.
-              </span>
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between text-slate-500 text-[11px] pt-2 border-t border-slate-100">
-            <span>Relative Humidity: 72%</span>
-            <span>Barometric: 1011 hPa</span>
-          </div>
-        </div>
+        <CalendarWeatherWidget />
 
         {/* Dost Agronomist Advisory */}
         <div className="lg:col-span-6 bg-[#113e2e] text-white p-6 rounded-3xl shadow-xs flex flex-col justify-between gap-4 relative overflow-hidden">

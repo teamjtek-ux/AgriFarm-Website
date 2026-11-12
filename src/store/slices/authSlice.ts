@@ -311,8 +311,13 @@ export const registerUser = createAsyncThunk<
     const phoneCountryIso = phoneCountry.iso;
     const resolvedCountry = payload.country?.trim() || phoneCountry.name || 'India';
     const trimmedEmail = payload.email?.trim();
+    const hasCoords =
+      typeof payload.latitude === 'number' &&
+      Number.isFinite(payload.latitude) &&
+      typeof payload.longitude === 'number' &&
+      Number.isFinite(payload.longitude);
 
-    const requestPayload: RegisterRequestPayload = {
+    const apiBody = {
       mobile: fullPhone,
       ...(trimmedEmail ? { email: trimmedEmail } : {}),
       full_name: payload.full_name.trim(),
@@ -324,11 +329,16 @@ export const registerUser = createAsyncThunk<
       village: payload.village.trim(),
     };
 
+    const requestPayload: RegisterRequestPayload = {
+      ...apiBody,
+      ...(hasCoords ? { latitude: payload.latitude, longitude: payload.longitude } : {}),
+    };
+
     try {
       const response = await fetch(`${AUTH_API_BASE_URL}${AUTH_ENDPOINTS.REGISTER}`, {
         method: 'POST',
         headers: AUTH_REQUEST_HEADERS,
-        body: JSON.stringify(requestPayload),
+        body: JSON.stringify(apiBody),
         signal,
       });
 

@@ -257,6 +257,10 @@ export function mapApiUserToProfile(
   const cropId =
     typeof apiObj.crop_id === 'number' ? apiObj.crop_id : registerFallback?.crop_id;
 
+  const latCandidate = Number(apiObj.latitude ?? registerFallback?.latitude);
+  const lngCandidate = Number(apiObj.longitude ?? registerFallback?.longitude);
+  const hasCoords = Number.isFinite(latCandidate) && Number.isFinite(lngCandidate);
+
   const locationParts = [village, district, state].filter(Boolean);
   const location =
     locationParts.length > 0
@@ -272,6 +276,7 @@ export function mapApiUserToProfile(
 
   return {
     id: `farmer-${rawId}`,
+    rawId: String(rawId),
     name: String(fullName).trim(),
     phone: formattedPhone,
     email: email || undefined,
@@ -285,6 +290,7 @@ export function mapApiUserToProfile(
     village: village || undefined,
     pincode: pincode || undefined,
     cropId,
+    ...(hasCoords ? { latitude: latCandidate, longitude: lngCandidate } : {}),
     station: apiObj.station || `Ag-Weather Station • ${stationCity}`,
     kisanId:
       apiObj.kisanId ||
@@ -305,7 +311,7 @@ export function mapApiUserToProfile(
 }
 
 /**
- * Requests browser geolocation permission and reverse-geocodes coordinates into State, District, Village, Pincode.
+ * Requests browser geolocation permission, captures lat/lon, and reverse-geocodes coordinates into address fields.
  */
 export async function detectCurrentAddress(): Promise<DetectedAddress> {
   if (typeof navigator === 'undefined' || !navigator.geolocation) {
@@ -316,7 +322,7 @@ export async function detectCurrentAddress(): Promise<DetectedAddress> {
     navigator.geolocation.getCurrentPosition(resolve, reject, {
       enableHighAccuracy: true,
       timeout: 12000,
-      maximumAge: 60000,
+      maximumAge: 0,
     });
   }).catch((geoErr: GeolocationPositionError) => {
     if (geoErr?.code === 1) {
@@ -330,9 +336,14 @@ export async function detectCurrentAddress(): Promise<DetectedAddress> {
     throw new Error('Unable to detect your location. Please enter your address manually.');
   });
 
-  const { latitude, longitude } = position.coords;
+  const latitude = Number(position.coords.latitude.toFixed(6));
+  const longitude = Number(position.coords.longitude.toFixed(6));
 
-  let resolved: DetectedAddress | null = null;
+  let state = '';
+  let district = '';
+  let village = '';
+  let pincode = '';
+  let country = '';
 
   try {
     const res = await fetch(
@@ -351,11 +362,9 @@ export async function detectCurrentAddress(): Promise<DetectedAddress> {
         addr.city_district ||
         addr.city ||
         '';
-      const district = String(rawDistrict)
-        .replace(/\s+District$/i, '')
-        .trim();
-      const state = String(addr.state || addr.region || '').trim();
-      const village = String(
+      district = String(rawDistrict).replace(/\s+District$/i, '').trim();
+      state = String(addr.state || addr.region || '').trim();
+      village = String(
         addr.village ||
           addr.town ||
           addr.suburb ||
@@ -365,18 +374,14 @@ export async function detectCurrentAddress(): Promise<DetectedAddress> {
           addr.locality ||
           ''
       ).trim();
-      const pincode = String(addr.postcode || '').replace(/\s+/g, '').trim();
-      const country = String(addr.country || '').trim();
-
-      if (state || district || village || pincode) {
-        resolved = { state, district, village, pincode, country };
-      }
+      pincode = String(addr.postcode || '').replace(/\s+/g, '').trim();
+      country = String(addr.country || '').trim();
     }
   } catch {
     // Fall back to secondary reverse-geocoding endpoint below
   }
 
-  if (!resolved) {
+  if (!state && !district && !village && !pincode) {
     try {
       const bdcRes = await fetch(
         `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${encodeURIComponent(
@@ -393,26 +398,32 @@ export async function detectCurrentAddress(): Promise<DetectedAddress> {
         const districtEntry =
           admins.find((a) => /district/i.test(a.description || a.name || '')) ||
           admins.find((a) => a.adminLevel === 5);
-        const district = String(districtEntry?.name || '')
+        district = String(districtEntry?.name || '')
           .replace(/\s+District$/i, '')
           .trim();
-        const state = String(bdc?.principalSubdivision || '').trim();
-        const village = String(bdc?.city || bdc?.locality || '').trim();
-        const pincode = String(bdc?.postcode || '').replace(/\s+/g, '').trim();
-        const country = String(bdc?.countryName || '').trim();
-
-        if (state || district || village || pincode) {
-          resolved = { state, district, village, pincode, country };
-        }
+        state = String(bdc?.principalSubdivision || '').trim();
+        village = String(bdc?.city || bdc?.locality || '').trim();
+        pincode = String(bdc?.postcode || '').replace(/\s+/g, '').trim();
+        country = String(bdc?.countryName || '').trim();
       }
     } catch {
-      // Handled below
+      // Coordinates alone still remain valid below
     }
   }
 
-  if (!resolved) {
-    throw new Error('Could not resolve address from your coordinates. Please enter it manually.');
-  }
+  const labelParts = [village, district, state].filter(Boolean);
+  const label =
+    labelParts.slice(0, 2).join(', ') ||
+    `${latitude.toFixed(4)}, ${longitude.toFixed(4)}`;
 
-  return resolved;
+  return {
+    latitude,
+    longitude,
+    label,
+    state,
+    district,
+    village,
+    pincode,
+    country,
+  };
 }

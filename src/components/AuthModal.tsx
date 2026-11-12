@@ -40,6 +40,8 @@ import {
   normalizeFullPhone,
   REGISTRATION_CROP_OPTIONS,
 } from '../services/authApi';
+import { setWeatherLocation } from '../store/slices/weatherSlice';
+import { formatCoords, formatLocationLabel } from '../services/weatherApi';
 import { RegisterRequestPayload } from '../types';
 import { useTranslation } from '../context/LanguageContext';
 
@@ -428,6 +430,40 @@ const RegisterStepForm = memo<RegisterStepProps>(
     const [district, setDistrict] = useState(initialRegisterData?.district || '');
     const [village, setVillage] = useState(initialRegisterData?.village || '');
     const [pincode, setPincode] = useState(initialRegisterData?.pincode || '');
+    const [capturedCoords, setCapturedCoords] = useState<{
+      latitude: number;
+      longitude: number;
+      label: string;
+      state?: string;
+      district?: string;
+      village?: string;
+      pincode?: string;
+    } | null>(() => {
+      if (
+        typeof initialRegisterData?.latitude === 'number' &&
+        Number.isFinite(initialRegisterData.latitude) &&
+        typeof initialRegisterData?.longitude === 'number' &&
+        Number.isFinite(initialRegisterData.longitude)
+      ) {
+        return {
+          latitude: initialRegisterData.latitude,
+          longitude: initialRegisterData.longitude,
+          label: formatLocationLabel({
+            village: initialRegisterData.village,
+            district: initialRegisterData.district,
+            state: initialRegisterData.state,
+            country: initialRegisterData.country,
+            latitude: initialRegisterData.latitude,
+            longitude: initialRegisterData.longitude,
+          }),
+          state: initialRegisterData.state,
+          district: initialRegisterData.district,
+          village: initialRegisterData.village,
+          pincode: initialRegisterData.pincode,
+        };
+      }
+      return null;
+    });
     const [locatingAddress, setLocatingAddress] = useState(false);
     const [locationFeedback, setLocationFeedback] = useState<string | null>(null);
     const [localError, setLocalError] = useState<string | null>(null);
@@ -527,23 +563,60 @@ const RegisterStepForm = memo<RegisterStepProps>(
         if (detected.state) setStateName(detected.state);
         if (detected.district) setDistrict(detected.district);
         if (detected.village) setVillage(detected.village);
+        let normalizedPin = '';
         if (detected.pincode) {
-          const normalizedPin = isIndiaSelected
+          normalizedPin = isIndiaSelected
             ? detected.pincode.replace(/\D/g, '').slice(0, 6)
             : detected.pincode.slice(0, 10);
           if (normalizedPin) setPincode(normalizedPin);
         }
+
+        const resolvedLabel =
+          detected.label ||
+          formatLocationLabel({
+            village: detected.village,
+            district: detected.district,
+            state: detected.state,
+            country: detected.country,
+            latitude: detected.latitude,
+            longitude: detected.longitude,
+          });
+
+        setCapturedCoords({
+          latitude: detected.latitude,
+          longitude: detected.longitude,
+          label: resolvedLabel,
+          state: detected.state || undefined,
+          district: detected.district || undefined,
+          village: detected.village || undefined,
+          pincode: normalizedPin || undefined,
+        });
+
+        // Immediately persist and fetch weather telemetry for captured GPS coords
+        dispatch(
+          setWeatherLocation({
+            latitude: detected.latitude,
+            longitude: detected.longitude,
+            label: resolvedLabel,
+            state: detected.state || undefined,
+            district: detected.district || undefined,
+            village: detected.village || undefined,
+            pincode: normalizedPin || undefined,
+            source: 'gps',
+          })
+        );
+
         setLocationFeedback(t('auth.addressDetected'));
       } catch (err) {
         const message =
           err instanceof Error && err.message
             ? err.message
-            : 'Unable to detect your current address.';
+            : 'Unable to detect your current location.';
         setLocalError(message);
       } finally {
         setLocatingAddress(false);
       }
-    }, [clearErr, isIndiaSelected, locatingAddress, registering, t]);
+    }, [clearErr, dispatch, isIndiaSelected, locatingAddress, registering, t]);
 
     const handleSubmit = useCallback(
       (e: React.FormEvent) => {
@@ -561,20 +634,63 @@ const RegisterStepForm = memo<RegisterStepProps>(
           setLocalError('Please enter your full name.');
           return;
         }
-        if (!stateName.trim() || !district.trim() || !village.trim()) {
-          setLocalError('Please enter your state, district, and village.');
-          return;
-        }
+
+        const hasGpsCoords = Boolean(capturedCoords);
+        let finalState = stateName.trim();
+        let finalDistrict = district.trim();
+        let finalVillage = village.trim();
         const trimmedPin = pincode.trim();
-        if (isIndiaSelected) {
-          const cleanPin = trimmedPin.replace(/\D/g, '');
-          if (cleanPin.length !== 6) {
-            setLocalError('Please enter a valid 6-digit Indian pincode.');
+        let finalPin = trimmedPin;
+
+        if (hasGpsCoords && capturedCoords) {
+          finalState =
+            finalState ||
+            capturedCoords.state ||
+            (isIndiaSelected ? 'Telangana' : 'Current Region');
+          finalDistrict =
+            finalDistrict ||
+            capturedCoords.district ||
+            finalVillage ||
+            'Current Location';
+          finalVillage =
+            finalVillage ||
+            capturedCoords.village ||
+            finalDistrict ||
+            capturedCoords.label;
+
+          if (trimmedPin) {
+            if (isIndiaSelected) {
+              const cleanPin = trimmedPin.replace(/\D/g, '');
+              if (cleanPin.length !== 6) {
+                setLocalError('Please enter a valid 6-digit Indian pincode.');
+                return;
+              }
+              finalPin = cleanPin;
+            } else if (!/^[A-Za-z0-9\s-]{3,10}$/.test(trimmedPin)) {
+              setLocalError('Please enter a valid postal code (3-10 characters).');
+              return;
+            }
+          } else {
+            finalPin = capturedCoords.pincode || (isIndiaSelected ? '500001' : '00000');
+          }
+        } else {
+          if (!finalState || !finalDistrict || !finalVillage) {
+            setLocalError(
+              'Please enter your state, district, and village, or tap "Use my current location".'
+            );
             return;
           }
-        } else if (!/^[A-Za-z0-9\s-]{3,10}$/.test(trimmedPin)) {
-          setLocalError('Please enter a valid postal code (3-10 characters).');
-          return;
+          if (isIndiaSelected) {
+            const cleanPin = trimmedPin.replace(/\D/g, '');
+            if (cleanPin.length !== 6) {
+              setLocalError('Please enter a valid 6-digit Indian pincode.');
+              return;
+            }
+            finalPin = cleanPin;
+          } else if (!/^[A-Za-z0-9\s-]{3,10}$/.test(trimmedPin)) {
+            setLocalError('Please enter a valid postal code (3-10 characters).');
+            return;
+          }
         }
 
         setLocalError(null);
@@ -585,14 +701,21 @@ const RegisterStepForm = memo<RegisterStepProps>(
             full_name: fullName.trim(),
             crop_id: Number(cropId) || 1,
             country: selectedPhoneCountry.name || 'India',
-            district: district.trim(),
-            state: stateName.trim(),
-            pincode: isIndiaSelected ? trimmedPin.replace(/\D/g, '') : trimmedPin,
-            village: village.trim(),
+            district: finalDistrict,
+            state: finalState,
+            pincode: finalPin,
+            village: finalVillage,
+            ...(capturedCoords
+              ? {
+                  latitude: capturedCoords.latitude,
+                  longitude: capturedCoords.longitude,
+                }
+              : {}),
           })
         );
       },
       [
+        capturedCoords,
         cropId,
         dispatch,
         district,
@@ -706,14 +829,27 @@ const RegisterStepForm = memo<RegisterStepProps>(
                 )}
               </button>
             </div>
-            {locationFeedback && !activeError && (
-              <p
-                key={locationFeedback}
-                className="mt-1.5 text-[11px] font-medium text-[#175638] bg-[#F0F7F2] border border-[#cbe1d2] rounded-lg px-2.5 py-1.5"
+            {(locationFeedback || capturedCoords) && !activeError && (
+              <div
+                key="gps-captured"
+                className="mt-1.5 text-[11px] font-medium text-[#175638] bg-[#F0F7F2] border border-[#cbe1d2] rounded-lg px-2.5 py-1.5 flex flex-wrap items-center justify-between gap-2"
               >
-                <span key={locationFeedback}>{locationFeedback}</span>
-              </p>
+                <span key={locationFeedback || 'captured'}>
+                  {locationFeedback || t('auth.addressDetected')}
+                </span>
+                {capturedCoords && (
+                  <span
+                    className="font-mono text-[10px] font-bold text-[#113E2E] tabular-nums notranslate"
+                    translate="no"
+                  >
+                    {formatCoords(capturedCoords.latitude, capturedCoords.longitude)}
+                  </span>
+                )}
+              </div>
             )}
+            <p className="mt-1 text-[11px] text-slate-500">
+              <span>Enter address fields below or use current location only to set weather coordinates.</span>
+            </p>
           </div>
 
           {/* State */}
